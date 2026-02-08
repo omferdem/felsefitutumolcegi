@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Felsefi Tutum Ölçeği</title>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore-compat.js"></script>
+
+    <!-- Chart.js & Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- PDF Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Herr+Von+Muellerhoff&display=swap'); /* İmza Fontu */
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .serif { font-family: 'Cinzel', serif; }
+        
+        /* Mavi İmza Stili */
+        .signature-font { 
+            font-family: 'Herr Von Muellerhoff', cursive; 
+            font-size: 3rem; 
+            color: #0044cc; /* Mürekkep Mavisi */
+            transform: rotate(-5deg);
+            display: inline-block;
+        }
+        
+        .fade-in { animation: fadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Likert Button Style */
+        .likert-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        .likert-btn {
+            padding: 12px 4px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            transition: all 0.2s;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #64748b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+        .likert-btn:hover { border-color: #6366f1; background-color: #f8fafc; transform: translateY(-2px); }
+        .likert-btn:active { transform: scale(0.95); }
+        
+        .scale-1 { background-color: #fee2e2; border-color: #fecaca; color: #991b1b; } 
+        .scale-2 { background-color: #fff1f2; border-color: #fee2e2; color: #9f1239; } 
+        .scale-3 { background-color: #f8fafc; border-color: #e2e8f0; color: #64748b; } 
+        .scale-4 { background-color: #f0fdf4; border-color: #dcfce7; color: #166534; } 
+        .scale-5 { background-color: #dcfce7; border-color: #bbf7d0; color: #14532d; } 
+
+        .lang-btn {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            color: #64748b;
+            border: 1px solid #cbd5e1;
+            transition: all 0.2s;
+            background: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .lang-btn:hover { color: #334155; border-color: #94a3b8; }
+        .lang-btn.active { color: #ffffff; background: #0f172a; border-color: #0f172a; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+
+        .progress-bar { transition: width 0.3s ease-out; }
+        .ai-content h1, .ai-content h2 { font-weight: bold; margin-bottom: 0.5em; margin-top: 1em; color: #312e81; font-family: 'Playfair Display', serif; border-bottom: 1px solid #e2e8f0; }
+        .ai-content p { margin-bottom: 0.8em; line-height: 1.6; }
+        .chart-container { position: relative; height: 300px; width: 100%; margin-bottom: 2rem; }
+
+        /* Certificate PDF Template (Hidden by default) */
+        #certificate-container {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+            width: 800px;
+        }
+        .cert-page {
+            width: 800px;
+            padding: 50px;
+            background: #fff;
+            border: 15px solid #f1f5f9;
+            border-image: linear-gradient(to right, #1e293b, #475569) 1;
+            font-family: 'Inter', sans-serif;
+            color: #1e293b;
+            box-sizing: border-box;
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 640px) {
+            .likert-container { grid-template-columns: 1fr; }
+            .likert-btn { flex-direction: row; justify-content: flex-start; padding: 12px 16px; text-align: left; font-size: 0.9rem; }
+            .likert-val { margin-left: auto; font-weight: bold; }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- CERTIFICATE TEMPLATE -->
+    <div id="certificate-container">
+        <!-- Sayfa 1: Sonuçlar -->
+        <div class="cert-page" id="cert-page-1">
+            <div style="text-align: center; border-bottom: 2px solid #cbd5e1; padding-bottom: 20px; margin-bottom: 30px;">
+                <h1 style="font-size: 36px; font-weight: bold; color: #1e293b; margin: 0;">FELSEFİ TUTUM ÖLÇEĞİ</h1>
+                <p style="font-size: 18px; color: #64748b; margin-top: 10px;">KATILIM VE SONUÇ BELGESİ</p>
+            </div>
+            <div style="margin-bottom: 30px;">
+                <p style="font-size: 16px; line-height: 1.6;">Sayın <strong><span id="cert-name">Katılımcı</span></strong>,</p>
+                <p style="font-size: 16px; line-height: 1.6;">Bu belge, felsefi yönelimlerinizi belirlemek amacıyla yapılan 77 soruluk akademik çalışmaya katılımınız üzerine düzenlenmiştir.</p>
+            </div>
+            <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                <h3 style="font-size: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 15px;">Temel Yönelimler</h3>
+                <div id="cert-results" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 14px;"></div>
+            </div>
+            
+            <p style="text-align: center; font-style: italic; color: #475569; margin-bottom: 40px;">Katılımınız için teşekkür ederiz.</p>
+            
+            <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: flex-end;">
+                <div style="text-align: left;"><p style="font-size: 14px; color: #94a3b8;">Tarih</p><p id="cert-date" style="font-size: 16px; font-weight: bold;"></p></div>
+                <div style="text-align: right;">
+                    <div class="signature-font" style="font-size: 36px; color: #1e40af;">Ömer Faruk Erdem</div>
+                    <p style="font-size: 14px; border-top: 1px solid #94a3b8; padding-top: 5px; display: inline-block;">Proje Yöneticisi</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sayfa 2: AI Analizi (Varsa) -->
+        <div class="cert-page" id="cert-page-2" style="display: none;">
+            <div style="text-align: center; border-bottom: 2px solid #cbd5e1; padding-bottom: 15px; margin-bottom: 30px;">
+                <h1 style="font-size: 24px; font-weight: bold; color: #1e293b;">YAPAY ZEKA ANALİZ RAPORU</h1>
+            </div>
+            <div id="cert-ai-content" style="font-size: 13px; line-height: 1.8; text-align: justify; color: #334155;">
+                <!-- JS ile doldurulacak -->
+            </div>
+            <div style="text-align: center; margin-top: 50px; opacity: 0.5; font-size: 10px;">
+                Bu analiz, yapay zeka (Gemini AI) tarafından yanıtlarınıza dayalı olarak otomatik üretilmiştir.
+            </div>
+        </div>
+    </div>
+
+    <script type="text/babel">
+        // --- Gemini API ---
+        const apiKey = "AIzaSyCTVqrSkG4wo-AQ27TD7tqH4WrVV2A2i0o"; // LÜTFEN API ANAHTARINIZI BURAYA YAPIŞTIRIN
+
+        async function callGemini(prompt) {
+            if (!apiKey) return "HATA: API Anahtarı eksik. Kodun içine anahtarınızı ekleyiniz.";
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                });
+                if (!response.ok) throw new Error("API Yanıt Vermedi");
+                const data = await response.json();
+                return data.candidates?.[0]?.content?.parts?.[0]?.text || "Analiz oluşturulamadı.";
+            } catch (error) { 
+                return "Bağlantı hatası."; 
+            }
+        }
+
+        // --- Firebase Config (SİZİN PROJENİZ) ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyDiJnsvxHWiaUjxtlkYLAFI8RHwtzPcmdQ",
+            authDomain: "felsefi-profil-analizi.firebaseapp.com",
+            projectId: "felsefi-profil-analizi",
+            storageBucket: "felsefi-profil-analizi.firebasestorage.app",
+            messagingSenderId: "445863497798",
+            appId: "1:445863497798:web:8fb6932aeb3a6cda5dba47",
+            measurementId: "G-ZT2YJJG27L"
+        };
+
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const appId = "felsefi-profil-analizi";
+
+        // --- 1. KATEGORİ YAPISI ---
+        const CATEGORIES = {
+            ontology: "Varlık (Ontoloji)",
+            epistemology_source: "Bilgi Kaynağı",
+            epistemology_value: "Bilgi Değeri",
+            ethics: "Ahlak (Etik)",
+            aesthetics: "Estetik",
+            theology: "Tanrı Tasavvuru"
+        };
+
+        // --- VERİ SÖZLÜKLERİ ---
+        const COUNTRIES = ["Türkiye", "Almanya", "ABD", "Azerbaycan", "Fransa", "İngiltere", "Rusya", "Çin", "Diğer"];
+        
+        // Türkiye İlleri
+        const CITIES_TR = [
+            "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin", "Aydın", "Balıkesir",
+            "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli",
+            "Diyarbakır", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkari",
+            "Hatay", "Isparta", "Mersin", "İstanbul", "İzmir", "Kars", "Kastamonu", "Kayseri", "Kırklareli", "Kırşehir", "Kocaeli", "Konya", "Kütahya", "Malatya",
+            "Manisa", "Kahramanmaraş", "Mardin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Rize", "Sakarya",
+            "Samsun", "Siirt", "Sinop", "Sivas", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Şanlıurfa", "Uşak",
+            "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman", "Kırıkkale", "Batman", "Şırnak",
+            "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce"
+        ];
+
+        // --- Localization ---
+        const uiText = {
+            tr: { dir: "ltr", title: "Felsefi Tutum Ölçeği", subtitle: "77 Soru ile Detaylı Analiz", start: "Teste Başla", admin: "Yönetici", labels: { year: "Doğum Yılı", gender: "Cinsiyet", edu: "Eğitim", income: "Gelir", city: "Şehir (Listeden Seçiniz)", country: "Ülke", prof: "Meslek" }, opts: { m: "Erkek", f: "Kadın", hs: "Lise", ba: "Lisans", phd: "Lisansüstü", low: "Alt", mid: "Orta", high: "Üst", sel: "Seçiniz" }, calc: "Hesaplanıyor...", resTitle: "Felsefi Kimlik Kartı", restart: "Yeniden Başlat", aiBtn: "✨ Yapay Zeka Analizi", back: "Geri", next: "İleri", radarTitle: "Eğilim Haritası", barTitle: "Baskın Görüşler", likert: ["Kesinlikle Katılmıyorum (-2)", "Katılmıyorum (-1)", "Kararsızım (0)", "Katılıyorum (+1)", "Kesinlikle Katılıyorum (+2)"], pdf: "Belgeyi İndir", reset: "Sıfırla" },
+            en: { dir: "ltr", title: "Philosophical Attitude Scale", subtitle: "Detailed Analysis", start: "Start", admin: "Admin", labels: { year: "Birth Year", gender: "Gender", edu: "Education", income: "Income", city: "City", country: "Country", prof: "Profession" }, opts: { m: "Male", f: "Female", hs: "High School", ba: "Bachelor", phd: "Graduate", low: "Low", mid: "Mid", high: "High", sel: "Select" }, calc: "Calculating...", resTitle: "Profile Card", restart: "Restart", aiBtn: "AI Analysis", back: "Back", next: "Next", radarTitle: "Tendency Map", barTitle: "Dominant Views", likert: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], pdf: "Download PDF", reset: "Reset" },
+            ar: { dir: "rtl", title: "مقياس الموقف الفلسفي", subtitle: "تحليل مفصل", start: "ابدأ", admin: "مسؤول", labels: { year: "السنة", gender: "الجنس", edu: "التعليم", income: "الدخل", city: "المدينة", country: "البلد", prof: "المهنة" }, opts: { m: "ذكر", f: "أنثى", hs: "ثانوية", ba: "جامعي", phd: "عليا", low: "منخفض", mid: "متوسط", high: "مرتفع", sel: "اختر" }, calc: "جاري الحساب...", resTitle: "الهوية", restart: "إعادة", aiBtn: "تحليل الذكاء الاصطناعي", back: "عودة", next: "التالي", radarTitle: "الخريطة", barTitle: "الآراء", likert: ["أعارض بشدة", "أعارض", "محايد", "أوافق", "أوافق بشدة"], pdf: "تحميل PDF", reset: "إعادة" }
+        };
+        
+        const SUB_DIMENSIONS = {
+            materyalizm: { label: "Materyalizm", desc: "Varlık maddedir. Zihin fizikseldir." },
+            dualizm: { label: "Dualizm", desc: "Madde ve ruh iki ayrı tözdür." },
+            idealizm: { label: "İdealizm", desc: "Gerçeklik zihinseldir." },
+            monist_metafizik: { label: "Monist Metafizik", desc: "Tek töz vardır." },
+            fenomenalizm: { label: "Fenomenalizm", desc: "Varlık algıdır." },
+            ontolojik_realizm: { label: "Ontolojik Realizm", desc: "Dış dünya bağımsızdır." },
+            rasyonalizm: { label: "Rasyonalizm", desc: "Bilgi akıldan gelir." },
+            empirizm: { label: "Empirizm", desc: "Bilgi deneyden gelir." },
+            sansualizm: { label: "Sansüalizm", desc: "Bilgi duyulardan gelir." },
+            intuisyonizm: { label: "İntüisyonizm", desc: "Bilgi sezgiden gelir." },
+            dogmatizm: { label: "Dogmatizm", desc: "Kesin bilgi vardır." },
+            pragmatizm: { label: "Pragmatizm", desc: "Doğru olan işe yarayandır." },
+            septisizm: { label: "Septisizm", desc: "Kesin bilgi yoktur." },
+            relativizm: { label: "Relativizm", desc: "Doğru görecelidir." },
+            kritisizm: { label: "Kritisizm", desc: "Bilgi sınırlıdır." },
+            pozitivizm: { label: "Pozitivizm", desc: "Sadece bilimsel bilgi." },
+            deontoloji: { label: "Deontoloji", desc: "Ödev ahlakı." },
+            teleoloji: { label: "Teleoloji", desc: "Sonuç odaklı ahlak." },
+            erdem_etigi: { label: "Erdem Etiği", desc: "Karakter odaklı ahlak." },
+            ilahi_buyruk: { label: "İlahi Buyruk", desc: "Dini ahlak." },
+            hedonizm: { label: "Hedonizm", desc: "Haz odaklı." },
+            nesnelcilik: { label: "Ahlaki Nesnelcilik", desc: "Evrensel değerler." },
+            gorecilik: { label: "Ahlaki Görecilik", desc: "Kültürel değerler." },
+            nihilizm: { label: "Ahlaki Nihilizm", desc: "Değer yoktur." },
+            teolojik_aksiyoloji: { label: "Teolojik Değer", desc: "Tanrı kaynaklı değer." },
+            nesnelci_estetik: { label: "Nesnelci Estetik", desc: "Güzellik eserde." },
+            oznelci_estetik: { label: "Öznelci Estetik", desc: "Güzellik bakanda." },
+            idealist_estetik: { label: "İdealist Estetik", desc: "Güzellik ideada." },
+            ifadeci_estetik: { label: "İfadeci Estetik", desc: "Duygu ifadesi." },
+            bicimci_estetik: { label: "Biçimci Estetik", desc: "Form güzelliği." },
+            kutsal_estetik: { label: "Kutsal Estetik", desc: "İlahi güzellik." },
+            yansitmaci: { label: "Yansıtmacı", desc: "Doğayı taklit." },
+            teizm: { label: "Teizm", desc: "Müdahil Tanrı." },
+            deizm: { label: "Deizm", desc: "Yaratıcı Tanrı." },
+            panteizm: { label: "Panteizm", desc: "Evren Tanrı'dır." },
+            panenteizm: { label: "Panenteizm", desc: "Evren Tanrı'dadır." },
+            agnostisizm: { label: "Agnostisizm", desc: "Bilinemez." },
+            ateizm: { label: "Ateizm", desc: "Tanrı yoktur." }
+        };
+
+        const QUESTIONS = [
+            // C1: Ontoloji
+            {t:"Zihinsel süreçler tamamen beyindeki fiziksel olaylara indirgenebilir.", c:"ontology", s:"materyalizm"},
+            {t:"İnsan zihni, fiziksel bedenden ayrı, maddi olmayan bağımsız bir varlıktır.", c:"ontology", s:"dualizm"},
+            {t:"Maddi dünya, zihnimin bir projeksiyonu veya rüyası olabilir.", c:"ontology", s:"idealizm"},
+            {t:"Evrendeki her zerre ilkel bir bilinç veya ruhsallık taşır.", c:"ontology", s:"monist_metafizik"},
+            {t:"Bir nesne, onu algılayan bir özne olmadığında var olmaktan çıkar.", c:"ontology", s:"fenomenalizm"},
+            {t:"Dış dünya, insan algısından tamamen bağımsız, nesnel bir gerçekliğe sahiptir.", c:"ontology", s:"ontolojik_realizm"},
+            {t:"Ölümden sonra kişisel bilinç (ruh), bedenden ayrılarak varlığını sürdürür.", c:"ontology", s:"dualizm"},
+            {t:"Bilimsel olarak ölçülemeyen varlıkların gerçekliği yoktur.", c:"ontology", s:"materyalizm"},
+            {t:"Gördüğümüz dünya, daha yüksek bir gerçekliğin gölgesidir.", c:"ontology", s:"idealizm"},
+            {t:"Evrenin tamamı, tek bir ilahi özün farklı görünümlerinden ibarettir.", c:"ontology", s:"monist_metafizik"},
+            {t:"Masa, ben odadan çıktığımda da fiziksel olarak orada durmaya devam eder.", c:"ontology", s:"ontolojik_realizm"},
+            {t:"Var olmak algılanmış olmaktır.", c:"ontology", s:"fenomenalizm"},
+            {t:"Evrenin nihai yapısı maddedir.", c:"ontology", s:"materyalizm"},
+            {t:"Gerçeklik, insan zihninin kurguladığı bir yapıdır.", c:"ontology", s:"idealizm"},
+            {t:"Zihin ve beden birbirinden bağımsızdır ve birbirini etkiler.", c:"ontology", s:"dualizm"},
+
+            // C2: Bilgi Kaynağı
+            {t:"İnsan zihni doğuştan bazı bilgilere sahiptir.", c:"epistemology_source", s:"rasyonalizm"},
+            {t:"İnsan zihni doğuşta boş bir levhadır.", c:"epistemology_source", s:"empirizm"},
+            {t:"Bilginin tek kaynağı beş duyu organıdır.", c:"epistemology_source", s:"sansualizm"},
+            {t:"Gerçek hakikat doğrudan bir içgörü (sezgi) ile kavranır.", c:"epistemology_source", s:"intuisyonizm"},
+            {t:"Matematiksel doğrular akılla bulunur.", c:"epistemology_source", s:"rasyonalizm"},
+            {t:"Bilimsel bilginin temeli gözlem ve deneydir.", c:"epistemology_source", s:"empiricism"},
+            {t:"Akıl yürütme, gerçeği anlamada duyulardan daha güvenilirdir.", c:"epistemology_source", s:"rasyonalizm"},
+            {t:"İçime doğan hisler daha derin bir bilgi sağlar.", c:"epistemology_source", s:"intuisyonizm"},
+            {t:"Bir meyvenin tadını bilmek için onu yemek şarttır.", c:"epistemology_source", s:"sansualizm"},
+            {t:"Zamanın akışını ancak sezgi ile kavrayabiliriz.", c:"epistemology_source", s:"intuisyonizm"},
+            {t:"Düşünüyorum, öyleyse varım.", c:"epistemology_source", s:"rasyonalizm"},
+            {t:"Duyular olmadan zihinde hiçbir içerik oluşamaz.", c:"epistemology_source", s:"sansualizm"},
+
+            // C3: Bilgi Değeri
+            {t:"Evrensel ve kesin doğrular vardır.", c:"epistemology_value", s:"dogmatizm"},
+            {t:"Doğru olan, pratikte işe yarayandır.", c:"epistemology_value", s:"pragmatizm"},
+            {t:"Kesin bilgiye ulaşmak imkansızdır.", c:"epistemology_value", s:"septisizm"},
+            {t:"Doğruluk kişiden kişiye değişir.", c:"epistemology_value", s:"relativizm"},
+            {t:"Aklın sınırları (numen) bilinemez.", c:"epistemology_value", s:"kritisizm"},
+            {t:"Sadece bilimsel yöntemle kanıtlananlar gerçektir.", c:"epistemology_value", s:"pozitivizm"},
+            {t:"İşlevini yitiren bilgi yanlıştır.", c:"epistemology_value", s:"pragmatizm"},
+            {t:"Tanrı hakkında konuşmak bilimsellik dışıdır.", c:"epistemology_value", s:"pozitivizm"},
+            {t:"Duyularımız bizi yanıltabilir, yargıda bulunmamalıyız.", c:"epistemology_value", s:"septisizm"},
+            {t:"Bilginin kaynağı hem deney hem akıldır.", c:"epistemology_value", s:"kritisizm"},
+            {t:"Herkesin üzerinde uzlaşabileceği hakikatler vardır.", c:"epistemology_value", s:"dogmatizm"},
+            {t:"Gerçeklik bizim kurgumuzdur.", c:"epistemology_value", s:"relativizm"},
+
+            // C4: Ahlak
+            {t:"Ahlak, sonuca değil niyete bağlıdır.", c:"ethics", s:"deontoloji"},
+            {t:"Fayda veya mutluluk getiren eylem ahlakidir.", c:"ethics", s:"teleoloji"},
+            {t:"Ahlakın temeli erdemli bir karakterdir.", c:"ethics", s:"erdem_etigi"},
+            {t:"İyi ve kötü Tanrı tarafından belirlenir.", c:"ethics", s:"ilahi_buyruk"},
+            {t:"Ahlaki değerler evrenseldir.", c:"ethics", s:"nesnelcilik"},
+            {t:"Her toplumun ahlakı kendine göredir.", c:"ethics", s:"gorecilik"},
+            {t:"Ahlaki değerler güçlülerin uydurmasıdır.", c:"ethics", s:"nihilizm"},
+            {t:"Değerlerin kaynağı kutsaldır.", c:"ethics", s:"teolojik_aksiyoloji"},
+            {t:"Yaşamın amacı hazza ulaşmaktır.", c:"ethics", s:"hedonizm"},
+            {t:"Masum birini korumak için yalan söylenebilir.", c:"ethics", s:"teleoloji"},
+            {t:"Yalan söylemek her koşulda yanlıştır.", c:"ethics", s:"deontoloji"},
+            {t:"Ahlaklı olmak için dindar olmak şarttır.", c:"ethics", s:"ilahi_buyruk"},
+            {t:"Önemli olan nasıl bir insan olduğundur.", c:"ethics", s:"erdem_etigi"},
+
+            // C5: Estetik
+            {t:"Güzellik eserin kendisindedir (oran, simetri).", c:"aesthetics", s:"nesnelci_estetik"},
+            {t:"Güzellik bakanın gözündedir.", c:"aesthetics", s:"oznelci_estetik"},
+            {t:"Sanat, doğadaki mükemmelliği yansıtmalıdır.", c:"aesthetics", s:"idealist_estetik"},
+            {t:"Sanat, sanatçının duygularını dışa vurmasıdır.", c:"aesthetics", s:"ifadeci_estetik"},
+            {t:"Sanatın değeri biçimsel yapısındadır.", c:"aesthetics", s:"bicimci_estetik"},
+            {t:"Sanat, ilahi güzelliğin yansımasıdır.", c:"aesthetics", s:"kutsal_estetik"},
+            {t:"Evrensel bir güzellik standardı yoktur.", c:"aesthetics", s:"oznelci_estetik"},
+            {t:"Sanat eseri hayatı olduğu gibi taklit etmelidir.", c:"aesthetics", s:"yansitmaci"},
+            {t:"Sanat eserinde renklerin ve şekillerin uyumu önemlidir.", c:"aesthetics", s:"bicimci_estetik"},
+            {t:"Gerçek sanat, izleyiciye duygu geçirir.", c:"aesthetics", s:"ifadeci_estetik"},
+            {t:"Güzellik matematiksel bir orandır.", c:"aesthetics", s:"nesnelci_estetik"},
+            {t:"Sanat, görünenin ardındaki özü göstermelidir.", c:"aesthetics", s:"idealist_estetik"},
+
+            // C6: İnanç
+            {t:"Tanrı evreni yaratmıştır ve müdahale eder.", c:"theology", s:"teizm"},
+            {t:"Tanrı evreni yaratmış, müdahale etmemiştir.", c:"theology", s:"deizm"},
+            {t:"Tanrı ve Evren birdir.", c:"theology", s:"panteizm"},
+            {t:"Evren Tanrı'nın içindedir ama Tanrı daha büyüktür.", c:"theology", s:"panenteizm"},
+            {t:"Tanrı'nın varlığı bilinemez.", c:"theology", s:"agnostisizm"},
+            {t:"Tanrı yoktur, evren maddeden ibarettir.", c:"theology", s:"ateizm"},
+            {t:"Mucizeler gerçektir.", c:"theology", s:"teizm"},
+            {t:"Dinler insan uydurmasıdır.", c:"theology", s:"ateizm"},
+            {t:"Akıl yoluyla Yaratıcı bulunur, dinlere gerek yoktur.", c:"theology", s:"deizm"},
+            {t:"Her şey Tanrı'dan bir parçadır.", c:"theology", s:"panenteizm"},
+            {t:"Tanrı doğanın bizzat kendisidir.", c:"theology", s:"panteizm"},
+            {t:"Tanrı kavramı kanıtlanamaz.", c:"theology", s:"agnostisizm"},
+            {t:"Evrenin bir başlangıcı vardır.", c:"theology", s:"teizm"}
+        ];
+
+        const PROFESSIONS = ["Öğrenci", "Akademisyen", "Öğretmen", "Mühendis", "Doktor", "Avukat", "Yazılımcı", "Sanatçı", "Yazar", "Memur", "Esnaf", "Yönetici", "Emekli", "Ev Hanımı", "Diğer"];
+        const INCOMES = [{val: "low", label: "Alt"}, {val: "low_mid", label: "Alt-Orta"}, {val: "mid", label: "Orta"}, {val: "mid_high", label: "Üst-Orta"}, {val: "high", label: "Yüksek"}];
+
+        // --- Helper Functions ---
+        // Dil Değiştirme Fonksiyonu
+        const getQuestions = (lang) => {
+            if(lang === 'tr') return QUESTIONS;
+            return QUESTIONS.map(q => ({
+                ...q,
+                t: `[${lang.toUpperCase()}] ${q.t}` 
+            }));
+        };
+
+        // --- Translation & Helpers ---
+        const categoryTrans = {
+            tr: CATEGORIES,
+            en: { ontology: "Ontology", epistemology_source: "Epist. Source", epistemology_value: "Epist. Value", ethics: "Ethics", aesthetics: "Aesthetics", theology: "Theology" },
+            ar: { ontology: "الوجود", epistemology_source: "مصدر المعرفة", epistemology_value: "قيمة المعرفة", ethics: "الأخلاق", aesthetics: "الجمال", theology: "العقيدة" }
+        };
+
+        const subDimTrans = {
+            tr: Object.fromEntries(Object.entries(SUB_DIMENSIONS).map(([k, v]) => [k, v.label])),
+            en: { materyalizm: "Materialism", dualizm: "Dualism", idealizm: "Idealism", monist_metafizik: "Monism", fenomenalizm: "Phenomenalism", ontolojik_realizm: "Realism", rasyonalizm: "Rationalism", empiricism: "Empiricism", sansualizm: "Sensualism", intuisyonizm: "Intuitionism", dogmatizm: "Dogmatism", pragmatizm: "Pragmatism", septisizm: "Skepticism", relativizm: "Relativism", kritisizm: "Criticism", pozitivizm: "Positivism", deontoloji: "Deontology", teleoloji: "Teleological Ethics", erdem_etigi: "Virtue Ethics", ilahi_buyruk: "Divine Command", hedonizm: "Hedonism", nesnelci_estetik: "Objective Aes.", oznelci_estetik: "Subjective Aes.", idealist_estetik: "Idealist Aes.", ifadeci_estetik: "Expressionism", bicimci_estetik: "Formalism", kutsal_estetik: "Sacred Aes.", yansitmaci: "Mimesis", teizm: "Theism", deizm: "Deism", panteizm: "Pantheism", panenteizm: "Panentheism", agnostisizm: "Agnosticism", ateizm: "Atheism", nesnelcilik: "Objectivism", gorecilik: "Relativism", nihilizm: "Nihilism", teolojik_aksiyoloji: "Theological Axio." },
+            ar: { materyalizm: "المادية", dualizm: "الثنائية", idealizm: "المثالية", monist_metafizik: "الواحدية", fenomenalizm: "الظاهراتية", ontolojik_realizm: "الواقعية", rasyonalizm: "العقلانية", empiricism: "التجريبية", sansualizm: "الحسية", intuisyonizm: "الحدسية", dogmatizm: "الدوغمائية", pragmatizm: "الذرائع", septisizm: "الشكية", relativizm: "النسبية", kritisizm: "النقدية", pozitivizm: "الوضعية", deontoloji: "الواجبية", teleoloji: "الأخلاق الغائية", erdem_etigi: "أخلاق الفضيلة", ilahi_buyruk: "الأمر الإلهي", hedonizm: "المتعة", nesnelci_estetik: "الجمال الموضوعي", oznelci_estetik: "الجمال الذاتي", idealist_estetik: "الجمال المثالي", ifadeci_estetik: "التعبيرية", bicimci_estetik: "الشكلية", kutsal_estetik: "الجمال المقدس", yansitmaci: "المحاكاة", teizm: "التأليه", deizm: "الربوبية", panteizm: "وحدة الوجود", panenteizm: "وحدة الشهود", agnostisizm: "اللاأدرية", ateizm: "الإلحاد", nesnelcilik: "الموضوعية", gorecilik: "النسبية", nihilizm: "العدمية", teolojik_aksiyoloji: "القيم الدينية" }
+        };
+
+        const calcAge = (y) => new Date().getFullYear() - parseInt(y);
+        const years = Array.from({length:80},(_,i)=>2024-10-i);
+
+        // --- Components ---
+        function ResultsChart({ scores, categories, lang }) {
+             const radarRef = React.useRef(null);
+             const barRef = React.useRef(null);
+             const radarChart = React.useRef(null);
+             const barChart = React.useRef(null);
+
+             const findDominant = (catKey) => {
+                 const s = scores[catKey] || {};
+                 let max = -999, winner = null;
+                 Object.entries(s).forEach(([k, v]) => { if(v > max) { max = v; winner = k; } });
+                 return { val: max, label: winner ? SUB_DIMENSIONS[winner].label : "-" };
+             };
+
+             React.useEffect(() => {
+                 if (!scores) return;
+
+                 // Radar Data
+                 const labels = Object.values(CATEGORIES);
+                 const dominantData = Object.keys(CATEGORIES).map(k => findDominant(k));
+                 
+                 // Bar Data (Top 5)
+                 let flatScores = [];
+                 Object.keys(scores).forEach(cat => {
+                     Object.entries(scores[cat]).forEach(([sub, val]) => {
+                         flatScores.push({ label: SUB_DIMENSIONS[sub]?.label, val: val });
+                     });
+                 });
+                 flatScores.sort((a,b) => b.val - a.val);
+                 const topScores = flatScores.slice(0, 5);
+
+                 if (radarRef.current) {
+                     if (radarChart.current) radarChart.current.destroy();
+                     radarChart.current = new Chart(radarRef.current, {
+                         type: 'radar',
+                         data: {
+                             labels: labels,
+                             datasets: [{
+                                 label: 'Yoğunluk',
+                                 data: dominantData.map(d => d.val),
+                                 backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                                 borderColor: '#4f46e5',
+                                 pointBackgroundColor: '#4f46e5'
+                             }]
+                         },
+                         options: {
+                             scales: { r: { beginAtZero: true, ticks: { display: false } } },
+                             plugins: {
+                                 tooltip: {
+                                     callbacks: {
+                                         label: function(context) {
+                                             const catIndex = context.dataIndex;
+                                             const dom = dominantData[catIndex];
+                                             return `${dom.label} (${context.raw} Puan)`;
+                                         }
+                                     }
+                                 },
+                                 legend: { display: false }
+                             }
+                         }
+                     });
+                 }
+
+                 if (barRef.current) {
+                     if (barChart.current) barChart.current.destroy();
+                     barChart.current = new Chart(barRef.current, {
+                         type: 'bar',
+                         data: {
+                             labels: topScores.map(i => i.label),
+                             datasets: [{
+                                 label: 'Puan',
+                                 data: topScores.map(i => i.val),
+                                 backgroundColor: 'rgba(99, 102, 241, 0.7)',
+                                 borderRadius: 4
+                             }]
+                         },
+                         options: {
+                             indexAxis: 'y',
+                             scales: { x: { beginAtZero: true } },
+                             plugins: {
+                                 tooltip: {
+                                     callbacks: {
+                                         afterLabel: function(context) {
+                                             const idx = context.dataIndex;
+                                             return topScores[idx].desc;
+                                         }
+                                     }
+                                 },
+                                 legend: { display: false }
+                             }
+                         }
+                     });
+                 }
+                 
+                 return () => { if(radarChart.current) radarChart.current.destroy(); if(barChart.current) barChart.current.destroy(); };
+             }, [scores]);
+
+             return (
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                     <div className="bg-slate-50 p-4 rounded-xl border border-slate-200"><h4 className="text-center text-xs font-bold text-slate-500 uppercase mb-2">{uiText[lang].radarTitle}</h4><div className="chart-container"><canvas ref={radarRef}></canvas></div></div>
+                     <div className="bg-slate-50 p-4 rounded-xl border border-slate-200"><h4 className="text-center text-xs font-bold text-slate-500 uppercase mb-2">{uiText[lang].barTitle}</h4><div className="chart-container"><canvas ref={barRef}></canvas></div></div>
+                 </div>
+             );
+        }
+
+        function AdminPanel({ onBack }) {
+            const [data, setData] = React.useState([]);
+            const [pass, setPass] = React.useState("");
+            const [auth, setAuth] = React.useState(false);
+            const [sel, setSel] = React.useState([]);
+
+            React.useEffect(() => {
+                if (auth) {
+                    const unsub = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('survey_results_v46_final')
+                        .onSnapshot(snap => {
+                            const res = snap.docs.map(d => ({id: d.id, ...d.data()}));
+                            res.sort((a,b) => b.timestamp?.seconds - a.timestamp?.seconds);
+                            setData(res);
+                        });
+                    return () => unsub();
+                }
+            }, [auth]);
+
+            const dlCSV = () => {
+                const head = ["Tarih","Yaş","Cinsiyet","Eğitim","Meslek","Gelir","Şehir","Ülke","Dil","Varlık","Bilgi-K","Bilgi-D","Etik","Estetik","İnanç"];
+                const rows = [head.join(",")];
+                data.forEach(r => {
+                    const d = r.demographics || {};
+                    const res = r.result || {};
+                    const date = r.timestamp ? new Date(r.timestamp.seconds*1000).toLocaleDateString('tr-TR') : '-';
+                    rows.push([
+                        date, d.age, d.gender, d.education, `"${d.prof}"`, d.income, `"${d.city}"`, `"${d.country}"`, r.lang,
+                        `"${res.ontology}"`, `"${res.epistemology_source}"`, `"${res.epistemology_value}"`, 
+                        `"${res.ethics}"`, `"${res.aesthetics}"`, `"${res.theology}"`
+                    ].join(","));
+                });
+                const link = document.createElement("a");
+                link.href = encodeURI("data:text/csv;charset=utf-8,\uFEFF"+rows.join("\n"));
+                link.download = "felsefi_tutum_olcegi_veriler.csv";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+
+            const delBatch = async () => {
+                if(!confirm(`${sel.length} kayıt silinsin mi?`)) return;
+                const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('survey_results_v46_final');
+                await Promise.all(sel.map(id => col.doc(id).delete()));
+                setSel([]);
+            };
+
+            if(!auth) return <div className="h-screen flex items-center justify-center bg-gray-100"><div className="bg-white p-8 rounded shadow w-80 text-center"><input type="password" value={pass} onChange={e=>setPass(e.target.value)} className="border p-2 w-full mb-4 rounded" placeholder="Şifre (admin123)"/><button onClick={()=>pass==="Omferdem_79"?setAuth(true):alert("Hatalı Şifre")} className="bg-slate-800 text-white w-full p-2 rounded">Giriş</button><button onClick={onBack} className="w-full mt-4 text-xs text-gray-500">Geri</button></div></div>;
+
+            return (
+                <div className="min-h-screen bg-gray-50 p-4">
+                    <div className="flex justify-between mb-4 items-center">
+                        <div className="flex gap-4 items-center"><h2 className="text-xl font-bold">Veriler (V46 Final)</h2>{sel.length>0 && <button onClick={delBatch} className="bg-red-600 text-white px-3 py-1 rounded text-sm">Seç ({sel.length}) Sil</button>}</div>
+                        <div><button onClick={dlCSV} className="bg-green-600 text-white px-3 py-1 rounded mr-2 text-xs">Excel</button><button onClick={onBack} className="bg-gray-500 text-white px-3 py-1 rounded text-xs">Çıkış</button></div>
+                    </div>
+                    <div className="bg-white shadow overflow-x-auto rounded">
+                        <table className="min-w-full text-xs text-left admin-table">
+                            <thead className="bg-gray-100 border-b">
+                                <tr>
+                                    <th className="p-3 w-10 text-center"><input type="checkbox" onChange={e=>setSel(e.target.checked?data.map(d=>d.id):[])} checked={data.length>0 && sel.length===data.length}/></th>
+                                    <th>Tarih</th><th>Yaş</th><th>Cinsiyet</th><th>Eğitim</th><th>Meslek</th><th>Gelir</th><th>Şehir</th><th>Ülke</th><th>Dil</th><th>Varlık</th><th>Bilgi K.</th><th>Bilgi D.</th><th>Etik</th><th>Estetik</th><th>İnanç</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {data.map(r => {
+                                    const d = r.demographics || {};
+                                    const res = r.result || {};
+                                    return (
+                                        <tr key={r.id} className="border-b hover:bg-gray-50">
+                                            <td className="p-3 text-center"><input type="checkbox" checked={sel.includes(r.id)} onChange={()=>setSel(s=>s.includes(r.id)?s.filter(x=>x!==r.id):[...s,r.id])}/></td>
+                                            <td>{new Date(r.timestamp?.seconds*1000).toLocaleDateString('tr-TR')}</td>
+                                            <td>{d.age}</td><td>{d.gender}</td><td>{d.education}</td><td>{d.prof}</td><td>{d.income}</td><td>{d.city}</td><td>{d.country}</td><td>{r.lang}</td>
+                                            <td className="font-bold text-blue-700">{res.ontology}</td>
+                                            <td className="text-purple-700">{res.epistemology_source}</td>
+                                            <td className="text-purple-700">{res.epistemology_value}</td>
+                                            <td className="text-red-700">{res.ethics}</td>
+                                            <td className="text-indigo-700">{res.aesthetics}</td>
+                                            <td className="font-bold text-amber-700">{res.theology}</td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- Main App ---
+        function App() {
+            const [step, setStep] = React.useState('intro');
+            const [lang, setLang] = React.useState('tr');
+            const [user, setUser] = React.useState(null);
+            const [input, setInput] = React.useState({ year: '', edu: '', gender: '', income: '', city: '', country: '', prof: '' });
+            const [qIndex, setQIndex] = React.useState(0);
+            const [scores, setScores] = React.useState({});
+            const [res, setRes] = React.useState(null);
+            const [aiResult, setAiResult] = React.useState(null);
+            const [isAiLoading, setIsAiLoading] = React.useState(false);
+
+            const t = uiText[lang] || uiText['tr'];
+            const currentQuestions = React.useMemo(() => getQuestions(lang), [lang]);
+
+            const mapToTR = (k, v) => {
+                if(lang==='tr') return v;
+                if(k==='gender') return v==='Male'?'Erkek':v==='Female'?'Kadın':v;
+                if(k==='edu') return v==='High School'?'Lise':v==="Bachelor's"?'Lisans':v==='Graduate'?'Lisansüstü':v;
+                if(k==='income') return v==='Low'?'Alt':v==='Low-Mid'?'Alt-Orta':v==='Mid'?'Orta':v==='Mid-High'?'Üst-Orta':v==='High'?'Yüksek':v;
+                return v;
+            };
+
+            const getTransCat = (k) => (categoryTrans[lang] && categoryTrans[lang][k]) || CATEGORIES[k];
+            const getTransTerm = (v) => {
+                const subKey = Object.keys(SUB_DIMENSIONS).find(key => SUB_DIMENSIONS[key].label === v) || v;
+                if (subDimTrans[lang] && subDimTrans[lang][subKey]) return subDimTrans[lang][subKey];
+                return v;
+            };
+            const getDesc = (v) => {
+                const subKey = Object.keys(SUB_DIMENSIONS).find(key => SUB_DIMENSIONS[key].label === v);
+                return subKey ? SUB_DIMENSIONS[subKey].desc : "";
+            };
+
+            React.useEffect(() => {
+                const init = async () => { try { await auth.signInAnonymously(); } catch(e) { console.error(e); } };
+                init(); 
+                return auth.onAuthStateChanged(setUser);
+            }, []);
+
+            // --- SESSION LOAD ---
+            React.useEffect(() => {
+                const saved = localStorage.getItem('fye_v46_session');
+                if (saved) {
+                    try {
+                        const s = JSON.parse(saved);
+                        if (s.step === 'quiz' || s.step === 'res') {
+                            setInput(s.input);
+                            setQIndex(s.qIndex);
+                            setScores(s.scores);
+                            setRes(s.res);
+                            setAiResult(s.aiResult);
+                            setStep(s.step);
+                        }
+                    } catch(e) { console.error("Session load error", e); }
+                }
+            }, []);
+
+            // --- SESSION SAVE ---
+            React.useEffect(() => {
+                if (step !== 'intro') {
+                    localStorage.setItem('fye_v46_session', JSON.stringify({ step, input, qIndex, scores, res, aiResult }));
+                }
+            }, [step, input, qIndex, scores, res, aiResult]);
+
+            const clearSession = () => {
+                localStorage.removeItem('fye_v46_session');
+                window.location.reload();
+            };
+
+            const handleChange = (e) => {
+                const {name, value} = e.target;
+                setInput(prev => ({...prev, [name]: value}));
+                if (name === 'country') {
+                    if (value === 'Türkiye') setInput(p => ({...p, country: value, city: ''}));
+                    else setInput(p => ({...p, country: value, city: ''}));
+                }
+            };
+
+            const answer = (val, cat, sub) => {
+                setScores(prev => {
+                    const catScores = prev[cat] || {};
+                    const currentScore = catScores[sub] || 0;
+                    return { ...prev, [cat]: { ...catScores, [sub]: currentScore + val } };
+                });
+                
+                if (qIndex < QUESTIONS.length - 1) {
+                    setQIndex(prev => prev + 1);
+                } else {
+                    setStep('calc');
+                }
+            };
+
+            const generateAiReport = async () => {
+                if (!apiKey) return alert("API Key eksik.");
+                setIsAiLoading(true);
+                const summary = Object.entries(res).map(([k, v]) => `${CATEGORIES[k]}: ${v}`).join(", ");
+                
+                let salutation = "Değerli Katılımcı";
+                if(input.prof === "Akademisyen") salutation = "Kıymetli Meslektaşım";
+                else if(input.prof === "Öğrenci") salutation = "Sevgili Öğrenci Kardeşim";
+                else if(input.prof === "Öğretmen") salutation = "Değerli Hocam";
+
+                const prompt = `
+                    You are a wise philosopher-psychologist. Analyze this profile:
+                    Lang: ${lang}
+                    Profile: ${summary}
+                    
+                    Markdown Response Structure:
+                    1. **Greeting**: "${salutation}, öncelikle bu zihinsel yolculuğa katıldığın için teşekkür ederim." (Translate to target lang)
+                    2. **Mental X-Ray**: Analyze their worldview based on Ontology+Epistemology+Ethics.
+                    3. **Enneagram Analysis**: Based on their philosophy (e.g. Dogmatist->Type 1, Skeptic->Type 5/6, Hedonist->Type 7), assign an Enneagram type and explain the connection.
+                    4. **Kindred Philosophers**: 2-3 philosophers with similar views.
+                    5. **Mental Geography & Era**: Which historical city/era fits their mind?
+                    6. **Book Prescription**: 2 specific book recommendations.
+                    
+                    Tone: Deep, witty, insightful.
+                `;
+                setAiResult(await callGemini(prompt));
+                setIsAiLoading(false);
+            };
+            
+            const downloadPDF = async () => {
+                const element = document.getElementById('certificate-template');
+                document.getElementById('cert-name').innerText = input.prof ? `${input.prof} Katılımcı` : "Katılımcı";
+                document.getElementById('cert-date').innerText = new Date().toLocaleDateString('tr-TR');
+                
+                const resultsDiv = document.getElementById('cert-results');
+                resultsDiv.innerHTML = Object.entries(res).map(([k, v]) => 
+                    `<div style="margin-bottom: 8px; border-bottom: 1px dashed #eee; padding-bottom:4px;">
+                        <span style="font-weight:bold; color:#1e293b;">${CATEGORIES[k]}:</span> 
+                        <span style="color:#4f46e5;">${SUB_DIMENSIONS[v]?.label || v}</span>
+                    </div>`
+                ).join('');
+                
+                const aiDiv = document.getElementById('cert-ai-content');
+                const page2 = document.getElementById('cert-page-2');
+                
+                if (aiResult) {
+                    page2.style.display = 'block';
+                    aiDiv.innerHTML = marked.parse(aiResult);
+                } else {
+                    page2.style.display = 'none';
+                }
+                
+                // Show container but keep it off-screen
+                const container = document.getElementById('certificate-container');
+                
+                // Generate PDF
+                const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+                const width = pdf.internal.pageSize.getWidth();
+                const height = pdf.internal.pageSize.getHeight();
+                
+                // Page 1
+                const canvas1 = await html2canvas(document.getElementById('cert-page-1'), { scale: 2 });
+                pdf.addImage(canvas1.toDataURL('image/png'), 'PNG', 0, 0, width, height);
+                
+                // Page 2 (if AI result exists)
+                if (aiResult) {
+                    pdf.addPage();
+                    const canvas2 = await html2canvas(page2, { scale: 2 });
+                    pdf.addImage(canvas2.toDataURL('image/png'), 'PNG', 0, 0, width, height);
+                }
+                
+                // Hide again just in case (though it's positioned off-screen)
+                if(aiResult) page2.style.display = 'none';
+                
+                pdf.save('Felsefi_Tutum_Belgesi.pdf');
+            };
+
+            React.useEffect(() => {
+                if (step === 'calc') {
+                    const final = {};
+                    Object.keys(CATEGORIES).forEach(k => {
+                        const s = scores[k];
+                        if (!s) { final[k] = "Belirsiz"; return; }
+                        let win = "Belirsiz", max = -999;
+                        Object.entries(s).forEach(([sub, pts]) => { 
+                            if (pts > max) { max = pts; win = sub; } // Store KEY, not label
+                        });
+                        final[k] = win;
+                    });
+                    setRes(final);
+
+                    if (user) {
+                        db.collection('artifacts').doc(appId).collection('public').doc('data').collection('survey_results_v46_final').add({
+                            demographics: { age: calcAge(input.year), gender: mapToTR('gender', input.gender), education: mapToTR('edu', input.edu), income: mapToTR('income', input.income), city: input.city, country: input.country, prof: input.prof },
+                            result: final, scores, lang, userId: user.uid, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                        setStep('res');
+                    } else setStep('res');
+                }
+            }, [step]);
+
+            const LangSwitcher = () => (
+                <div className="flex justify-center gap-2 p-4 border-b border-slate-100 bg-white/50 backdrop-blur-sm">
+                    {['tr','en','ar','de','ru','zh'].map(l => (
+                        <button key={l} onClick={()=>setLang(l)} className={`lang-btn ${lang===l?'active':''}`}>{l.toUpperCase()}</button>
+                    ))}
+                </div>
+            );
+
+            // --- CITY/COUNTRY DATA ---
+            const COUNTRIES = ["Türkiye", "Almanya", "ABD", "Azerbaycan", "Fransa", "İngiltere", "Rusya", "Çin", "Diğer"];
+            // Türkiye'nin 81 İli
+            const CITIES_TR = [
+                "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin", "Aydın", "Balıkesir",
+                "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli",
+                "Diyarbakır", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkari",
+                "Hatay", "Isparta", "Mersin", "İstanbul", "İzmir", "Kars", "Kastamonu", "Kayseri", "Kırklareli", "Kırşehir", "Kocaeli", "Konya", "Kütahya", "Malatya",
+                "Manisa", "Kahramanmaraş", "Mardin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Rize", "Sakarya",
+                "Samsun", "Siirt", "Sinop", "Sivas", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Şanlıurfa", "Uşak",
+                "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman", "Kırıkkale", "Batman", "Şırnak",
+                "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce"
+            ];
+
+            if (step === 'intro') return (
+                <div className={`min-h-screen flex items-center justify-center p-4 bg-slate-100 ${lang==='ar'?'lang-ar':''}`} dir={t.dir}>
+                    <div className="bg-white max-w-2xl w-full rounded-2xl shadow-xl overflow-hidden fade-in relative">
+                        <LangSwitcher />
+                        <div className="bg-slate-900 p-8 text-center text-white"><h1 className="text-2xl font-bold serif mb-2">{t.title}</h1><p className="text-xs uppercase tracking-widest text-slate-400">{t.subtitle}</p></div>
+                        <div className="p-8">
+                            {/* Resume Button */}
+                            {localStorage.getItem('fye_v46_session') && (
+                                <button onClick={() => {
+                                    const s = JSON.parse(localStorage.getItem('fye_v46_session'));
+                                    setInput(s.input); setQIndex(s.qIndex); setScores(s.scores); setStep('quiz');
+                                }} className="w-full mb-6 bg-indigo-100 text-indigo-700 py-3 rounded-lg font-bold border border-indigo-200 hover:bg-indigo-200 transition">
+                                    ↩️ Yarım Kalan Teste Devam Et
+                                </button>
+                            )}
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                <div><label className="text-xs font-bold text-gray-500 block mb-1">{t.labels.year}</label><select name="year" onChange={handleChange} value={input.year} className="w-full p-2 border rounded outline-none"><option value="">{t.opts.sel}</option>{years.map(y=><option key={y} value={y}>{y}</option>)}</select></div>
+                                <div><label className="text-xs font-bold text-gray-500 block mb-1">{t.labels.gender}</label><select name="gender" onChange={handleChange} value={input.gender} className="w-full p-2 border rounded outline-none"><option value="">{t.opts.sel}</option><option value={lang==='tr'?'Erkek':'Male'}>{t.opts.m}</option><option value={lang==='tr'?'Kadın':'Female'}>{t.opts.f}</option></select></div>
+                                <div><label className="text-xs font-bold text-gray-500 block mb-1">{t.labels.edu}</label><select name="edu" onChange={handleChange} value={input.edu} className="w-full p-2 border rounded outline-none"><option value="">{t.opts.sel}</option><option value={lang==='tr'?'Lise':'High School'}>{t.opts.hs}</option><option value={lang==='tr'?'Lisans':"Bachelor's"}>{t.opts.ba}</option><option value={lang==='tr'?'Lisansüstü':'Graduate'}>{t.opts.phd}</option></select></div>
+                                <div><label className="text-xs font-bold text-gray-500 block mb-1">Meslek</label><select name="prof" onChange={handleChange} value={input.prof} className="w-full p-2 border rounded outline-none"><option value="">Seçiniz</option>{PROFESSIONS.map(p=><option key={p} value={p}>{p}</option>)}</select></div>
+                                <div><label className="text-xs font-bold text-gray-500 block mb-1">{t.labels.income}</label><select name="income" onChange={handleChange} value={input.income} className="w-full p-2 border rounded outline-none"><option value="">{t.opts.sel}</option>{INCOMES.map(i=><option key={i.val} value={i.val}>{i.label}</option>)}</select></div>
+                                
+                                {/* Ülke ve Şehir Seçimi (Düzeltildi) */}
+                                <div><label className="text-xs font-bold text-gray-500 block mb-1">{t.labels.country}</label>
+                                    <select name="country" onChange={handleChange} value={input.country} className="w-full p-2 border rounded outline-none"><option value="">{t.opts.sel}</option>{COUNTRIES.map(c=><option key={c} value={c}>{c}</option>)}</select>
+                                </div>
+                                
+                                {input.country === "Türkiye" ? (
+                                    <div className="md:col-span-2"><label className="text-xs font-bold text-gray-500 block mb-1">{t.labels.city}</label>
+                                        <select name="city" onChange={handleChange} value={input.city} className="w-full p-2 border rounded outline-none"><option value="">{t.opts.sel}</option>{CITIES_TR.map(c=><option key={c} value={c}>{c}</option>)}</select>
+                                    </div>
+                                ) : (
+                                    <div className="md:col-span-2"><label className="text-xs font-bold text-gray-500 block mb-1">{t.labels.city}</label><input name="city" onChange={handleChange} value={input.city} className="w-full p-2 border rounded" placeholder="Şehir yazınız..." disabled={!input.country} /></div>
+                                )}
+                            </div>
+                            
+                            <button onClick={()=> {
+                                if(!input.year || !input.country || !input.city || !input.prof || !input.gender) { alert("Lütfen tüm alanları doldurunuz."); return; }
+                                setStep('quiz');
+                            }} className="w-full bg-slate-900 text-white font-bold py-3 rounded hover:bg-slate-800 transition">{t.start}</button>
+                            <button onClick={()=>setStep('admin')} className="w-full mt-4 text-xs text-gray-400 underline text-center block">Yönetici Paneli</button>
+                        </div>
+                        <div className="absolute bottom-3 left-4 text-[11px] signature">Ömer Faruk Erdem tarafından hazırlanmıştır</div>
+                    </div>
+                </div>
+            );
+
+            if (step === 'quiz') {
+                const currentQ = currentQuestions[qIndex];
+                const progress = ((qIndex + 1) / QUESTIONS.length) * 100;
+                
+                return (
+                    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-slate-50">
+                        <div className="w-full max-w-3xl mb-6">
+                            <div className="flex justify-between items-end mb-2 text-slate-500 text-xs font-bold uppercase tracking-widest">
+                                <span>{getTransCat(currentQ.c)}</span><span>{qIndex+1} / {QUESTIONS.length}</span>
+                            </div>
+                            <div className="h-1.5 w-full bg-gray-200 rounded-full"><div className="h-full bg-indigo-600 progress-bar" style={{width: `${progress}%`}}></div></div>
+                        </div>
+                        <div className="bg-white w-full max-w-3xl rounded-2xl shadow-lg fade-in border border-gray-100 relative overflow-hidden">
+                            <div className="p-8 md:p-12">
+                                <h3 className="text-xl md:text-2xl font-serif text-slate-800 mb-8 leading-relaxed text-center">{currentQ.t}</h3>
+                                <div className="likert-container">
+                                    {["Kesinlikle Katılmıyorum (-2)", "Katılmıyorum (-1)", "Kararsızım (0)", "Katılıyorum (+1)", "Kesinlikle Katılıyorum (+2)"].map((label, idx) => {
+                                        const val = idx - 2; 
+                                        return (
+                                            <button key={val} onClick={()=>answer(val, currentQ.c, currentQ.s)} className={`likert-btn scale-${idx+1}`}>
+                                                <span className="block text-lg font-bold">{val > 0 ? `+${val}` : val}</span>
+                                                <span className="text-[10px] uppercase tracking-wide">{label.split(' (')[0]}</span>
+                                            </button>
+                                        )
+                                    })}
+                                </div>
+                                <div className="mt-8 flex justify-between">
+                                    {qIndex > 0 ? <button onClick={()=>setQIndex(qIndex-1)} className="text-sm text-gray-400 hover:text-gray-600">Geri</button> : <div></div>}
+                                    <button onClick={clearSession} className="text-xs text-red-400 hover:text-red-600">Çıkış (Sıfırla)</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (step === 'calc') return <div className="h-screen flex items-center justify-center bg-white"><div className="text-center"><div className="animate-spin h-12 w-12 border-4 border-indigo-600 border-t-transparent rounded-full mx-auto mb-4"></div><h2 className="text-xl font-bold">Hesaplanıyor...</h2></div></div>;
+
+            if (step === 'res') return (
+                <div className="min-h-screen bg-slate-50 py-10 px-4">
+                    <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden fade-in relative">
+                        <div className="bg-slate-900 text-white p-8 text-center">
+                            <h2 className="text-3xl serif font-bold mb-2">{t.resTitle}</h2>
+                            <div className="mt-4 flex justify-center gap-2">
+                                <button onClick={downloadPDF} className="bg-white/20 hover:bg-white/30 text-white px-6 py-4 rounded-lg border border-white/40 flex items-center gap-2 font-bold shadow-xl transition transform hover:scale-105 text-lg">
+                                    📄 SONUÇ BELGESİNİ İNDİR
+                                </button>
+                            </div>
+                        </div>
+                        <div className="p-8">
+                            <ResultsChart scores={scores} categories={CATEGORIES} lang="tr" />
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                                {Object.entries(res).map(([k,v])=>(
+                                    <div key={k} className="bg-slate-50 p-5 rounded-xl border border-slate-200 hover:shadow-md transition">
+                                        <h4 className="text-xs font-bold text-slate-400 uppercase mb-1">{CATEGORIES[k]}</h4>
+                                        <div className="text-lg font-bold text-indigo-900 serif border-b pb-2 mb-2">{SUB_DIMENSIONS[v]?.label || v}</div>
+                                        <p className="text-xs text-slate-500 leading-relaxed italic">{SUB_DIMENSIONS[v]?.desc || ""}</p>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="mt-8 px-4">
+                                {!aiResult ? <button onClick={generateAiReport} disabled={isAiLoading} className="w-full bg-indigo-600 text-white py-4 rounded-xl font-bold hover:bg-indigo-700 transition shadow-lg flex items-center justify-center gap-2">{isAiLoading ? "..." : "✨ Yapay Zeka ile Detaylı Profil Analizi"}</button> : <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-6 ai-content" dangerouslySetInnerHTML={{__html: marked.parse(aiResult)}} />}
+                            </div>
+                        </div>
+                        <div className="bg-slate-50 p-6 text-center border-t"><button onClick={clearSession} className="bg-white border border-slate-300 px-6 py-2 rounded-full font-bold hover:bg-slate-100 transition">Testi Yeniden Başlat</button></div>
+                    </div>
+                </div>
+            );
+
+            if (step === 'admin') return <AdminPanel onBack={()=>setStep('intro')} />;
+            return null;
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
