@@ -20,115 +20,91 @@
     <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore-compat.js"></script>
 
-    <!-- Chart.js & Markdown -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <!-- PDF Generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Herr+Von+Muellerhoff&display=swap'); /* İmza Fontu */
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            color: #1e293b;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
         .serif { font-family: 'Cinzel', serif; }
         
-        /* Mavi İmza Stili */
+        /* Mavi İmza */
         .signature-font { 
             font-family: 'Herr Von Muellerhoff', cursive; 
             font-size: 3rem; 
-            color: #0044cc; /* Mürekkep Mavisi */
-            transform: rotate(-5deg);
+            color: #1e40af; 
+            transform: rotate(-3deg);
             display: inline-block;
+            margin-top: 10px;
+            line-height: 1;
         }
-        
-        .fade-in { animation: fadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Likert Button Style */
-        .likert-container {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 0.5rem;
-            margin-top: 1.5rem;
-        }
+
+        .likert-container { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; margin-top: 1rem; }
         .likert-btn {
-            padding: 12px 4px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            background: white;
-            transition: all 0.2s;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: #64748b;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            cursor: pointer;
+            padding: 10px 2px; border-radius: 6px; border: 1px solid #e2e8f0; background: white;
+            transition: all 0.2s; font-size: 0.7rem; font-weight: 600; color: #64748b;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
         }
         .likert-btn:hover { border-color: #6366f1; background-color: #f8fafc; transform: translateY(-2px); }
         .likert-btn:active { transform: scale(0.95); }
         
-        .scale-1 { background-color: #fee2e2; border-color: #fecaca; color: #991b1b; } 
-        .scale-2 { background-color: #fff1f2; border-color: #fee2e2; color: #9f1239; } 
-        .scale-3 { background-color: #f8fafc; border-color: #e2e8f0; color: #64748b; } 
-        .scale-4 { background-color: #f0fdf4; border-color: #dcfce7; color: #166534; } 
-        .scale-5 { background-color: #dcfce7; border-color: #bbf7d0; color: #14532d; } 
+        /* Renkler */
+        .scale-1 { background: #fee2e2; border-color: #fecaca; color: #991b1b; }
+        .scale-2 { background: #fff1f2; border-color: #fee2e2; color: #9f1239; }
+        .scale-3 { background: #f8fafc; border-color: #e2e8f0; color: #64748b; }
+        .scale-4 { background: #f0fdf4; border-color: #dcfce7; color: #166534; }
+        .scale-5 { background: #dcfce7; border-color: #bbf7d0; color: #14532d; }
 
-        .lang-btn {
-            font-size: 0.75rem;
-            padding: 4px 10px;
-            border-radius: 9999px;
-            color: #64748b;
-            border: 1px solid #cbd5e1;
-            transition: all 0.2s;
-            background: white;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        .lang-btn:hover { color: #334155; border-color: #94a3b8; }
-        .lang-btn.active { color: #ffffff; background: #0f172a; border-color: #0f172a; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .lang-btn { font-size: 0.75rem; padding: 4px 10px; border-radius: 9999px; color: #64748b; border: 1px solid #cbd5e1; background: white; font-weight: 600; cursor: pointer; }
+        .lang-btn.active { color: white; background: #0f172a; border-color: #0f172a; }
 
-        .progress-bar { transition: width 0.3s ease-out; }
-        .ai-content h1, .ai-content h2 { font-weight: bold; margin-bottom: 0.5em; margin-top: 1em; color: #312e81; font-family: 'Playfair Display', serif; border-bottom: 1px solid #e2e8f0; }
-        .ai-content p { margin-bottom: 0.8em; line-height: 1.6; }
         .chart-container { position: relative; height: 300px; width: 100%; margin-bottom: 2rem; }
 
-        /* Certificate PDF Template (Hidden by default) */
+        /* Admin Table */
+        .admin-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+        .admin-table th { background-color: #f1f5f9; padding: 8px; text-align: left; border-bottom: 2px solid #e2e8f0; white-space: nowrap; }
+        .admin-table td { padding: 8px; border-bottom: 1px solid #e2e8f0; color: #334155; white-space: nowrap; }
+        .admin-table tr:hover { background-color: #f8fafc; }
+
+        @media (max-width: 640px) {
+            .likert-btn { padding: 8px 1px; font-size: 0.6rem; }
+            .likert-btn span:last-child { display: none; } /* Mobilde yazıyı gizle */
+            .likert-btn span:first-child { font-size: 1.1rem; }
+        }
+
+        /* Certificate PDF Template (Hidden but Renderable) */
         #certificate-container {
-            position: absolute;
-            top: -9999px;
-            left: -9999px;
+            position: fixed;
+            left: -9999px; /* Ekran dışı render */
+            top: 0;
             width: 800px;
+            z-index: -1;
         }
         .cert-page {
             width: 800px;
+            min-height: 1120px; /* A4 Ratio */
             padding: 50px;
-            background: #fff;
-            border: 15px solid #f1f5f9;
-            border-image: linear-gradient(to right, #1e293b, #475569) 1;
+            background: #ffffff;
             font-family: 'Inter', sans-serif;
             color: #1e293b;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
             box-sizing: border-box;
             position: relative;
-            margin-bottom: 20px;
         }
-        
-        @media (max-width: 640px) {
-            .likert-container { grid-template-columns: 1fr; }
-            .likert-btn { flex-direction: row; justify-content: flex-start; padding: 12px 16px; text-align: left; font-size: 0.9rem; }
-            .likert-val { margin-left: auto; font-weight: bold; }
-        }
+        .cert-header { text-align: center; border-bottom: 2px solid #cbd5e1; padding-bottom: 20px; margin-bottom: 30px; }
+        .cert-title { font-family: 'Cinzel', serif; font-size: 36px; font-weight: bold; color: #1e293b; margin: 0; }
+        .cert-subtitle { font-size: 16px; color: #64748b; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; }
+
     </style>
 </head>
 <body>
@@ -138,66 +114,47 @@
     <div id="certificate-container">
         <!-- Sayfa 1: Sonuçlar -->
         <div class="cert-page" id="cert-page-1">
-            <div style="text-align: center; border-bottom: 2px solid #cbd5e1; padding-bottom: 20px; margin-bottom: 30px;">
-                <h1 style="font-size: 36px; font-weight: bold; color: #1e293b; margin: 0;">FELSEFİ TUTUM ÖLÇEĞİ</h1>
-                <p style="font-size: 18px; color: #64748b; margin-top: 10px;">KATILIM VE SONUÇ BELGESİ</p>
+            <div class="cert-header">
+                <h1 class="cert-title">FELSEFİ TUTUM ÖLÇEĞİ</h1>
+                <p class="cert-subtitle">Katılım ve Sonuç Belgesi</p>
             </div>
+            
             <div style="margin-bottom: 30px;">
                 <p style="font-size: 16px; line-height: 1.6;">Sayın <strong><span id="cert-name">Katılımcı</span></strong>,</p>
-                <p style="font-size: 16px; line-height: 1.6;">Bu belge, felsefi yönelimlerinizi belirlemek amacıyla yapılan 77 soruluk akademik çalışmaya katılımınız üzerine düzenlenmiştir.</p>
+                <p style="font-size: 16px; line-height: 1.6;">
+                    Bu belge, felsefi yönelimlerinizi belirlemek amacıyla yapılan 75 soruluk akademik çalışmaya katılımınız üzerine düzenlenmiştir.
+                    Verdiğiniz yanıtlar doğrultusunda oluşturulan kişisel felsefi profiliniz aşağıdadır.
+                </p>
             </div>
-            <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
-                <h3 style="font-size: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 15px;">Temel Yönelimler</h3>
-                <div id="cert-results" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 14px;"></div>
-            </div>
-            
-            <p style="text-align: center; font-style: italic; color: #475569; margin-bottom: 40px;">Katılımınız için teşekkür ederiz.</p>
-            
-            <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: flex-end;">
-                <div style="text-align: left;"><p style="font-size: 14px; color: #94a3b8;">Tarih</p><p id="cert-date" style="font-size: 16px; font-weight: bold;"></p></div>
-                <div style="text-align: right;">
-                    <div class="signature-font" style="font-size: 36px; color: #1e40af;">Ömer Faruk Erdem</div>
-                    <p style="font-size: 14px; border-top: 1px solid #94a3b8; padding-top: 5px; display: inline-block;">Proje Yöneticisi</p>
+
+            <div style="background: #f8fafc; padding: 25px; border-radius: 12px; margin-bottom: 30px; border: 1px solid #e2e8f0;">
+                <h3 style="font-size: 20px; border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; margin-bottom: 20px; font-weight: bold; color: #334155;">Temel Yönelimler</h3>
+                <div id="cert-results" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 14px;">
+                    <!-- JS ile doldurulacak -->
                 </div>
             </div>
-        </div>
 
-        <!-- Sayfa 2: AI Analizi (Varsa) -->
-        <div class="cert-page" id="cert-page-2" style="display: none;">
-            <div style="text-align: center; border-bottom: 2px solid #cbd5e1; padding-bottom: 15px; margin-bottom: 30px;">
-                <h1 style="font-size: 24px; font-weight: bold; color: #1e293b;">YAPAY ZEKA ANALİZ RAPORU</h1>
-            </div>
-            <div id="cert-ai-content" style="font-size: 13px; line-height: 1.8; text-align: justify; color: #334155;">
-                <!-- JS ile doldurulacak -->
-            </div>
-            <div style="text-align: center; margin-top: 50px; opacity: 0.5; font-size: 10px;">
-                Bu analiz, yapay zeka (Gemini AI) tarafından yanıtlarınıza dayalı olarak otomatik üretilmiştir.
+            <div style="margin-top: 60px; text-align: center;">
+                <p style="font-size: 18px; font-family: 'Playfair Display', serif; font-style: italic; color: #475569; margin-bottom: 40px;">
+                    "Katılımınız için teşekkür ederiz."
+                </p>
+                
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; padding: 0 40px;">
+                    <div style="text-align: left;">
+                        <p style="font-size: 12px; color: #94a3b8; text-transform: uppercase; margin-bottom: 5px;">Tarih</p>
+                        <p id="cert-date" style="font-size: 16px; font-weight: bold; color: #1e293b;"></p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="signature-font">Ömer Faruk Erdem</div>
+                        <p style="font-size: 12px; border-top: 1px solid #94a3b8; padding-top: 5px; display: inline-block; width: 200px; color: #64748b; margin-top: 5px;">Proje Yöneticisi</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script type="text/babel">
-        // --- Gemini API ---
-        const apiKey = "AIzaSyCY8y7k8ECTJzWhG3lTtnGUEXPmK9w_7DY"; // LÜTFEN API ANAHTARINIZI BURAYA YAPIŞTIRIN
-
-        async function callGemini(prompt) {
-            if (!apiKey) return "HATA: API Anahtarı eksik. Kodun içine anahtarınızı ekleyiniz.";
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                });
-                if (!response.ok) throw new Error("API Yanıt Vermedi");
-                const data = await response.json();
-                return data.candidates?.[0]?.content?.parts?.[0]?.text || "Analiz oluşturulamadı.";
-            } catch (error) { 
-                return "Bağlantı hatası."; 
-            }
-        }
-
-        // --- Firebase Config (SİZİN PROJENİZ) ---
+        // --- Firebase Config ---
         const firebaseConfig = {
             apiKey: "AIzaSyDiJnsvxHWiaUjxtlkYLAFI8RHwtzPcmdQ",
             authDomain: "felsefi-profil-analizi.firebaseapp.com",
@@ -213,7 +170,7 @@
         const db = firebase.firestore();
         const appId = "felsefi-profil-analizi";
 
-        // --- 1. KATEGORİ YAPISI ---
+        // --- GLOBAL CONSTANTS ---
         const CATEGORIES = {
             ontology: "Varlık (Ontoloji)",
             epistemology_source: "Bilgi Kaynağı",
@@ -223,188 +180,188 @@
             theology: "Tanrı Tasavvuru"
         };
 
-        // --- VERİ SÖZLÜKLERİ ---
-        const COUNTRIES = ["Türkiye", "Almanya", "ABD", "Azerbaycan", "Fransa", "İngiltere", "Rusya", "Çin", "Diğer"];
-        
-        // Türkiye İlleri
-        const CITIES_TR = [
-            "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin", "Aydın", "Balıkesir",
-            "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli",
-            "Diyarbakır", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkari",
-            "Hatay", "Isparta", "Mersin", "İstanbul", "İzmir", "Kars", "Kastamonu", "Kayseri", "Kırklareli", "Kırşehir", "Kocaeli", "Konya", "Kütahya", "Malatya",
-            "Manisa", "Kahramanmaraş", "Mardin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Rize", "Sakarya",
-            "Samsun", "Siirt", "Sinop", "Sivas", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Şanlıurfa", "Uşak",
-            "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman", "Kırıkkale", "Batman", "Şırnak",
-            "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce"
-        ];
-
-        // --- Localization ---
-        const uiText = {
-            tr: { dir: "ltr", title: "Felsefi Tutum Ölçeği", subtitle: "77 Soru ile Detaylı Analiz", start: "Teste Başla", admin: "Yönetici", labels: { year: "Doğum Yılı", gender: "Cinsiyet", edu: "Eğitim", income: "Gelir", city: "Şehir (Listeden Seçiniz)", country: "Ülke", prof: "Meslek" }, opts: { m: "Erkek", f: "Kadın", hs: "Lise", ba: "Lisans", phd: "Lisansüstü", low: "Alt", mid: "Orta", high: "Üst", sel: "Seçiniz" }, calc: "Hesaplanıyor...", resTitle: "Felsefi Kimlik Kartı", restart: "Yeniden Başlat", aiBtn: "✨ Yapay Zeka Analizi", back: "Geri", next: "İleri", radarTitle: "Eğilim Haritası", barTitle: "Baskın Görüşler", likert: ["Kesinlikle Katılmıyorum (-2)", "Katılmıyorum (-1)", "Kararsızım (0)", "Katılıyorum (+1)", "Kesinlikle Katılıyorum (+2)"], pdf: "Belgeyi İndir", reset: "Sıfırla" },
-            en: { dir: "ltr", title: "Philosophical Attitude Scale", subtitle: "Detailed Analysis", start: "Start", admin: "Admin", labels: { year: "Birth Year", gender: "Gender", edu: "Education", income: "Income", city: "City", country: "Country", prof: "Profession" }, opts: { m: "Male", f: "Female", hs: "High School", ba: "Bachelor", phd: "Graduate", low: "Low", mid: "Mid", high: "High", sel: "Select" }, calc: "Calculating...", resTitle: "Profile Card", restart: "Restart", aiBtn: "AI Analysis", back: "Back", next: "Next", radarTitle: "Tendency Map", barTitle: "Dominant Views", likert: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], pdf: "Download PDF", reset: "Reset" },
-            ar: { dir: "rtl", title: "مقياس الموقف الفلسفي", subtitle: "تحليل مفصل", start: "ابدأ", admin: "مسؤول", labels: { year: "السنة", gender: "الجنس", edu: "التعليم", income: "الدخل", city: "المدينة", country: "البلد", prof: "المهنة" }, opts: { m: "ذكر", f: "أنثى", hs: "ثانوية", ba: "جامعي", phd: "عليا", low: "منخفض", mid: "متوسط", high: "مرتفع", sel: "اختر" }, calc: "جاري الحساب...", resTitle: "الهوية", restart: "إعادة", aiBtn: "تحليل الذكاء الاصطناعي", back: "عودة", next: "التالي", radarTitle: "الخريطة", barTitle: "الآراء", likert: ["أعارض بشدة", "أعارض", "محايد", "أوافق", "أوافق بشدة"], pdf: "تحميل PDF", reset: "إعادة" }
-        };
-        
         const SUB_DIMENSIONS = {
-            materyalizm: { label: "Materyalizm", desc: "Varlık maddedir. Zihin fizikseldir." },
-            dualizm: { label: "Dualizm", desc: "Madde ve ruh iki ayrı tözdür." },
-            idealizm: { label: "İdealizm", desc: "Gerçeklik zihinseldir." },
-            monist_metafizik: { label: "Monist Metafizik", desc: "Tek töz vardır." },
-            fenomenalizm: { label: "Fenomenalizm", desc: "Varlık algıdır." },
-            ontolojik_realizm: { label: "Ontolojik Realizm", desc: "Dış dünya bağımsızdır." },
-            rasyonalizm: { label: "Rasyonalizm", desc: "Bilgi akıldan gelir." },
-            empirizm: { label: "Empirizm", desc: "Bilgi deneyden gelir." },
-            sansualizm: { label: "Sansüalizm", desc: "Bilgi duyulardan gelir." },
-            intuisyonizm: { label: "İntüisyonizm", desc: "Bilgi sezgiden gelir." },
-            dogmatizm: { label: "Dogmatizm", desc: "Kesin bilgi vardır." },
-            pragmatizm: { label: "Pragmatizm", desc: "Doğru olan işe yarayandır." },
-            septisizm: { label: "Septisizm", desc: "Kesin bilgi yoktur." },
-            relativizm: { label: "Relativizm", desc: "Doğru görecelidir." },
-            kritisizm: { label: "Kritisizm", desc: "Bilgi sınırlıdır." },
-            pozitivizm: { label: "Pozitivizm", desc: "Sadece bilimsel bilgi." },
-            deontoloji: { label: "Deontoloji", desc: "Ödev ahlakı." },
-            teleoloji: { label: "Teleoloji", desc: "Sonuç odaklı ahlak." },
-            erdem_etigi: { label: "Erdem Etiği", desc: "Karakter odaklı ahlak." },
-            ilahi_buyruk: { label: "İlahi Buyruk", desc: "Dini ahlak." },
-            hedonizm: { label: "Hedonizm", desc: "Haz odaklı." },
-            nesnelcilik: { label: "Ahlaki Nesnelcilik", desc: "Evrensel değerler." },
-            gorecilik: { label: "Ahlaki Görecilik", desc: "Kültürel değerler." },
-            nihilizm: { label: "Ahlaki Nihilizm", desc: "Değer yoktur." },
-            teolojik_aksiyoloji: { label: "Teolojik Değer", desc: "Tanrı kaynaklı değer." },
-            nesnelci_estetik: { label: "Nesnelci Estetik", desc: "Güzellik eserde." },
-            oznelci_estetik: { label: "Öznelci Estetik", desc: "Güzellik bakanda." },
-            idealist_estetik: { label: "İdealist Estetik", desc: "Güzellik ideada." },
-            ifadeci_estetik: { label: "İfadeci Estetik", desc: "Duygu ifadesi." },
-            bicimci_estetik: { label: "Biçimci Estetik", desc: "Form güzelliği." },
-            kutsal_estetik: { label: "Kutsal Estetik", desc: "İlahi güzellik." },
-            yansitmaci: { label: "Yansıtmacı", desc: "Doğayı taklit." },
-            teizm: { label: "Teizm", desc: "Müdahil Tanrı." },
-            deizm: { label: "Deizm", desc: "Yaratıcı Tanrı." },
-            panteizm: { label: "Panteizm", desc: "Evren Tanrı'dır." },
-            panenteizm: { label: "Panenteizm", desc: "Evren Tanrı'dadır." },
-            agnostisizm: { label: "Agnostisizm", desc: "Bilinemez." },
-            ateizm: { label: "Ateizm", desc: "Tanrı yoktur." }
+            materyalizm: { label: "Materyalizm", desc: "Varlığın temeli maddedir.", summary: "Varlık anlayışınızda maddeyi temel alıyorsunuz. Sizin için zihinsel ve ruhsal süreçler dahil her şeyin temeli fiziksel gerçekliktir." },
+            dualizm: { label: "Dualizm", desc: "Madde ve ruh ayrı tözlerdir.", summary: "Evreni madde ve ruh olarak iki ayrı töz üzerinden değerlendiriyorsunuz." },
+            idealizm: { label: "İdealizm", desc: "Gerçeklik zihinseldir.", summary: "Gerçekliğin temelinde maddenin değil, zihnin veya ideanın olduğunu düşünüyorsunuz." },
+            monist_metafizik: { label: "Monist Metafizik", desc: "Tek bir töz vardır.", summary: "Evrendeki her şeyin tek bir tözden türediğine inanıyorsunuz." },
+            fenomenalizm: { label: "Fenomenalizm", desc: "Varlık algıdır.", summary: "Varlığın sadece algılandığı sürece var olduğunu savunuyorsunuz." },
+            ontolojik_realizm: { label: "Ontolojik Realizm", desc: "Dış dünya bağımsızdır.", summary: "Dış dünyanın insan zihninden bağımsız, nesnel bir gerçekliğe sahip olduğunu düşünüyorsunuz." },
+            
+            rasyonalizm: { label: "Rasyonalizm", desc: "Bilgi akıldan gelir.", summary: "Doğru bilgiye ulaşmada duyulardan ziyade akıl ve mantığa güveniyorsunuz." },
+            empirizm: { label: "Empirizm", desc: "Bilgi deneyden gelir.", summary: "Tüm bilginin sonradan deneyim ve tecrübelerle kazanıldığını düşünüyorsunuz." },
+            sansualizm: { label: "Sansüalizm", desc: "Bilgi duyulardan gelir.", summary: "Bilginin tek kaynağının beş duyu organı olduğunu savunuyorsunuz." },
+            intuisyonizm: { label: "İntüisyonizm", desc: "Bilgi sezgiden gelir.", summary: "Gerçek hakikatin ancak sezgi ve içgörü ile kavranabileceğine inanıyorsunuz." },
+            
+            dogmatizm: { label: "Dogmatizm", desc: "Kesin bilgi vardır.", summary: "Evrensel ve değişmez doğruların varlığına inanıyorsunuz." },
+            pragmatizm: { label: "Pragmatizm", desc: "Doğru olan faydalıdır.", summary: "Bir düşüncenin doğruluğunu, pratikte sağladığı faydaya göre ölçüyorsunuz." },
+            septisizm: { label: "Septisizm", desc: "Kesin bilgi yoktur.", summary: "Mutlak bilgiye ulaşmanın imkansız olduğunu düşünüyor, şüpheci yaklaşıyorsunuz." },
+            relativizm: { label: "Relativizm", desc: "Doğru görecelidir.", summary: "Doğruluğun kişiye ve kültüre göre değiştiğini savunuyorsunuz." },
+            kritisizm: { label: "Kritisizm", desc: "Bilgi sınırlıdır.", summary: "Aklın sınırları olduğunu ve her şeyi bilemeyeceğimizi düşünüyorsunuz." },
+            pozitivizm: { label: "Pozitivizm", desc: "Bilimsel bilgi esastır.", summary: "Sadece bilimsel ve olgusal bilgiyi kabul ediyor, metafiziği reddediyorsunuz." },
+            
+            deontoloji: { label: "Deontoloji", desc: "Ödev ahlakı.", summary: "Ahlaki eylemlerde sonucun değil, niyetin ve ilkelere uymanın önemli olduğunu düşünüyorsunuz." },
+            teleoloji: { label: "Teleoloji", desc: "Sonuç odaklı ahlak.", summary: "Eylemin ahlaki değerini, doğurduğu sonuca (fayda/mutluluk) göre değerlendiriyorsunuz." },
+            erdem_etigi: { label: "Erdem Etiği", desc: "Karakter odaklı.", summary: "Ahlakın temeline kuralları değil, kişinin karakterini ve erdemlerini koyuyorsunuz." },
+            ilahi_buyruk: { label: "İlahi Buyruk", desc: "Dini ahlak.", summary: "İyi ve kötüyü tamamen Tanrı'nın emirlerine dayandırıyorsunuz." },
+            hedonizm: { label: "Hedonizm", desc: "Haz odaklı.", summary: "Yaşamın amacının acıdan kaçmak ve hazza ulaşmak olduğunu düşünüyorsunuz." },
+            nesnelcilik: { label: "Ahlaki Nesnelcilik", desc: "Evrensel değerler.", summary: "Ahlaki değerlerin insan görüşünden bağımsız, evrensel gerçekliği olduğunu savunuyorsunuz." },
+            gorecilik: { label: "Ahlaki Görecilik", desc: "Kültürel değerler.", summary: "Ahlaki değerlerin topluma göre değiştiğini düşünüyorsunuz." },
+            nihilizm: { label: "Ahlaki Nihilizm", desc: "Değer yoktur.", summary: "Nesnel bir ahlakın veya yaşamın anlamının olmadığını düşünüyorsunuz." },
+            teolojik_aksiyoloji: { label: "Teolojik Değer", desc: "Tanrı kaynaklı.", summary: "Tüm değerlerin kaynağının Tanrı olduğunu savunuyorsunuz." },
+            
+            nesnelci_estetik: { label: "Nesnelci Estetik", desc: "Güzellik eserde.", summary: "Güzelliğin eserin kendisindeki oran ve uyumda saklı olduğunu düşünüyorsunuz." },
+            oznelci_estetik: { label: "Öznelci Estetik", desc: "Güzellik bakanda.", summary: "Güzelliğin tamamen bakan kişinin algısında olduğunu savunuyorsunuz." },
+            idealist_estetik: { label: "İdealist Estetik", desc: "İdeal güzellik.", summary: "Sanatın mükemmel formları (ideaları) yansıtması gerektiğini düşünüyorsunuz." },
+            ifadeci_estetik: { label: "İfadeci Estetik", desc: "Duygu ifadesi.", summary: "Sanatın amacının duyguları dışa vurmak olduğuna inanıyorsunuz." },
+            bicimci_estetik: { label: "Biçimci Estetik", desc: "Form güzelliği.", summary: "Sanat eserinin değerini biçimsel uyumunda arıyorsunuz." },
+            kutsal_estetik: { label: "Kutsal Estetik", desc: "İlahi yansıma.", summary: "Sanatın ilahi güzelliğin bir yansıması olması gerektiğini düşünüyorsunuz." },
+            yansitmaci: { label: "Yansıtmacı Kuram", desc: "Doğayı taklit.", summary: "Sanatın doğayı ve hayatı olduğu gibi taklit etmesi gerektiğini savunuyorsunuz." },
+            
+            teizm: { label: "Teizm", desc: "Müdahil Tanrı.", summary: "Evreni yaratan ve ona müdahale eden bir Tanrı inancına sahipsiniz." },
+            deizm: { label: "Deizm", desc: "Yaratıcı Tanrı.", summary: "Tanrı'nın evreni yaratıp işleyişine karışmadığını düşünüyorsunuz." },
+            panteizm: { label: "Panteizm", desc: "Evren Tanrı'dır.", summary: "Tanrı ve evrenin bir ve aynı şey olduğunu düşünüyorsunuz." },
+            panenteizm: { label: "Panenteizm", desc: "Evren Tanrı'dadır.", summary: "Evrenin Tanrı'nın içinde olduğunu ancak Tanrı'nın ondan büyük olduğunu düşünüyorsunuz." },
+            agnostisizm: { label: "Agnostisizm", desc: "Bilinemez.", summary: "Tanrı'nın varlığının bilinemeyeceğini düşünüyorsunuz." },
+            ateizm: { label: "Ateizm", desc: "Tanrı yoktur.", summary: "Tanrı veya doğaüstü bir gücün varlığını reddediyorsunuz." }
         };
 
         const QUESTIONS = [
             // C1: Ontoloji
-            {t:"Zihinsel süreçler tamamen beyindeki fiziksel olaylara indirgenebilir.", c:"ontology", s:"materyalizm"},
-            {t:"İnsan zihni, fiziksel bedenden ayrı, maddi olmayan bağımsız bir varlıktır.", c:"ontology", s:"dualizm"},
-            {t:"Maddi dünya, zihnimin bir projeksiyonu veya rüyası olabilir.", c:"ontology", s:"idealizm"},
-            {t:"Evrendeki her zerre ilkel bir bilinç veya ruhsallık taşır.", c:"ontology", s:"monist_metafizik"},
-            {t:"Bir nesne, onu algılayan bir özne olmadığında var olmaktan çıkar.", c:"ontology", s:"fenomenalizm"},
-            {t:"Dış dünya, insan algısından tamamen bağımsız, nesnel bir gerçekliğe sahiptir.", c:"ontology", s:"ontolojik_realizm"},
-            {t:"Ölümden sonra kişisel bilinç (ruh), bedenden ayrılarak varlığını sürdürür.", c:"ontology", s:"dualizm"},
-            {t:"Bilimsel olarak ölçülemeyen varlıkların gerçekliği yoktur.", c:"ontology", s:"materyalizm"},
-            {t:"Gördüğümüz dünya, daha yüksek bir gerçekliğin gölgesidir.", c:"ontology", s:"idealizm"},
-            {t:"Evrenin tamamı, tek bir ilahi özün farklı görünümlerinden ibarettir.", c:"ontology", s:"monist_metafizik"},
-            {t:"Masa, ben odadan çıktığımda da fiziksel olarak orada durmaya devam eder.", c:"ontology", s:"ontolojik_realizm"},
-            {t:"Var olmak algılanmış olmaktır.", c:"ontology", s:"fenomenalizm"},
-            {t:"Evrenin nihai yapısı maddedir.", c:"ontology", s:"materyalizm"},
-            {t:"Gerçeklik, insan zihninin kurguladığı bir yapıdır.", c:"ontology", s:"idealizm"},
-            {t:"Zihin ve beden birbirinden bağımsızdır ve birbirini etkiler.", c:"ontology", s:"dualizm"},
+            {t:"Zihinsel süreçler tamamen beyindeki fiziksel olaylara indirgenebilir.", d:"(Zihin sadece beyin aktivitesidir)", c:"ontology", s:"materyalizm"},
+            {t:"İnsan zihni, fiziksel bedenden ayrı, maddi olmayan bağımsız bir varlıktır.", d:"(Ruh ve beden ayrıdır)", c:"ontology", s:"dualizm"},
+            {t:"Maddi dünya, zihnimin bir projeksiyonu veya rüyası olabilir.", d:"(Madde aslında zihinseldir)", c:"ontology", s:"idealizm"},
+            {t:"Evrendeki her zerre ilkel bir bilinç veya ruhsallık taşır.", d:"(Her şey canlıdır)", c:"ontology", s:"monist_metafizik"},
+            {t:"Bir nesne, onu algılayan bir özne olmadığında var olmaktan çıkar.", d:"(Varlık algıya bağlıdır)", c:"ontology", s:"fenomenalizm"},
+            {t:"Dış dünya, insan algısından tamamen bağımsız, nesnel bir gerçekliğe sahiptir.", d:"(Gerçeklik zihinden bağımsızdır)", c:"ontology", s:"ontolojik_realizm"},
+            {t:"Ölümden sonra kişisel bilinç (ruh), bedenden ayrılarak varlığını sürdürür.", d:"(Ruh ölümsüzdür)", c:"ontology", s:"dualizm"},
+            {t:"Bilimsel olarak ölçülemeyen varlıkların gerçekliği yoktur.", d:"(Sadece madde gerçektir)", c:"ontology", s:"materyalizm"},
+            {t:"Gördüğümüz dünya, daha yüksek bir gerçekliğin gölgesidir.", d:"(İdealar dünyası)", c:"ontology", s:"idealizm"},
+            {t:"Evrenin tamamı, tek bir ilahi özün farklı görünümlerinden ibarettir.", d:"(Vahdet-i Vücud)", c:"ontology", s:"monist_metafizik"},
+            {t:"Masa, ben odadan çıktığımda da fiziksel olarak orada durmaya devam eder.", d:"(Nesnel gerçeklik)", c:"ontology", s:"ontolojik_realizm"},
+            {t:"Var olmak algılanmış olmaktır.", d:"(Algı yoksa varlık yoktur)", c:"ontology", s:"fenomenalizm"},
+            {t:"Evrenin nihai yapısı maddedir.", d:"(Maddecilik)", c:"ontology", s:"materyalizm"},
+            {t:"Gerçeklik, insan zihninin kurguladığı bir yapıdır.", d:"(Zihinsel inşacılık)", c:"ontology", s:"idealizm"},
+            {t:"Zihin ve beden birbirinden bağımsızdır ve birbirini etkiler.", d:"(Etkileşimli ikicilik)", c:"ontology", s:"dualizm"},
 
             // C2: Bilgi Kaynağı
-            {t:"İnsan zihni doğuştan bazı bilgilere sahiptir.", c:"epistemology_source", s:"rasyonalizm"},
-            {t:"İnsan zihni doğuşta boş bir levhadır.", c:"epistemology_source", s:"empirizm"},
-            {t:"Bilginin tek kaynağı beş duyu organıdır.", c:"epistemology_source", s:"sansualizm"},
-            {t:"Gerçek hakikat doğrudan bir içgörü (sezgi) ile kavranır.", c:"epistemology_source", s:"intuisyonizm"},
-            {t:"Matematiksel doğrular akılla bulunur.", c:"epistemology_source", s:"rasyonalizm"},
-            {t:"Bilimsel bilginin temeli gözlem ve deneydir.", c:"epistemology_source", s:"empiricism"},
-            {t:"Akıl yürütme, gerçeği anlamada duyulardan daha güvenilirdir.", c:"epistemology_source", s:"rasyonalizm"},
-            {t:"İçime doğan hisler daha derin bir bilgi sağlar.", c:"epistemology_source", s:"intuisyonizm"},
-            {t:"Bir meyvenin tadını bilmek için onu yemek şarttır.", c:"epistemology_source", s:"sansualizm"},
-            {t:"Zamanın akışını ancak sezgi ile kavrayabiliriz.", c:"epistemology_source", s:"intuisyonizm"},
-            {t:"Düşünüyorum, öyleyse varım.", c:"epistemology_source", s:"rasyonalizm"},
-            {t:"Duyular olmadan zihinde hiçbir içerik oluşamaz.", c:"epistemology_source", s:"sansualizm"},
+            {t:"İnsan zihni doğuştan bazı bilgilere sahiptir.", d:"(Doğuştan bilgi)", c:"epistemology_source", s:"rasyonalizm"},
+            {t:"İnsan zihni doğuşta boş bir levhadır.", d:"(Tabula Rasa)", c:"epistemology_source", s:"empirizm"},
+            {t:"Bilginin tek kaynağı beş duyu organıdır.", d:"(Sadece duyum)", c:"epistemology_source", s:"sansualizm"},
+            {t:"Gerçek hakikat doğrudan bir içgörü (sezgi) ile kavranır.", d:"(Sezgicilik)", c:"epistemology_source", s:"intuisyonizm"},
+            {t:"Matematiksel doğrular akılla bulunur.", d:"(Akılcılık)", c:"epistemology_source", s:"rasyonalizm"},
+            {t:"Bilimsel bilginin temeli gözlem ve deneydir.", d:"(Deneycilik)", c:"epistemology_source", s:"empiricism"},
+            {t:"Akıl yürütme, gerçeği anlamada duyulardan daha güvenilirdir.", d:"(Akıl > Duyu)", c:"epistemology_source", s:"rasyonalizm"},
+            {t:"İçime doğan hisler daha derin bir bilgi sağlar.", d:"(Kalp gözü)", c:"epistemology_source", s:"intuisyonizm"},
+            {t:"Bir meyvenin tadını bilmek için onu yemek şarttır.", d:"(Duyusal deneyim)", c:"epistemology_source", s:"sansualizm"},
+            {t:"Zamanın akışını ancak sezgi ile kavrayabiliriz.", d:"(Sezgisel zaman)", c:"epistemology_source", s:"intuisyonizm"},
+            {t:"Düşünüyorum, öyleyse varım.", d:"(Rasyonalist temel)", c:"epistemology_source", s:"rasyonalizm"},
+            {t:"Duyular olmadan zihinde hiçbir içerik oluşamaz.", d:"(Duyumculuk)", c:"epistemology_source", s:"sansualizm"},
 
             // C3: Bilgi Değeri
-            {t:"Evrensel ve kesin doğrular vardır.", c:"epistemology_value", s:"dogmatizm"},
-            {t:"Doğru olan, pratikte işe yarayandır.", c:"epistemology_value", s:"pragmatizm"},
-            {t:"Kesin bilgiye ulaşmak imkansızdır.", c:"epistemology_value", s:"septisizm"},
-            {t:"Doğruluk kişiden kişiye değişir.", c:"epistemology_value", s:"relativizm"},
-            {t:"Aklın sınırları (numen) bilinemez.", c:"epistemology_value", s:"kritisizm"},
-            {t:"Sadece bilimsel yöntemle kanıtlananlar gerçektir.", c:"epistemology_value", s:"pozitivizm"},
-            {t:"İşlevini yitiren bilgi yanlıştır.", c:"epistemology_value", s:"pragmatizm"},
-            {t:"Tanrı hakkında konuşmak bilimsellik dışıdır.", c:"epistemology_value", s:"pozitivizm"},
-            {t:"Duyularımız bizi yanıltabilir, yargıda bulunmamalıyız.", c:"epistemology_value", s:"septisizm"},
-            {t:"Bilginin kaynağı hem deney hem akıldır.", c:"epistemology_value", s:"kritisizm"},
-            {t:"Herkesin üzerinde uzlaşabileceği hakikatler vardır.", c:"epistemology_value", s:"dogmatizm"},
-            {t:"Gerçeklik bizim kurgumuzdur.", c:"epistemology_value", s:"relativizm"},
+            {t:"Evrensel ve kesin doğrular vardır.", d:"(Mutlak doğru)", c:"epistemology_value", s:"dogmatizm"},
+            {t:"Doğru olan, pratikte işe yarayandır.", d:"(Fayda = Doğru)", c:"epistemology_value", s:"pragmatizm"},
+            {t:"Kesin bilgiye ulaşmak imkansızdır.", d:"(Şüphecilik)", c:"epistemology_value", s:"septisizm"},
+            {t:"Doğruluk kişiden kişiye değişir.", d:"(Görecelilik)", c:"epistemology_value", s:"relativizm"},
+            {t:"Aklın sınırları (numen) bilinemez.", d:"(Bilginin sınırı)", c:"epistemology_value", s:"kritisizm"},
+            {t:"Sadece bilimsel yöntemle kanıtlananlar gerçektir.", d:"(Bilimselcilik)", c:"epistemology_value", s:"pozitivizm"},
+            {t:"İşlevini yitiren bilgi yanlıştır.", d:"(İşe yaramayan yanlıştır)", c:"epistemology_value", s:"pragmatizm"},
+            {t:"Tanrı hakkında konuşmak bilimsellik dışıdır.", d:"(Metafizik anlamsızdır)", c:"epistemology_value", s:"pozitivizm"},
+            {t:"Duyularımız bizi yanıltabilir, yargıda bulunmamalıyız.", d:"(Yargısızlık)", c:"epistemology_value", s:"septisizm"},
+            {t:"Bilginin kaynağı hem deney hem akıldır.", d:"(Sentez)", c:"epistemology_value", s:"kritisizm"},
+            {t:"Herkesin üzerinde uzlaşabileceği hakikatler vardır.", d:"(Nesnel hakikat)", c:"epistemology_value", s:"dogmatizm"},
+            {t:"Gerçeklik bizim kurgumuzdur.", d:"(Öznel gerçeklik)", c:"epistemology_value", s:"relativizm"},
 
             // C4: Ahlak
-            {t:"Ahlak, sonuca değil niyete bağlıdır.", c:"ethics", s:"deontoloji"},
-            {t:"Fayda veya mutluluk getiren eylem ahlakidir.", c:"ethics", s:"teleoloji"},
-            {t:"Ahlakın temeli erdemli bir karakterdir.", c:"ethics", s:"erdem_etigi"},
-            {t:"İyi ve kötü Tanrı tarafından belirlenir.", c:"ethics", s:"ilahi_buyruk"},
-            {t:"Ahlaki değerler evrenseldir.", c:"ethics", s:"nesnelcilik"},
-            {t:"Her toplumun ahlakı kendine göredir.", c:"ethics", s:"gorecilik"},
-            {t:"Ahlaki değerler güçlülerin uydurmasıdır.", c:"ethics", s:"nihilizm"},
-            {t:"Değerlerin kaynağı kutsaldır.", c:"ethics", s:"teolojik_aksiyoloji"},
-            {t:"Yaşamın amacı hazza ulaşmaktır.", c:"ethics", s:"hedonizm"},
-            {t:"Masum birini korumak için yalan söylenebilir.", c:"ethics", s:"teleoloji"},
-            {t:"Yalan söylemek her koşulda yanlıştır.", c:"ethics", s:"deontoloji"},
-            {t:"Ahlaklı olmak için dindar olmak şarttır.", c:"ethics", s:"ilahi_buyruk"},
-            {t:"Önemli olan nasıl bir insan olduğundur.", c:"ethics", s:"erdem_etigi"},
+            {t:"Ahlak, sonuca değil niyete bağlıdır.", d:"(Niyet/Ödev)", c:"ethics", s:"deontoloji"},
+            {t:"Fayda veya mutluluk getiren eylem ahlakidir.", d:"(Sonuç/Fayda)", c:"ethics", s:"teleoloji"},
+            {t:"Ahlakın temeli erdemli bir karakterdir.", d:"(Karakter)", c:"ethics", s:"erdem_etigi"},
+            {t:"İyi ve kötü Tanrı tarafından belirlenir.", d:"(Dini temel)", c:"ethics", s:"ilahi_buyruk"},
+            {t:"Ahlaki değerler evrenseldir.", d:"(Nesnel ahlak)", c:"ethics", s:"nesnelcilik"},
+            {t:"Her toplumun ahlakı kendine göredir.", d:"(Kültürel ahlak)", c:"ethics", s:"gorecilik"},
+            {t:"Ahlaki değerler güçlülerin uydurmasıdır.", d:"(Ahlak yoktur)", c:"ethics", s:"nihilizm"},
+            {t:"Değerlerin kaynağı kutsaldır.", d:"(Kutsal köken)", c:"ethics", s:"teolojik_aksiyoloji"},
+            {t:"Yaşamın amacı hazza ulaşmaktır.", d:"(Hazcılık)", c:"ethics", s:"hedonizm"},
+            {t:"Masum birini korumak için yalan söylenebilir.", d:"(Sonuççu yaklaşım)", c:"ethics", s:"teleoloji"},
+            {t:"Yalan söylemek her koşulda yanlıştır.", d:"(İlkesel yaklaşım)", c:"ethics", s:"deontoloji"},
+            {t:"Ahlaklı olmak için dindar olmak şarttır.", d:"(Dini zorunluluk)", c:"ethics", s:"ilahi_buyruk"},
+            {t:"Önemli olan nasıl bir insan olduğundur.", d:"(Erdemlilik)", c:"ethics", s:"erdem_etigi"},
 
             // C5: Estetik
-            {t:"Güzellik eserin kendisindedir (oran, simetri).", c:"aesthetics", s:"nesnelci_estetik"},
-            {t:"Güzellik bakanın gözündedir.", c:"aesthetics", s:"oznelci_estetik"},
-            {t:"Sanat, doğadaki mükemmelliği yansıtmalıdır.", c:"aesthetics", s:"idealist_estetik"},
-            {t:"Sanat, sanatçının duygularını dışa vurmasıdır.", c:"aesthetics", s:"ifadeci_estetik"},
-            {t:"Sanatın değeri biçimsel yapısındadır.", c:"aesthetics", s:"bicimci_estetik"},
-            {t:"Sanat, ilahi güzelliğin yansımasıdır.", c:"aesthetics", s:"kutsal_estetik"},
-            {t:"Evrensel bir güzellik standardı yoktur.", c:"aesthetics", s:"oznelci_estetik"},
-            {t:"Sanat eseri hayatı olduğu gibi taklit etmelidir.", c:"aesthetics", s:"yansitmaci"},
-            {t:"Sanat eserinde renklerin ve şekillerin uyumu önemlidir.", c:"aesthetics", s:"bicimci_estetik"},
-            {t:"Gerçek sanat, izleyiciye duygu geçirir.", c:"aesthetics", s:"ifadeci_estetik"},
-            {t:"Güzellik matematiksel bir orandır.", c:"aesthetics", s:"nesnelci_estetik"},
-            {t:"Sanat, görünenin ardındaki özü göstermelidir.", c:"aesthetics", s:"idealist_estetik"},
+            {t:"Güzellik eserin kendisindedir (oran, simetri).", d:"(Nesnel güzellik)", c:"aesthetics", s:"nesnelci_estetik"},
+            {t:"Güzellik bakanın gözündedir.", d:"(Öznel güzellik)", c:"aesthetics", s:"oznelci_estetik"},
+            {t:"Sanat, doğadaki mükemmelliği yansıtmalıdır.", d:"(İdeal güzellik)", c:"aesthetics", s:"idealist_estetik"},
+            {t:"Sanat, sanatçının duygularını dışa vurmasıdır.", d:"(Dışavurumculuk)", c:"aesthetics", s:"ifadeci_estetik"},
+            {t:"Sanatın değeri biçimsel yapısındadır.", d:"(Biçimcilik)", c:"aesthetics", s:"bicimci_estetik"},
+            {t:"Sanat, ilahi güzelliğin yansımasıdır.", d:"(Mistik estetik)", c:"aesthetics", s:"kutsal_estetik"},
+            {t:"Evrensel bir güzellik standardı yoktur.", d:"(Göreceli beğeni)", c:"aesthetics", s:"oznelci_estetik"},
+            {t:"Sanat eseri hayatı olduğu gibi taklit etmelidir.", d:"(Yansıtma/Mimesis)", c:"aesthetics", s:"yansitmaci"},
+            {t:"Sanat eserinde renklerin ve şekillerin uyumu önemlidir.", d:"(Form uyumu)", c:"aesthetics", s:"bicimci_estetik"},
+            {t:"Gerçek sanat, izleyiciye duygu geçirir.", d:"(Duygu aktarımı)", c:"aesthetics", s:"ifadeci_estetik"},
+            {t:"Güzellik matematiksel bir orandır.", d:"(Altın oran)", c:"aesthetics", s:"nesnelci_estetik"},
+            {t:"Sanat, görünenin ardındaki özü göstermelidir.", d:"(İdeal öz)", c:"aesthetics", s:"idealist_estetik"},
 
             // C6: İnanç
-            {t:"Tanrı evreni yaratmıştır ve müdahale eder.", c:"theology", s:"teizm"},
-            {t:"Tanrı evreni yaratmış, müdahale etmemiştir.", c:"theology", s:"deizm"},
-            {t:"Tanrı ve Evren birdir.", c:"theology", s:"panteizm"},
-            {t:"Evren Tanrı'nın içindedir ama Tanrı daha büyüktür.", c:"theology", s:"panenteizm"},
-            {t:"Tanrı'nın varlığı bilinemez.", c:"theology", s:"agnostisizm"},
-            {t:"Tanrı yoktur, evren maddeden ibarettir.", c:"theology", s:"ateizm"},
-            {t:"Mucizeler gerçektir.", c:"theology", s:"teizm"},
-            {t:"Dinler insan uydurmasıdır.", c:"theology", s:"ateizm"},
-            {t:"Akıl yoluyla Yaratıcı bulunur, dinlere gerek yoktur.", c:"theology", s:"deizm"},
-            {t:"Her şey Tanrı'dan bir parçadır.", c:"theology", s:"panenteizm"},
-            {t:"Tanrı doğanın bizzat kendisidir.", c:"theology", s:"panteizm"},
-            {t:"Tanrı kavramı kanıtlanamaz.", c:"theology", s:"agnostisizm"},
-            {t:"Evrenin bir başlangıcı vardır.", c:"theology", s:"teizm"}
+            {t:"Tanrı evreni yaratmıştır ve müdahale eder.", d:"(Dindar/Teist)", c:"theology", s:"teizm"},
+            {t:"Tanrı evreni yaratmış, müdahale etmemiştir.", d:"(Deist)", c:"theology", s:"deizm"},
+            {t:"Tanrı ve Evren birdir.", d:"(Panteist)", c:"theology", s:"panteizm"},
+            {t:"Evren Tanrı'nın içindedir ama Tanrı daha büyüktür.", d:"(Panenteist)", c:"theology", s:"panenteizm"},
+            {t:"Tanrı'nın varlığı bilinemez.", d:"(Agnostik)", c:"theology", s:"agnostisizm"},
+            {t:"Tanrı yoktur, evren maddeden ibarettir.", d:"(Ateist)", c:"theology", s:"ateizm"},
+            {t:"Mucizeler gerçektir.", d:"(Mucize inancı)", c:"theology", s:"teizm"},
+            {t:"Dinler insan uydurmasıdır.", d:"(Din karşıtlığı)", c:"theology", s:"ateizm"},
+            {t:"Akıl yoluyla Yaratıcı bulunur, dinlere gerek yoktur.", d:"(Akıl dini)", c:"theology", s:"deizm"},
+            {t:"Her şey Tanrı'dan bir parçadır.", d:"(Tanrısal öz)", c:"theology", s:"panenteizm"},
+            {t:"Tanrı doğanın bizzat kendisidir.", d:"(Doğa=Tanrı)", c:"theology", s:"panteizm"},
+            {t:"Tanrı kavramı kanıtlanamaz.", d:"(Bilinemezlik)", c:"theology", s:"agnostisizm"},
+            {t:"Evrenin bir başlangıcı vardır.", d:"(Yaratılış)", c:"theology", s:"teizm"}
         ];
 
         const PROFESSIONS = ["Öğrenci", "Akademisyen", "Öğretmen", "Mühendis", "Doktor", "Avukat", "Yazılımcı", "Sanatçı", "Yazar", "Memur", "Esnaf", "Yönetici", "Emekli", "Ev Hanımı", "Diğer"];
         const INCOMES = [{val: "low", label: "Alt"}, {val: "low_mid", label: "Alt-Orta"}, {val: "mid", label: "Orta"}, {val: "mid_high", label: "Üst-Orta"}, {val: "high", label: "Yüksek"}];
+        const COUNTRIES = ["Türkiye", "Almanya", "ABD", "Azerbaycan", "Fransa", "İngiltere", "Rusya", "Çin", "Diğer"];
+        const CITIES_TR = ["Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin", "Aydın", "Balıkesir", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkari", "Hatay", "Isparta", "Mersin", "İstanbul", "İzmir", "Kars", "Kastamonu", "Kayseri", "Kırklareli", "Kırşehir", "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Kahramanmaraş", "Mardin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Rize", "Sakarya", "Samsun", "Siirt", "Sinop", "Sivas", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Şanlıurfa", "Uşak", "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman", "Kırıkkale", "Batman", "Şırnak", "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce"];
 
         // --- Helper Functions ---
-        // Dil Değiştirme Fonksiyonu
         const getQuestions = (lang) => {
             if(lang === 'tr') return QUESTIONS;
             return QUESTIONS.map(q => ({
                 ...q,
-                t: `[${lang.toUpperCase()}] ${q.t}` 
+                t: q.t,
+                d: q.d 
             }));
-        };
-
-        // --- Translation & Helpers ---
-        const categoryTrans = {
-            tr: CATEGORIES,
-            en: { ontology: "Ontology", epistemology_source: "Epist. Source", epistemology_value: "Epist. Value", ethics: "Ethics", aesthetics: "Aesthetics", theology: "Theology" },
-            ar: { ontology: "الوجود", epistemology_source: "مصدر المعرفة", epistemology_value: "قيمة المعرفة", ethics: "الأخلاق", aesthetics: "الجمال", theology: "العقيدة" }
-        };
-
-        const subDimTrans = {
-            tr: Object.fromEntries(Object.entries(SUB_DIMENSIONS).map(([k, v]) => [k, v.label])),
-            en: { materyalizm: "Materialism", dualizm: "Dualism", idealizm: "Idealism", monist_metafizik: "Monism", fenomenalizm: "Phenomenalism", ontolojik_realizm: "Realism", rasyonalizm: "Rationalism", empiricism: "Empiricism", sansualizm: "Sensualism", intuisyonizm: "Intuitionism", dogmatizm: "Dogmatism", pragmatizm: "Pragmatism", septisizm: "Skepticism", relativizm: "Relativism", kritisizm: "Criticism", pozitivizm: "Positivism", deontoloji: "Deontology", teleoloji: "Teleological Ethics", erdem_etigi: "Virtue Ethics", ilahi_buyruk: "Divine Command", hedonizm: "Hedonism", nesnelci_estetik: "Objective Aes.", oznelci_estetik: "Subjective Aes.", idealist_estetik: "Idealist Aes.", ifadeci_estetik: "Expressionism", bicimci_estetik: "Formalism", kutsal_estetik: "Sacred Aes.", yansitmaci: "Mimesis", teizm: "Theism", deizm: "Deism", panteizm: "Pantheism", panenteizm: "Panentheism", agnostisizm: "Agnosticism", ateizm: "Atheism", nesnelcilik: "Objectivism", gorecilik: "Relativism", nihilizm: "Nihilism", teolojik_aksiyoloji: "Theological Axio." },
-            ar: { materyalizm: "المادية", dualizm: "الثنائية", idealizm: "المثالية", monist_metafizik: "الواحدية", fenomenalizm: "الظاهراتية", ontolojik_realizm: "الواقعية", rasyonalizm: "العقلانية", empiricism: "التجريبية", sansualizm: "الحسية", intuisyonizm: "الحدسية", dogmatizm: "الدوغمائية", pragmatizm: "الذرائع", septisizm: "الشكية", relativizm: "النسبية", kritisizm: "النقدية", pozitivizm: "الوضعية", deontoloji: "الواجبية", teleoloji: "الأخلاق الغائية", erdem_etigi: "أخلاق الفضيلة", ilahi_buyruk: "الأمر الإلهي", hedonizm: "المتعة", nesnelci_estetik: "الجمال الموضوعي", oznelci_estetik: "الجمال الذاتي", idealist_estetik: "الجمال المثالي", ifadeci_estetik: "التعبيرية", bicimci_estetik: "الشكلية", kutsal_estetik: "الجمال المقدس", yansitmaci: "المحاكاة", teizm: "التأليه", deizm: "الربوبية", panteizm: "وحدة الوجود", panenteizm: "وحدة الشهود", agnostisizm: "اللاأدرية", ateizm: "الإلحاد", nesnelcilik: "الموضوعية", gorecilik: "النسبية", nihilizm: "العدمية", teolojik_aksiyoloji: "القيم الدينية" }
         };
 
         const calcAge = (y) => new Date().getFullYear() - parseInt(y);
         const years = Array.from({length:80},(_,i)=>2024-10-i);
+
+        // --- Localization ---
+        const uiText = {
+            tr: { dir: "ltr", title: "Felsefi Tutum Ölçeği", subtitle: "75 Soru ile Detaylı Analiz", start: "Teste Başla", admin: "Yönetici", labels: { year: "Doğum Yılı", gender: "Cinsiyet", edu: "Eğitim", income: "Gelir", city: "Şehir", country: "Ülke", prof: "Meslek" }, opts: { m: "Erkek", f: "Kadın", hs: "Lise", ba: "Lisans", phd: "Lisansüstü", low: "Alt", mid: "Orta", high: "Üst", sel: "Seçiniz" }, calc: "Hesaplanıyor...", resTitle: "Felsefi Kimlik Kartı", restart: "Yeniden Başlat", back: "Geri", next: "İleri", radarTitle: "Eğilim Haritası", barTitle: "Baskın Görüşler", likert: ["Kesinlikle Katılmıyorum (-2)", "Katılmıyorum (-1)", "Kararsızım (0)", "Katılıyorum (+1)", "Kesinlikle Katılıyorum (+2)"], pdf: "Belgeyi İndir", reset: "Sıfırla" },
+            en: { dir: "ltr", title: "Philosophical Attitude Scale", subtitle: "Detailed Analysis", start: "Start", admin: "Admin", labels: { year: "Birth Year", gender: "Gender", edu: "Education", income: "Income", city: "City", country: "Country", prof: "Profession" }, opts: { m: "Male", f: "Female", hs: "High School", ba: "Bachelor", phd: "Graduate", low: "Low", mid: "Mid", high: "High", sel: "Select" }, calc: "Calculating...", resTitle: "Profile Card", restart: "Restart", back: "Back", next: "Next", radarTitle: "Tendency Map", barTitle: "Dominant Views", likert: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], pdf: "Download PDF", reset: "Reset" },
+            ar: { dir: "rtl", title: "مقياس الموقف الفلسفي", subtitle: "تحليل مفصل", start: "ابدأ", admin: "مسؤول", labels: { year: "السنة", gender: "الجنس", edu: "التعليم", income: "الدخل", city: "المدينة", country: "البلد", prof: "المهنة" }, opts: { m: "ذكر", f: "أنثى", hs: "ثانوية", ba: "جامعي", phd: "عليا", low: "منخفض", mid: "متوسط", high: "مرتفع", sel: "اختر" }, calc: "جاري الحساب...", resTitle: "الهوية", restart: "إعادة", back: "عودة", next: "التالي", radarTitle: "الخريطة", barTitle: "الآراء", likert: ["أعارض بشدة", "أعارض", "محايد", "أوافق", "أوافق بشدة"], pdf: "تحميل PDF", reset: "إعادة" },
+             de: { dir: "ltr", title: "Philosophische Einstellungsskala", subtitle: "Detaillierte Analyse", start: "Starten", admin: "Admin", labels: { year: "Geburtsjahr", gender: "Geschlecht", edu: "Bildung", income: "Einkommen", city: "Stadt", country: "Land", prof: "Beruf" }, opts: { m: "Männlich", f: "Weiblich", hs: "Abitur", ba: "Bachelor", phd: "Master", low: "Niedrig", mid: "Mittel", high: "Hoch", sel: "Wählen" }, calc: "Berechnung...", resTitle: "Profilkarte", restart: "Neustart", back: "Zurück", next: "Weiter", radarTitle: "Tendenzkarte", barTitle: "Dominante Ansichten", likert: ["Stimme überhaupt nicht zu", "Stimme nicht zu", "Neutral", "Stimme zu", "Stimme voll zu"], pdf: "PDF Herunterladen", reset: "Zurücksetzen" },
+            ru: { dir: "ltr", title: "Шкала философских установок", subtitle: "Детальный анализ", start: "Начать", admin: "Админ", labels: { year: "Год", gender: "Пол", edu: "Образование", income: "Доход", city: "Город", country: "Страна", prof: "Профессия" }, opts: { m: "Мужской", f: "Женский", hs: "Среднее", ba: "Бакалавр", phd: "Магистр", low: "Низкий", mid: "Средний", high: "Высокий", sel: "Выбрать" }, calc: "Вычисление...", resTitle: "Профиль", restart: "Заново", back: "Назад", next: "Далее", radarTitle: "Карта тенденций", barTitle: "Доминирующие взгляды", likert: ["Полностью не согласен", "Не согласен", "Нейтрально", "Согласен", "Полностью согласен"], pdf: "Скачать PDF", reset: "Сброс" },
+            zh: { dir: "ltr", title: "哲学态度量表", subtitle: "详细分析", start: "开始", admin: "管理", labels: { year: "年份", gender: "性别", edu: "教育", income: "收入", city: "城市", country: "国家", prof: "职业" }, opts: { m: "男", f: "女", hs: "高中", ba: "本科", phd: "研究生", low: "低", mid: "中", high: "高", sel: "选择" }, calc: "计算中...", resTitle: "档案卡", restart: "重来", back: "返回", next: "下一步", radarTitle: "趋势图", barTitle: "主导观点", likert: ["完全不同意", "不同意", "中立", "同意", "完全同意"], pdf: "下载PDF", reset: "重置" }
+        };
+
+        const categoryTrans = {
+            tr: CATEGORIES,
+            en: { ontology: "Ontology", epistemology_source: "Epist. Source", epistemology_value: "Epist. Value", ethics: "Ethics", aesthetics: "Aesthetics", theology: "Theology" },
+            ar: { ontology: "الوجود", epistemology_source: "مصدر المعرفة", epistemology_value: "قيمة المعرفة", ethics: "الأخلاق", aesthetics: "الجمال", theology: "العقيدة" },
+            de: { ontology: "Ontologie", epistemology_source: "Epist. Quelle", epistemology_value: "Epist. Wert", ethics: "Ethik", aesthetics: "Ästhetik", theology: "Theologie" },
+            ru: { ontology: "Онтология", epistemology_source: "Эпист. Источник", epistemology_value: "Эпист. Ценность", ethics: "Этика", aesthetics: "Эстетика", theology: "Теология" },
+            zh: { ontology: "本体论", epistemology_source: "认识论来源", epistemology_value: "认识论价值", ethics: "伦理学", aesthetics: "美学", theology: "神学" }
+        };
+
+        const subDimTrans = {
+            tr: Object.fromEntries(Object.entries(SUB_DIMENSIONS).map(([k, v]) => [k, v.label])),
+            en: { materyalizm: "Materialism", dualizm: "Dualism", idealizm: "Idealism", monist_metafizik: "Monism", fenomenalizm: "Phenomenalism", ontolojik_realizm: "Realism", rasyonalizm: "Rationalism", empiricism: "Empiricism", sansualizm: "Sensualism", intuisyonizm: "Intuitionism", dogmatizm: "Dogmatism", pragmatizm: "Pragmatism", septisizm: "Skepticism", relativizm: "Relativism", kritisizm: "Criticism", pozitivizm: "Positivism", deontoloji: "Deontology", teleoloji: "Teleology", erdem_etigi: "Virtue Ethics", ilahi_buyruk: "Divine Command", hedonizm: "Hedonism", nesnelci_estetik: "Objective Aes.", oznelci_estetik: "Subjective Aes.", idealist_estetik: "Idealist Aes.", ifadeci_estetik: "Expressionism", bicimci_estetik: "Formalism", kutsal_estetik: "Sacred Aes.", yansitmaci: "Mimesis", teizm: "Theism", deizm: "Deism", panteizm: "Pantheism", panenteizm: "Panentheism", agnostisizm: "Agnosticism", ateizm: "Atheism", nesnelcilik: "Objectivism", gorecilik: "Relativism", nihilizm: "Nihilism", teolojik_aksiyoloji: "Theological Axio." },
+            ar: { materyalizm: "المادية", dualizm: "الثنائية", idealizm: "المثالية", monist_metafizik: "الواحدية", fenomenalizm: "الظاهراتية", ontolojik_realizm: "الواقعية", rasyonalizm: "العقلانية", empiricism: "التجريبية", sansualizm: "الحسية", intuisyonizm: "الحدسية", dogmatizm: "الدوغمائية", pragmatizm: "الذرائع", septisizm: "الشكية", relativizm: "النسبية", kritisizm: "النقدية", pozitivizm: "الوضعية", deontoloji: "الواجبية", teleoloji: "الأخلاق الغائية", erdem_etigi: "أخلاق الفضيلة", ilahi_buyruk: "الأمر الإلهي", hedonizm: "المتعة", nesnelci_estetik: "الجمال الموضوعي", oznelci_estetik: "الجمال الذاتي", idealist_estetik: "الجمال المثالي", ifadeci_estetik: "التعبيرية", bicimci_estetik: "الشكلية", kutsal_estetik: "الجمال المقدس", yansitmaci: "المحاكاة", teizm: "التأليه", deizm: "الربوبية", panteizm: "وحدة الوجود", panenteizm: "وحدة الشهود", agnostisizm: "اللاأدرية", ateizm: "الإلحاد", nesnelcilik: "الموضوعية", gorecilik: "النسبية", nihilizm: "العدمية", teolojik_aksiyoloji: "القيم الدينية" },
+            de: { materyalizm: "Materialismus", dualizm: "Dualismus", idealizm: "Idealismus" },
+            ru: { materyalizm: "Материализм", dualizm: "Дуализм", idealizm: "Идеализм" },
+            zh: { materyalizm: "唯物主义", dualizm: "二元论", idealizm: "唯心主义" }
+        };
 
         // --- Components ---
         function ResultsChart({ scores, categories, lang }) {
@@ -423,11 +380,9 @@
              React.useEffect(() => {
                  if (!scores) return;
 
-                 // Radar Data
-                 const labels = Object.values(CATEGORIES);
+                 const labels = Object.keys(CATEGORIES).map(k => categoryTrans[lang]?.[k] || CATEGORIES[k]);
                  const dominantData = Object.keys(CATEGORIES).map(k => findDominant(k));
                  
-                 // Bar Data (Top 5)
                  let flatScores = [];
                  Object.keys(scores).forEach(cat => {
                      Object.entries(scores[cat]).forEach(([sub, val]) => {
@@ -451,21 +406,7 @@
                                  pointBackgroundColor: '#4f46e5'
                              }]
                          },
-                         options: {
-                             scales: { r: { beginAtZero: true, ticks: { display: false } } },
-                             plugins: {
-                                 tooltip: {
-                                     callbacks: {
-                                         label: function(context) {
-                                             const catIndex = context.dataIndex;
-                                             const dom = dominantData[catIndex];
-                                             return `${dom.label} (${context.raw} Puan)`;
-                                         }
-                                     }
-                                 },
-                                 legend: { display: false }
-                             }
-                         }
+                         options: { scales: { r: { beginAtZero: true, ticks: { display: false } } }, plugins: { legend: { display: false } } }
                      });
                  }
 
@@ -482,26 +423,12 @@
                                  borderRadius: 4
                              }]
                          },
-                         options: {
-                             indexAxis: 'y',
-                             scales: { x: { beginAtZero: true } },
-                             plugins: {
-                                 tooltip: {
-                                     callbacks: {
-                                         afterLabel: function(context) {
-                                             const idx = context.dataIndex;
-                                             return topScores[idx].desc;
-                                         }
-                                     }
-                                 },
-                                 legend: { display: false }
-                             }
-                         }
+                         options: { indexAxis: 'y', scales: { x: { beginAtZero: true } }, plugins: { legend: { display: false } } }
                      });
                  }
                  
                  return () => { if(radarChart.current) radarChart.current.destroy(); if(barChart.current) barChart.current.destroy(); };
-             }, [scores]);
+             }, [scores, lang]);
 
              return (
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -519,7 +446,7 @@
 
             React.useEffect(() => {
                 if (auth) {
-                    const unsub = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('survey_results_v46_final')
+                    const unsub = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('survey_results_v53_final')
                         .onSnapshot(snap => {
                             const res = snap.docs.map(d => ({id: d.id, ...d.data()}));
                             res.sort((a,b) => b.timestamp?.seconds - a.timestamp?.seconds);
@@ -552,7 +479,7 @@
 
             const delBatch = async () => {
                 if(!confirm(`${sel.length} kayıt silinsin mi?`)) return;
-                const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('survey_results_v46_final');
+                const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('survey_results_v53_final');
                 await Promise.all(sel.map(id => col.doc(id).delete()));
                 setSel([]);
             };
@@ -562,7 +489,7 @@
             return (
                 <div className="min-h-screen bg-gray-50 p-4">
                     <div className="flex justify-between mb-4 items-center">
-                        <div className="flex gap-4 items-center"><h2 className="text-xl font-bold">Veriler (V46 Final)</h2>{sel.length>0 && <button onClick={delBatch} className="bg-red-600 text-white px-3 py-1 rounded text-sm">Seç ({sel.length}) Sil</button>}</div>
+                        <div className="flex gap-4 items-center"><h2 className="text-xl font-bold">Veriler (V53 Final)</h2>{sel.length>0 && <button onClick={delBatch} className="bg-red-600 text-white px-3 py-1 rounded text-sm">Seç ({sel.length}) Sil</button>}</div>
                         <div><button onClick={dlCSV} className="bg-green-600 text-white px-3 py-1 rounded mr-2 text-xs">Excel</button><button onClick={onBack} className="bg-gray-500 text-white px-3 py-1 rounded text-xs">Çıkış</button></div>
                     </div>
                     <div className="bg-white shadow overflow-x-auto rounded">
@@ -570,7 +497,7 @@
                             <thead className="bg-gray-100 border-b">
                                 <tr>
                                     <th className="p-3 w-10 text-center"><input type="checkbox" onChange={e=>setSel(e.target.checked?data.map(d=>d.id):[])} checked={data.length>0 && sel.length===data.length}/></th>
-                                    <th>Tarih</th><th>Yaş</th><th>Cinsiyet</th><th>Eğitim</th><th>Meslek</th><th>Gelir</th><th>Şehir</th><th>Ülke</th><th>Dil</th><th>Varlık</th><th>Bilgi K.</th><th>Bilgi D.</th><th>Etik</th><th>Estetik</th><th>İnanç</th>
+                                    <th>Tarih</th><th>Yaş</th><th>Cinsiyet</th><th>Eğitim</th><th>Meslek</th><th>Gelir</th><th>Şehir</th><th>Ülke</th><th>Varlık</th><th>Bilgi K.</th><th>Bilgi D.</th><th>Etik</th><th>Estetik</th><th>İnanç</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -581,7 +508,7 @@
                                         <tr key={r.id} className="border-b hover:bg-gray-50">
                                             <td className="p-3 text-center"><input type="checkbox" checked={sel.includes(r.id)} onChange={()=>setSel(s=>s.includes(r.id)?s.filter(x=>x!==r.id):[...s,r.id])}/></td>
                                             <td>{new Date(r.timestamp?.seconds*1000).toLocaleDateString('tr-TR')}</td>
-                                            <td>{d.age}</td><td>{d.gender}</td><td>{d.education}</td><td>{d.prof}</td><td>{d.income}</td><td>{d.city}</td><td>{d.country}</td><td>{r.lang}</td>
+                                            <td>{d.age}</td><td>{d.gender}</td><td>{d.education}</td><td>{d.prof}</td><td>{d.income}</td><td>{d.city}</td><td>{d.country}</td>
                                             <td className="font-bold text-blue-700">{res.ontology}</td>
                                             <td className="text-purple-700">{res.epistemology_source}</td>
                                             <td className="text-purple-700">{res.epistemology_value}</td>
@@ -607,8 +534,6 @@
             const [qIndex, setQIndex] = React.useState(0);
             const [scores, setScores] = React.useState({});
             const [res, setRes] = React.useState(null);
-            const [aiResult, setAiResult] = React.useState(null);
-            const [isAiLoading, setIsAiLoading] = React.useState(false);
 
             const t = uiText[lang] || uiText['tr'];
             const currentQuestions = React.useMemo(() => getQuestions(lang), [lang]);
@@ -640,7 +565,7 @@
 
             // --- SESSION LOAD ---
             React.useEffect(() => {
-                const saved = localStorage.getItem('fye_v46_session');
+                const saved = localStorage.getItem('fye_v53_session');
                 if (saved) {
                     try {
                         const s = JSON.parse(saved);
@@ -649,7 +574,6 @@
                             setQIndex(s.qIndex);
                             setScores(s.scores);
                             setRes(s.res);
-                            setAiResult(s.aiResult);
                             setStep(s.step);
                         }
                     } catch(e) { console.error("Session load error", e); }
@@ -659,12 +583,12 @@
             // --- SESSION SAVE ---
             React.useEffect(() => {
                 if (step !== 'intro') {
-                    localStorage.setItem('fye_v46_session', JSON.stringify({ step, input, qIndex, scores, res, aiResult }));
+                    localStorage.setItem('fye_v53_session', JSON.stringify({ step, input, qIndex, scores, res }));
                 }
-            }, [step, input, qIndex, scores, res, aiResult]);
+            }, [step, input, qIndex, scores, res]);
 
             const clearSession = () => {
-                localStorage.removeItem('fye_v46_session');
+                localStorage.removeItem('fye_v53_session');
                 window.location.reload();
             };
 
@@ -690,82 +614,53 @@
                     setStep('calc');
                 }
             };
-
-            const generateAiReport = async () => {
-                if (!apiKey) return alert("API Key eksik.");
-                setIsAiLoading(true);
-                const summary = Object.entries(res).map(([k, v]) => `${CATEGORIES[k]}: ${v}`).join(", ");
-                
-                let salutation = "Değerli Katılımcı";
-                if(input.prof === "Akademisyen") salutation = "Kıymetli Meslektaşım";
-                else if(input.prof === "Öğrenci") salutation = "Sevgili Öğrenci Kardeşim";
-                else if(input.prof === "Öğretmen") salutation = "Değerli Hocam";
-
-                const prompt = `
-                    You are a wise philosopher-psychologist. Analyze this profile:
-                    Lang: ${lang}
-                    Profile: ${summary}
-                    
-                    Markdown Response Structure:
-                    1. **Greeting**: "${salutation}, öncelikle bu zihinsel yolculuğa katıldığın için teşekkür ederim." (Translate to target lang)
-                    2. **Mental X-Ray**: Analyze their worldview based on Ontology+Epistemology+Ethics.
-                    3. **Enneagram Analysis**: Based on their philosophy (e.g. Dogmatist->Type 1, Skeptic->Type 5/6, Hedonist->Type 7), assign an Enneagram type and explain the connection.
-                    4. **Kindred Philosophers**: 2-3 philosophers with similar views.
-                    5. **Mental Geography & Era**: Which historical city/era fits their mind?
-                    6. **Book Prescription**: 2 specific book recommendations.
-                    
-                    Tone: Deep, witty, insightful.
-                `;
-                setAiResult(await callGemini(prompt));
-                setIsAiLoading(false);
-            };
             
             const downloadPDF = async () => {
-                const element = document.getElementById('certificate-template');
-                document.getElementById('cert-name').innerText = input.prof ? `${input.prof} Katılımcı` : "Katılımcı";
-                document.getElementById('cert-date').innerText = new Date().toLocaleDateString('tr-TR');
-                
-                const resultsDiv = document.getElementById('cert-results');
-                resultsDiv.innerHTML = Object.entries(res).map(([k, v]) => 
-                    `<div style="margin-bottom: 8px; border-bottom: 1px dashed #eee; padding-bottom:4px;">
-                        <span style="font-weight:bold; color:#1e293b;">${CATEGORIES[k]}:</span> 
-                        <span style="color:#4f46e5;">${SUB_DIMENSIONS[v]?.label || v}</span>
-                    </div>`
-                ).join('');
-                
-                const aiDiv = document.getElementById('cert-ai-content');
-                const page2 = document.getElementById('cert-page-2');
-                
-                if (aiResult) {
-                    page2.style.display = 'block';
-                    aiDiv.innerHTML = marked.parse(aiResult);
-                } else {
-                    page2.style.display = 'none';
+                try {
+                    // Update certificate data before capture
+                    const nameEl = document.getElementById('cert-name');
+                    const dateEl = document.getElementById('cert-date');
+                    if (nameEl) nameEl.innerText = input.prof ? `${input.prof} Katılımcı` : "Katılımcı";
+                    if (dateEl) dateEl.innerText = new Date().toLocaleDateString('tr-TR');
+                    
+                    const resultsDiv = document.getElementById('cert-results');
+                    if (resultsDiv && res) {
+                        resultsDiv.innerHTML = Object.entries(res).map(([k, v]) => 
+                            `<div style="margin-bottom: 12px; border-bottom: 1px dashed #eee; padding-bottom:8px;">
+                                <span style="font-weight:bold; color:#1e293b; display:block; font-size:12px;">${CATEGORIES[k]}</span> 
+                                <span style="color:#4f46e5; font-size:16px; font-weight:bold;">${SUB_DIMENSIONS[v]?.label || v}</span>
+                                <br/>
+                                <span style="font-size: 11px; color: #64748b; font-style: italic;">${SUB_DIMENSIONS[v]?.desc || ""}</span>
+                            </div>`
+                        ).join('');
+                    }
+
+                    // Get hidden container
+                    const page1 = document.getElementById('cert-page-1');
+                    if (!page1) {
+                        console.error("Certificate element not found");
+                        return;
+                    }
+
+                    // Render with HTML2Canvas
+                    const canvas = await html2canvas(page1, { 
+                        scale: 2,
+                        logging: false,
+                        useCORS: true 
+                    });
+                    
+                    const imgData = canvas.toDataURL('image/png');
+                    const pdf = new jspdf.jsPDF('p', 'mm', 'a4'); // Portrait
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = pdf.internal.pageSize.getHeight();
+                    
+                    // Fit image to PDF page
+                    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                    pdf.save('Felsefi_Tutum_Belgesi.pdf');
+                } catch (error) {
+                    console.error("PDF Download Error:", error);
+                    alert("Belge oluşturulurken bir hata oluştu. Lütfen tekrar deneyiniz.");
                 }
-                
-                // Show container but keep it off-screen
-                const container = document.getElementById('certificate-container');
-                
-                // Generate PDF
-                const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
-                const width = pdf.internal.pageSize.getWidth();
-                const height = pdf.internal.pageSize.getHeight();
-                
-                // Page 1
-                const canvas1 = await html2canvas(document.getElementById('cert-page-1'), { scale: 2 });
-                pdf.addImage(canvas1.toDataURL('image/png'), 'PNG', 0, 0, width, height);
-                
-                // Page 2 (if AI result exists)
-                if (aiResult) {
-                    pdf.addPage();
-                    const canvas2 = await html2canvas(page2, { scale: 2 });
-                    pdf.addImage(canvas2.toDataURL('image/png'), 'PNG', 0, 0, width, height);
-                }
-                
-                // Hide again just in case (though it's positioned off-screen)
-                if(aiResult) page2.style.display = 'none';
-                
-                pdf.save('Felsefi_Tutum_Belgesi.pdf');
             };
 
             React.useEffect(() => {
@@ -776,16 +671,16 @@
                         if (!s) { final[k] = "Belirsiz"; return; }
                         let win = "Belirsiz", max = -999;
                         Object.entries(s).forEach(([sub, pts]) => { 
-                            if (pts > max) { max = pts; win = sub; } // Store KEY, not label
+                            if (pts > max) { max = pts; win = SUB_DIMENSIONS[sub]?.label || sub; } 
                         });
                         final[k] = win;
                     });
                     setRes(final);
 
                     if (user) {
-                        db.collection('artifacts').doc(appId).collection('public').doc('data').collection('survey_results_v46_final').add({
+                        db.collection('artifacts').doc(appId).collection('public').doc('data').collection('survey_results_v53_final').add({
                             demographics: { age: calcAge(input.year), gender: mapToTR('gender', input.gender), education: mapToTR('edu', input.edu), income: mapToTR('income', input.income), city: input.city, country: input.country, prof: input.prof },
-                            result: final, scores, lang, userId: user.uid, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                            result: final, scores, userId: user.uid, timestamp: firebase.firestore.FieldValue.serverTimestamp()
                         });
                         setStep('res');
                     } else setStep('res');
@@ -800,30 +695,15 @@
                 </div>
             );
 
-            // --- CITY/COUNTRY DATA ---
-            const COUNTRIES = ["Türkiye", "Almanya", "ABD", "Azerbaycan", "Fransa", "İngiltere", "Rusya", "Çin", "Diğer"];
-            // Türkiye'nin 81 İli
-            const CITIES_TR = [
-                "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin", "Aydın", "Balıkesir",
-                "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli",
-                "Diyarbakır", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkari",
-                "Hatay", "Isparta", "Mersin", "İstanbul", "İzmir", "Kars", "Kastamonu", "Kayseri", "Kırklareli", "Kırşehir", "Kocaeli", "Konya", "Kütahya", "Malatya",
-                "Manisa", "Kahramanmaraş", "Mardin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Rize", "Sakarya",
-                "Samsun", "Siirt", "Sinop", "Sivas", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Şanlıurfa", "Uşak",
-                "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman", "Kırıkkale", "Batman", "Şırnak",
-                "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce"
-            ];
-
             if (step === 'intro') return (
                 <div className={`min-h-screen flex items-center justify-center p-4 bg-slate-100 ${lang==='ar'?'lang-ar':''}`} dir={t.dir}>
                     <div className="bg-white max-w-2xl w-full rounded-2xl shadow-xl overflow-hidden fade-in relative">
                         <LangSwitcher />
                         <div className="bg-slate-900 p-8 text-center text-white"><h1 className="text-2xl font-bold serif mb-2">{t.title}</h1><p className="text-xs uppercase tracking-widest text-slate-400">{t.subtitle}</p></div>
                         <div className="p-8">
-                            {/* Resume Button */}
-                            {localStorage.getItem('fye_v46_session') && (
+                            {localStorage.getItem('fye_v53_session') && (
                                 <button onClick={() => {
-                                    const s = JSON.parse(localStorage.getItem('fye_v46_session'));
+                                    const s = JSON.parse(localStorage.getItem('fye_v53_session'));
                                     setInput(s.input); setQIndex(s.qIndex); setScores(s.scores); setStep('quiz');
                                 }} className="w-full mb-6 bg-indigo-100 text-indigo-700 py-3 rounded-lg font-bold border border-indigo-200 hover:bg-indigo-200 transition">
                                     ↩️ Yarım Kalan Teste Devam Et
@@ -837,7 +717,7 @@
                                 <div><label className="text-xs font-bold text-gray-500 block mb-1">Meslek</label><select name="prof" onChange={handleChange} value={input.prof} className="w-full p-2 border rounded outline-none"><option value="">Seçiniz</option>{PROFESSIONS.map(p=><option key={p} value={p}>{p}</option>)}</select></div>
                                 <div><label className="text-xs font-bold text-gray-500 block mb-1">{t.labels.income}</label><select name="income" onChange={handleChange} value={input.income} className="w-full p-2 border rounded outline-none"><option value="">{t.opts.sel}</option>{INCOMES.map(i=><option key={i.val} value={i.val}>{i.label}</option>)}</select></div>
                                 
-                                {/* Ülke ve Şehir Seçimi (Düzeltildi) */}
+                                {/* Ülke ve Şehir Seçimi */}
                                 <div><label className="text-xs font-bold text-gray-500 block mb-1">{t.labels.country}</label>
                                     <select name="country" onChange={handleChange} value={input.country} className="w-full p-2 border rounded outline-none"><option value="">{t.opts.sel}</option>{COUNTRIES.map(c=><option key={c} value={c}>{c}</option>)}</select>
                                 </div>
@@ -876,7 +756,10 @@
                         </div>
                         <div className="bg-white w-full max-w-3xl rounded-2xl shadow-lg fade-in border border-gray-100 relative overflow-hidden">
                             <div className="p-8 md:p-12">
-                                <h3 className="text-xl md:text-2xl font-serif text-slate-800 mb-8 leading-relaxed text-center">{currentQ.t}</h3>
+                                <h3 className="text-xl md:text-2xl font-serif text-slate-800 mb-2 leading-relaxed text-center">{currentQ.t}</h3>
+                                {/* Soru Açıklaması */}
+                                <p className="text-sm text-gray-500 italic text-center mb-8">{currentQ.d}</p>
+
                                 <div className="likert-container">
                                     {["Kesinlikle Katılmıyorum (-2)", "Katılmıyorum (-1)", "Kararsızım (0)", "Katılıyorum (+1)", "Kesinlikle Katılıyorum (+2)"].map((label, idx) => {
                                         const val = idx - 2; 
@@ -922,9 +805,6 @@
                                     </div>
                                 ))}
                             </div>
-                            <div className="mt-8 px-4">
-                                {!aiResult ? <button onClick={generateAiReport} disabled={isAiLoading} className="w-full bg-indigo-600 text-white py-4 rounded-xl font-bold hover:bg-indigo-700 transition shadow-lg flex items-center justify-center gap-2">{isAiLoading ? "..." : "✨ Yapay Zeka ile Detaylı Profil Analizi"}</button> : <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-6 ai-content" dangerouslySetInnerHTML={{__html: marked.parse(aiResult)}} />}
-                            </div>
                         </div>
                         <div className="bg-slate-50 p-6 text-center border-t"><button onClick={clearSession} className="bg-white border border-slate-300 px-6 py-2 rounded-full font-bold hover:bg-slate-100 transition">Testi Yeniden Başlat</button></div>
                     </div>
@@ -939,5 +819,4 @@
         root.render(<App />);
     </script>
 </body>
-
 </html>
