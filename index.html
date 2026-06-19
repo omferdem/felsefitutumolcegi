@@ -122,8 +122,8 @@
             <div style="margin-bottom: 30px;">
                 <p style="font-size: 16px; line-height: 1.6;">Sayın <strong><span id="cert-name">Katılımcı</span></strong>,</p>
                 <p style="font-size: 16px; line-height: 1.6;">
-                    Bu belge, felsefi yönelimlerinizi belirlemek amacıyla yapılan 75 soruluk akademik çalışmaya katılımınız üzerine düzenlenmiştir.
-                    Verdiğiniz yanıtlar doğrultusunda oluşturulan kişisel felsefi profiliniz aşağıdadır.
+                    Bu belge, felsefi yönelimlerinizi belirlemek amacıyla hazırlanan 75 maddelik akademik ölçeğe (Felsefi Tutum Ölçeği – FTÖ) katılımınız üzerine düzenlenmiştir.
+                    Verdiğiniz yanıtlar doğrultusunda oluşturulan kişisel felsefi profiliniz aşağıdadır. Ölçek; ontoloji, epistemoloji, etik, estetik ve tanrı tasavvuru boyutlarını kapsamaktadır.
                 </p>
             </div>
 
@@ -227,94 +227,134 @@
         };
 
         const QUESTIONS = [
-            // C1: Ontoloji
-            {t:"Zihinsel süreçler tamamen beyindeki fiziksel olaylara indirgenebilir.", d:"(Zihin sadece beyin aktivitesidir)", c:"ontology", s:"materyalizm"},
-            {t:"İnsan zihni, fiziksel bedenden ayrı, maddi olmayan bağımsız bir varlıktır.", d:"(Ruh ve beden ayrıdır)", c:"ontology", s:"dualizm"},
-            {t:"Maddi dünya, zihnimin bir projeksiyonu veya rüyası olabilir.", d:"(Madde aslında zihinseldir)", c:"ontology", s:"idealizm"},
-            {t:"Evrendeki her zerre ilkel bir bilinç veya ruhsallık taşır.", d:"(Her şey canlıdır)", c:"ontology", s:"monist_metafizik"},
-            {t:"Bir nesne, onu algılayan bir özne olmadığında var olmaktan çıkar.", d:"(Varlık algıya bağlıdır)", c:"ontology", s:"fenomenalizm"},
-            {t:"Dış dünya, insan algısından tamamen bağımsız, nesnel bir gerçekliğe sahiptir.", d:"(Gerçeklik zihinden bağımsızdır)", c:"ontology", s:"ontolojik_realizm"},
-            {t:"Ölümden sonra kişisel bilinç (ruh), bedenden ayrılarak varlığını sürdürür.", d:"(Ruh ölümsüzdür)", c:"ontology", s:"dualizm"},
-            {t:"Bilimsel olarak ölçülemeyen varlıkların gerçekliği yoktur.", d:"(Sadece madde gerçektir)", c:"ontology", s:"materyalizm"},
-            {t:"Gördüğümüz dünya, daha yüksek bir gerçekliğin gölgesidir.", d:"(İdealar dünyası)", c:"ontology", s:"idealizm"},
-            {t:"Evrenin tamamı, tek bir ilahi özün farklı görünümlerinden ibarettir.", d:"(Vahdet-i Vücud)", c:"ontology", s:"monist_metafizik"},
-            {t:"Masa, ben odadan çıktığımda da fiziksel olarak orada durmaya devam eder.", d:"(Nesnel gerçeklik)", c:"ontology", s:"ontolojik_realizm"},
-            {t:"Var olmak algılanmış olmaktır.", d:"(Algı yoksa varlık yoktur)", c:"ontology", s:"fenomenalizm"},
-            {t:"Evrenin nihai yapısı maddedir.", d:"(Maddecilik)", c:"ontology", s:"materyalizm"},
-            {t:"Gerçeklik, insan zihninin kurguladığı bir yapıdır.", d:"(Zihinsel inşacılık)", c:"ontology", s:"idealizm"},
-            {t:"Zihin ve beden birbirinden bağımsızdır ve birbirini etkiler.", d:"(Etkileşimli ikicilik)", c:"ontology", s:"dualizm"},
+            // C1: Ontoloji — Materyalizm
+            {t:"Zihin, bilinç ve duygu dahil tüm olgular, nihayetinde maddesel ve fiziksel süreçlere indirgenebilir.", d:"(Varlık ve madde)", c:"ontology", s:"materyalizm"},
+            {t:"Bilimsel araçlarla gözlemlenip ölçülemeyen hiçbir varlığın gerçek anlamda var olduğunu kanıtlamak mümkün değildir.", d:"(Varlığın ölçütü)", c:"ontology", s:"materyalizm"},
+            {t:"Nörolojik bir müdahaleyle bilinç ve kişiliğin değişmesi, zihnin maddeden bağımsız olamayacağını gösterir.", d:"(Beyin ve bilinç)", c:"ontology", s:"materyalizm"},
 
-            // C2: Bilgi Kaynağı
-            {t:"İnsan zihni doğuştan bazı bilgilere sahiptir.", d:"(Doğuştan bilgi)", c:"epistemology_source", s:"rasyonalizm"},
-            {t:"İnsan zihni doğuşta boş bir levhadır.", d:"(Tabula Rasa)", c:"epistemology_source", s:"empirizm"},
-            {t:"Bilginin tek kaynağı beş duyu organıdır.", d:"(Sadece duyum)", c:"epistemology_source", s:"sansualizm"},
-            {t:"Gerçek hakikat doğrudan bir içgörü (sezgi) ile kavranır.", d:"(Sezgicilik)", c:"epistemology_source", s:"intuisyonizm"},
-            {t:"Matematiksel doğrular akılla bulunur.", d:"(Akılcılık)", c:"epistemology_source", s:"rasyonalizm"},
-            {t:"Bilimsel bilginin temeli gözlem ve deneydir.", d:"(Deneycilik)", c:"epistemology_source", s:"empiricism"},
-            {t:"Akıl yürütme, gerçeği anlamada duyulardan daha güvenilirdir.", d:"(Akıl > Duyu)", c:"epistemology_source", s:"rasyonalizm"},
-            {t:"İçime doğan hisler daha derin bir bilgi sağlar.", d:"(Kalp gözü)", c:"epistemology_source", s:"intuisyonizm"},
-            {t:"Bir meyvenin tadını bilmek için onu yemek şarttır.", d:"(Duyusal deneyim)", c:"epistemology_source", s:"sansualizm"},
-            {t:"Zamanın akışını ancak sezgi ile kavrayabiliriz.", d:"(Sezgisel zaman)", c:"epistemology_source", s:"intuisyonizm"},
-            {t:"Düşünüyorum, öyleyse varım.", d:"(Rasyonalist temel)", c:"epistemology_source", s:"rasyonalizm"},
-            {t:"Duyular olmadan zihinde hiçbir içerik oluşamaz.", d:"(Duyumculuk)", c:"epistemology_source", s:"sansualizm"},
+            // C1: Ontoloji — Dualizm
+            {t:"İnsan, birbirinden özce farklı iki tözden oluşur: maddi bir beden ve maddi olmayan bir zihin ya da ruh.", d:"(Beden ve zihin)", c:"ontology", s:"dualizm"},
+            {t:"Zihinsel deneyimler, yalnızca nöral süreçlere indirgenerek tam anlamıyla açıklanamaz.", d:"(Zihin ve beyin)", c:"ontology", s:"dualizm"},
+            {t:"Kişisel kimliğin, bedenin biyolojik ölümünden sonra da sürmesi kavramsal olarak mümkündür.", d:"(Kimlik ve süreklilik)", c:"ontology", s:"dualizm"},
 
-            // C3: Bilgi Değeri
-            {t:"Evrensel ve kesin doğrular vardır.", d:"(Mutlak doğru)", c:"epistemology_value", s:"dogmatizm"},
-            {t:"Doğru olan, pratikte işe yarayandır.", d:"(Fayda = Doğru)", c:"epistemology_value", s:"pragmatizm"},
-            {t:"Kesin bilgiye ulaşmak imkansızdır.", d:"(Şüphecilik)", c:"epistemology_value", s:"septisizm"},
-            {t:"Doğruluk kişiden kişiye değişir.", d:"(Görecelilik)", c:"epistemology_value", s:"relativizm"},
-            {t:"Aklın sınırları (numen) bilinemez.", d:"(Bilginin sınırı)", c:"epistemology_value", s:"kritisizm"},
-            {t:"Sadece bilimsel yöntemle kanıtlananlar gerçektir.", d:"(Bilimselcilik)", c:"epistemology_value", s:"pozitivizm"},
-            {t:"İşlevini yitiren bilgi yanlıştır.", d:"(İşe yaramayan yanlıştır)", c:"epistemology_value", s:"pragmatizm"},
-            {t:"Tanrı hakkında konuşmak bilimsellik dışıdır.", d:"(Metafizik anlamsızdır)", c:"epistemology_value", s:"pozitivizm"},
-            {t:"Duyularımız bizi yanıltabilir, yargıda bulunmamalıyız.", d:"(Yargısızlık)", c:"epistemology_value", s:"septisizm"},
-            {t:"Bilginin kaynağı hem deney hem akıldır.", d:"(Sentez)", c:"epistemology_value", s:"kritisizm"},
-            {t:"Herkesin üzerinde uzlaşabileceği hakikatler vardır.", d:"(Nesnel hakikat)", c:"epistemology_value", s:"dogmatizm"},
-            {t:"Gerçeklik bizim kurgumuzdur.", d:"(Öznel gerçeklik)", c:"epistemology_value", s:"relativizm"},
+            // C1: Ontoloji — İdealizm
+            {t:"Algıdan bağımsız, nesnel bir fiziksel dünyanın var olduğunu kanıtlamak epistemolojik açıdan güçtür.", d:"(Gerçeklik ve algı)", c:"ontology", s:"idealizm"},
+            {t:"Nihai gerçeklik maddesel değil; zihinsel ya da tinsel bir yapıya sahiptir.", d:"(Gerçekliğin doğası)", c:"ontology", s:"idealizm"},
+            {t:"Maddi nesneler, onları algılayan bir zihin olmaksızın bağımsız biçimde var olamazlar.", d:"(Varlık ve zihin)", c:"ontology", s:"idealizm"},
 
-            // C4: Ahlak
-            {t:"Ahlak, sonuca değil niyete bağlıdır.", d:"(Niyet/Ödev)", c:"ethics", s:"deontoloji"},
-            {t:"Fayda veya mutluluk getiren eylem ahlakidir.", d:"(Sonuç/Fayda)", c:"ethics", s:"teleoloji"},
-            {t:"Ahlakın temeli erdemli bir karakterdir.", d:"(Karakter)", c:"ethics", s:"erdem_etigi"},
-            {t:"İyi ve kötü Tanrı tarafından belirlenir.", d:"(Dini temel)", c:"ethics", s:"ilahi_buyruk"},
-            {t:"Ahlaki değerler evrenseldir.", d:"(Nesnel ahlak)", c:"ethics", s:"nesnelcilik"},
-            {t:"Her toplumun ahlakı kendine göredir.", d:"(Kültürel ahlak)", c:"ethics", s:"gorecilik"},
-            {t:"Ahlaki değerler güçlülerin uydurmasıdır.", d:"(Ahlak yoktur)", c:"ethics", s:"nihilizm"},
-            {t:"Değerlerin kaynağı kutsaldır.", d:"(Kutsal köken)", c:"ethics", s:"teolojik_aksiyoloji"},
-            {t:"Yaşamın amacı hazza ulaşmaktır.", d:"(Hazcılık)", c:"ethics", s:"hedonizm"},
-            {t:"Masum birini korumak için yalan söylenebilir.", d:"(Sonuççu yaklaşım)", c:"ethics", s:"teleoloji"},
-            {t:"Yalan söylemek her koşulda yanlıştır.", d:"(İlkesel yaklaşım)", c:"ethics", s:"deontoloji"},
-            {t:"Ahlaklı olmak için dindar olmak şarttır.", d:"(Dini zorunluluk)", c:"ethics", s:"ilahi_buyruk"},
-            {t:"Önemli olan nasıl bir insan olduğundur.", d:"(Erdemlilik)", c:"ethics", s:"erdem_etigi"},
+            // C1: Ontoloji — Fenomenalizm
+            {t:"Bir varlığın gerçekten var olması, onun bir özne tarafından algılanmasına bağlıdır.", d:"(Algı ve varoluş)", c:"ontology", s:"fenomenalizm"},
+            {t:"Hiçbir özne tarafından algılanmayan bir nesnenin o anda var olmaya devam ettiğini savunmak tutarsızdır.", d:"(Algısız varoluş)", c:"ontology", s:"fenomenalizm"},
+            {t:"Deneyimlediğimiz fenomenler, bunların ardında duran algıdan bağımsız bir gerçekliği zorunlu kılmaz.", d:"(Fenomen ve gerçeklik)", c:"ontology", s:"fenomenalizm"},
 
-            // C5: Estetik
-            {t:"Güzellik eserin kendisindedir (oran, simetri).", d:"(Nesnel güzellik)", c:"aesthetics", s:"nesnelci_estetik"},
-            {t:"Güzellik bakanın gözündedir.", d:"(Öznel güzellik)", c:"aesthetics", s:"oznelci_estetik"},
-            {t:"Sanat, doğadaki mükemmelliği yansıtmalıdır.", d:"(İdeal güzellik)", c:"aesthetics", s:"idealist_estetik"},
-            {t:"Sanat, sanatçının duygularını dışa vurmasıdır.", d:"(Dışavurumculuk)", c:"aesthetics", s:"ifadeci_estetik"},
-            {t:"Sanatın değeri biçimsel yapısındadır.", d:"(Biçimcilik)", c:"aesthetics", s:"bicimci_estetik"},
-            {t:"Sanat, ilahi güzelliğin yansımasıdır.", d:"(Mistik estetik)", c:"aesthetics", s:"kutsal_estetik"},
-            {t:"Evrensel bir güzellik standardı yoktur.", d:"(Göreceli beğeni)", c:"aesthetics", s:"oznelci_estetik"},
-            {t:"Sanat eseri hayatı olduğu gibi taklit etmelidir.", d:"(Yansıtma/Mimesis)", c:"aesthetics", s:"yansitmaci"},
-            {t:"Sanat eserinde renklerin ve şekillerin uyumu önemlidir.", d:"(Form uyumu)", c:"aesthetics", s:"bicimci_estetik"},
-            {t:"Gerçek sanat, izleyiciye duygu geçirir.", d:"(Duygu aktarımı)", c:"aesthetics", s:"ifadeci_estetik"},
-            {t:"Güzellik matematiksel bir orandır.", d:"(Altın oran)", c:"aesthetics", s:"nesnelci_estetik"},
-            {t:"Sanat, görünenin ardındaki özü göstermelidir.", d:"(İdeal öz)", c:"aesthetics", s:"idealist_estetik"},
+            // C1: Ontoloji — Ontolojik Realizm
+            {t:"Dış dünya, onu algılayan hiçbir bilinç olmasa dahi bağımsız ve nesnel olarak var olmaya devam eder.", d:"(Nesnel gerçeklik)", c:"ontology", s:"ontolojik_realizm"},
+            {t:"Doğa yasaları, insan zihninden bağımsız olarak gerçek dünyada var olan ilişkileri yansıtır.", d:"(Nesnel yasalar)", c:"ontology", s:"ontolojik_realizm"},
+            {t:"Bilgi sistemlerimizdeki ya da algılarımızdaki değişimler, gerçekliğin kendisini değiştirmez.", d:"(Gerçekliğin sabitliği)", c:"ontology", s:"ontolojik_realizm"},
 
-            // C6: İnanç
-            {t:"Tanrı evreni yaratmıştır ve müdahale eder.", d:"(Dindar/Teist)", c:"theology", s:"teizm"},
-            {t:"Tanrı evreni yaratmış, müdahale etmemiştir.", d:"(Deist)", c:"theology", s:"deizm"},
-            {t:"Tanrı ve Evren birdir.", d:"(Panteist)", c:"theology", s:"panteizm"},
-            {t:"Evren Tanrı'nın içindedir ama Tanrı daha büyüktür.", d:"(Panenteist)", c:"theology", s:"panenteizm"},
-            {t:"Tanrı'nın varlığı bilinemez.", d:"(Agnostik)", c:"theology", s:"agnostisizm"},
-            {t:"Tanrı yoktur, evren maddeden ibarettir.", d:"(Ateist)", c:"theology", s:"ateizm"},
-            {t:"Mucizeler gerçektir.", d:"(Mucize inancı)", c:"theology", s:"teizm"},
-            {t:"Dinler insan uydurmasıdır.", d:"(Din karşıtlığı)", c:"theology", s:"ateizm"},
-            {t:"Akıl yoluyla Yaratıcı bulunur, dinlere gerek yoktur.", d:"(Akıl dini)", c:"theology", s:"deizm"},
-            {t:"Her şey Tanrı'dan bir parçadır.", d:"(Tanrısal öz)", c:"theology", s:"panenteizm"},
-            {t:"Tanrı doğanın bizzat kendisidir.", d:"(Doğa=Tanrı)", c:"theology", s:"panteizm"},
-            {t:"Tanrı kavramı kanıtlanamaz.", d:"(Bilinemezlik)", c:"theology", s:"agnostisizm"},
-            {t:"Evrenin bir başlangıcı vardır.", d:"(Yaratılış)", c:"theology", s:"teizm"}
+            // C2: Bilgi Kaynağı — Rasyonalizm
+            {t:"Matematiğin ve mantığın temel doğruları, duyusal deneyimden bağımsız olarak salt akıl yoluyla bilinebilir.", d:"(Aklın bilgisi)", c:"epistemology_source", s:"rasyonalizm"},
+            {t:"Duyular bizi yanıltabildiğinden, güvenilir bilginin nihai dayanağı akıl yürütme ve mantıksal çıkarımdır.", d:"(Aklın güvenilirliği)", c:"epistemology_source", s:"rasyonalizm"},
+            {t:"Bazı evrensel kavramlar ve ilkeler, deneyimden önce gelen yapılar olarak zihinde mevcuttur.", d:"(Doğuştan kavramlar)", c:"epistemology_source", s:"rasyonalizm"},
+
+            // C2: Bilgi Kaynağı — Empirizm
+            {t:"Tüm bilgimizin kökeni, doğrudan ya da dolaylı biçimde gözlem ve deneyime dayanmaktadır.", d:"(Deneyim ve bilgi)", c:"epistemology_source", s:"empirizm"},
+            {t:"Doğuştan gelen kavram ya da bilgilerin varlığını savunmak için inandırıcı bir kanıt bulunmamaktadır.", d:"(Bilginin kökeni)", c:"epistemology_source", s:"empirizm"},
+            {t:"Bilimsel bilginin güvenilirliği, onun gözlem ve deneyle sınanabilir olmasından kaynaklanır.", d:"(Gözlem ve doğrulama)", c:"epistemology_source", s:"empirizm"},
+
+            // C2: Bilgi Kaynağı — Sansüalizm
+            {t:"Beş duyu organı aracılığıyla edinilemeyen hiçbir fikrin gerçek bir kaynağı olamaz.", d:"(Duyuların önemi)", c:"epistemology_source", s:"sansualizm"},
+            {t:"Zihnin tüm içeriği, özünde duyusal uyarımlara ve izlenimlere dayanmaktadır.", d:"(Duyu ve zihin)", c:"epistemology_source", s:"sansualizm"},
+            {t:"Duyular aracılığıyla kavranamayan bir konuda bilgi sahibi olduğumuzu iddia etmek temelsizdir.", d:"(Duyusal bilgi sınırı)", c:"epistemology_source", s:"sansualizm"},
+
+            // C2: Bilgi Kaynağı — İntüisyonizm
+            {t:"Bazı önemli gerçekler, mantıksal çıkarımdan ya da gözlemden önce doğrudan sezgisel bir kavrayışla bilinir.", d:"(Sezgi ve hakikat)", c:"epistemology_source", s:"intuisyonizm"},
+            {t:"Ahlaki, sanatsal ya da ruhsal hakikatler çoğu zaman analitik düşünceden önce sezgisel olarak kavranır.", d:"(Sezgisel kavrayış)", c:"epistemology_source", s:"intuisyonizm"},
+            {t:"İçgüdüsel kavrayış, bazı alanlarda sistematik çıkarımdan daha güvenilir bir bilgi aracıdır.", d:"(Sezginin gücü)", c:"epistemology_source", s:"intuisyonizm"},
+
+            // C3: Bilgi Değeri — Dogmatizm
+            {t:"Evrensel geçerliliği olan, kesin ve şüphe götürmez doğrular mevcuttur.", d:"(Kesin doğru)", c:"epistemology_value", s:"dogmatizm"},
+            {t:"Bazı temel hakikatler, tüm kültür ve tarihsel dönemlerde değişmeden geçerliliklerini korumuştur.", d:"(Değişmez hakikat)", c:"epistemology_value", s:"dogmatizm"},
+
+            // C3: Bilgi Değeri — Pragmatizm
+            {t:"Bir önermenin doğruluğu, onun pratikte sağladığı fayda ya da işlevsellikle ölçülmelidir.", d:"(Doğruluk ve fayda)", c:"epistemology_value", s:"pragmatizm"},
+            {t:"Pratik sonuç doğurma kapasitesi olmayan bir bilgi, gerçek anlamda bilgi statüsü kazanamaz.", d:"(Pratik bilgi)", c:"epistemology_value", s:"pragmatizm"},
+
+            // C3: Bilgi Değeri — Septisizm
+            {t:"Kesinlikle doğru olduğunu bilebileceğimiz hiçbir şey yoktur; her bilgi belirli bir şüpheye açıktır.", d:"(Şüphe ve bilgi)", c:"epistemology_value", s:"septisizm"},
+            {t:"Duyularımızın ya da aklımızın ürettiği her önerme, prensip olarak yanılabilir niteliktedir.", d:"(Yanılabilirlik)", c:"epistemology_value", s:"septisizm"},
+
+            // C3: Bilgi Değeri — Relativizm
+            {t:"Doğruluk, kişiden kişiye ya da kültürden kültüre değişen göreceli bir özelliktir.", d:"(Göreceli doğruluk)", c:"epistemology_value", s:"relativizm"},
+            {t:"Bir önermenin doğru ya da yanlış olması, büyük ölçüde içinde bulunulan tarihsel ve kültürel bağlama bağlıdır.", d:"(Kültürel bağlam)", c:"epistemology_value", s:"relativizm"},
+
+            // C3: Bilgi Değeri — Kritisizm
+            {t:"İnsan aklı, tüm gerçekliği kavramaya yetmez; bilgimizin kaçınılmaz sınırları vardır.", d:"(Bilginin sınırı)", c:"epistemology_value", s:"kritisizm"},
+            {t:"Hem duyusal deneyim hem de akıl yürütme, birbirini tamamlayan zorunlu bilgi kaynakları olarak işlev görür.", d:"(Bilgi sentezi)", c:"epistemology_value", s:"kritisizm"},
+
+            // C3: Bilgi Değeri — Pozitivizm
+            {t:"Yalnızca bilimsel yöntemle gözlemlenebilir ve doğrulanabilir olgular gerçek bilgi kapsamına girer.", d:"(Bilimsel doğrulama)", c:"epistemology_value", s:"pozitivizm"},
+            {t:"Ampirik olarak sınanamayan metafizik ya da teolojik önermelerin bilişsel bir anlamı yoktur.", d:"(Ampirik anlam)", c:"epistemology_value", s:"pozitivizm"},
+
+            // C4: Ahlak — Deontoloji
+            {t:"Bir eylemin ahlaki değerini belirleyen şey, doğurduğu sonuçlar değil; temeldeki niyet ve ahlaki ilkedir.", d:"(Niyet ve ilke)", c:"ethics", s:"deontoloji"},
+            {t:"Bazı eylemler, ne kadar olumlu sonuçlar doğursa da özünde yanlıştır ve hiçbir koşulda meşrulaştırılamaz.", d:"(Mutlak yanlış)", c:"ethics", s:"deontoloji"},
+            {t:"İnsan onuruna saygı, koşulsuz bir ahlaki yükümlülüktür; hiçbir gerekçeyle ihlal edilemez.", d:"(Onur ve ödev)", c:"ethics", s:"deontoloji"},
+
+            // C4: Ahlak — Teleoloji
+            {t:"En fazla kişi için en fazla iyilik ya da mutluluğu doğuran eylem, ahlaki açıdan en doğru eylemdir.", d:"(Toplumsal fayda)", c:"ethics", s:"teleoloji"},
+            {t:"Bir eylemi değerlendirirken en belirleyici ölçüt, o eylemin öngörülebilir somut sonuçlarıdır.", d:"(Sonuç odaklılık)", c:"ethics", s:"teleoloji"},
+            {t:"Daha büyük bir iyilik için bazı bireysel hakları ya da değerleri feda etmek ahlaki olarak meşrulaştırılabilir.", d:"(Büyük iyilik)", c:"ethics", s:"teleoloji"},
+
+            // C4: Ahlak — Erdem Etiği
+            {t:"Ahlaki yaşamın özü, kurallara uymaktan ziyade erdemli bir karakter ve kişilik geliştirmektir.", d:"(Erdem ve karakter)", c:"ethics", s:"erdem_etigi"},
+            {t:"'Bu eylem kurala uygun mu?' sorusundan önce 'Ben nasıl bir insan olmak istiyorum?' sorusu gelir.", d:"(Erdemli yaşam)", c:"ethics", s:"erdem_etigi"},
+            {t:"Ahlaki gelişim, bireyin pratik bilgelik ve erdem alışkanlıkları kazanması sürecidir.", d:"(Erdem alışkanlığı)", c:"ethics", s:"erdem_etigi"},
+
+            // C4: Ahlak — İlahi Buyruk
+            {t:"Bir eylemin ahlaki değerini nihai olarak belirleyen, Tanrı'nın o eylem hakkındaki buyruğudur.", d:"(Tanrı ve ahlak)", c:"ethics", s:"ilahi_buyruk"},
+            {t:"Tanrı'nın iradesine dayanan bir zemin olmaksızın nesnel bir ahlakı temellendirmek mümkün değildir.", d:"(Ahlakın temeli)", c:"ethics", s:"ilahi_buyruk"},
+            {t:"İyi ve kötünün nihai kaynağı ilahi iradedir; bu otorite olmadan ahlak öznel bir tercihten ibaret kalır.", d:"(İlahi irade)", c:"ethics", s:"ilahi_buyruk"},
+
+            // C5: Estetik — Nesnelci Estetik
+            {t:"Güzellik, izleyicinin algısından bağımsız olarak eserin içinde nesnel biçimde var olan bir özelliktir.", d:"(Güzelliğin yeri)", c:"aesthetics", s:"nesnelci_estetik"},
+            {t:"Altın oran ve matematiksel simetri gibi ölçütler, güzelliğin nesnel standartlarının varlığına işaret eder.", d:"(Nesnel güzellik)", c:"aesthetics", s:"nesnelci_estetik"},
+            {t:"Estetik eğitim, kişinin sanat eserlerini daha doğru ve nesnel biçimde değerlendirmesini sağlar.", d:"(Estetik yargı)", c:"aesthetics", s:"nesnelci_estetik"},
+
+            // C5: Estetik — Öznelci Estetik
+            {t:"Güzellik yalnızca izleyicinin zihninde şekillenir; eserin kendinde nesnel bir güzellik bulunmaz.", d:"(Güzellik ve algı)", c:"aesthetics", s:"oznelci_estetik"},
+            {t:"Tüm kültürlerin evrensel olarak güzel bulacağı bir sanat eserinin var olması mümkün değildir.", d:"(Evrensel güzellik)", c:"aesthetics", s:"oznelci_estetik"},
+            {t:"Estetik yargılar nihayetinde kişisel tercih ve beğeni meselesidir; kanıtlanamaz ya da çürütülemez.", d:"(Beğeni ve yargı)", c:"aesthetics", s:"oznelci_estetik"},
+
+            // C5: Estetik — İfadeci Estetik
+            {t:"Sanatın temel işlevi, sanatçının iç dünyasını, duygularını ve düşüncelerini ifade etmektir.", d:"(Sanat ve ifade)", c:"aesthetics", s:"ifadeci_estetik"},
+            {t:"Duygusal içerikten yoksun olan bir sanat eseri, gerçek anlamda sanatsal bir değer taşımaz.", d:"(Duygu ve sanat)", c:"aesthetics", s:"ifadeci_estetik"},
+            {t:"Bir sanat eserini değerli kılan şey, yaratıcısının sahici duygularını ne ölçüde aktarabildiğidir.", d:"(Duygu aktarımı)", c:"aesthetics", s:"ifadeci_estetik"},
+
+            // C5: Estetik — Biçimci Estetik
+            {t:"Sanat eserinin değeri; konu ya da mesajından bağımsız olarak biçimsel yapısından kaynaklanır.", d:"(Biçim ve değer)", c:"aesthetics", s:"bicimci_estetik"},
+            {t:"Müziği güzel yapan şey, taşıdığı duygusal mesajdan çok notalar ve armoniler arasındaki yapısal ilişkidir.", d:"(Yapısal güzellik)", c:"aesthetics", s:"bicimci_estetik"},
+            {t:"Sanatı sanat yapan şey içerik değil; form, renk, doku ve kompozisyon gibi biçimsel özelliklerdir.", d:"(Biçimsel yapı)", c:"aesthetics", s:"bicimci_estetik"},
+
+            // C6: Tanrı Tasavvuru — Teizm
+            {t:"Evreni yaratan, varlığını sürdüren ve tarihsel olaylara müdahale eden kişisel bir Tanrı mevcuttur.", d:"(Tanrı ve müdahale)", c:"theology", s:"teizm"},
+            {t:"Dua, ibadet ve vahiy; Tanrı ile yaratıkları arasındaki gerçek ve canlı bir ilişkiyi yansıtır.", d:"(Tanrı ve iletişim)", c:"theology", s:"teizm"},
+            {t:"Tanrı yalnızca uzak bir ilk neden değil; insanın yaşamıyla aktif biçimde ilgilenen bir varlıktır.", d:"(Tanrı ve insan)", c:"theology", s:"teizm"},
+
+            // C6: Tanrı Tasavvuru — Deizm
+            {t:"Evreni var eden bir Yaratıcı'nın varlığını kabul etmekle birlikte, bu varlığın sonradan işlere karışmadığını düşünüyorum.", d:"(Yaratıcı ve müdahale)", c:"theology", s:"deizm"},
+            {t:"Akıl ve gözlem, vahye ya da kutsal metinlere gerek kalmaksızın bir Yaratıcı'nın varlığına ulaşmanın yeterli aracıdır.", d:"(Akıl ve Yaratıcı)", c:"theology", s:"deizm"},
+            {t:"Tanrı evreni mükemmel bir düzende yaratmış ve kurduğu bu işleyişe müdahil olmamıştır.", d:"(Yaratılış ve düzen)", c:"theology", s:"deizm"},
+
+            // C6: Tanrı Tasavvuru — Agnostisizm
+            {t:"Tanrı'nın var olup olmadığı sorusu, insan bilişinin erişebileceği bir soruya dönüştürülemez.", d:"(Bilginin sınırı)", c:"theology", s:"agnostisizm"},
+            {t:"Tanrı'nın varlığını ya da yokluğunu ispatlaya yetecek güvenilir bir kanıt mevcut değildir.", d:"(Kanıt yetersizliği)", c:"theology", s:"agnostisizm"},
+            {t:"Bu konuda kesin bir hükme varmak yerine belirsizliği kabullenmek, entelektüel açıdan en dürüst tutumdur.", d:"(Entelektüel dürüstlük)", c:"theology", s:"agnostisizm"},
+
+            // C6: Tanrı Tasavvuru — Ateizm
+            {t:"Evrenin oluşumunu ve işleyişini açıklamak için doğaüstü bir varlığa başvurmak gerekmemektedir.", d:"(Doğal açıklama)", c:"theology", s:"ateizm"},
+            {t:"Mevcut bilimsel ve felsefi kanıtlar, bir Tanrı ya da doğaüstü varlığın var olduğuna işaret etmemektedir.", d:"(Kanıt ve inanç)", c:"theology", s:"ateizm"},
+            {t:"Tanrı inancı, insan psikolojisinin anlam arayışı ve belirsizliğe karşı geliştirdiği bir savunma mekanizmasının ürünüdür.", d:"(İnancın psikolojisi)", c:"theology", s:"ateizm"}
         ];
 
         const PROFESSIONS = ["Öğrenci", "Akademisyen", "Öğretmen", "Mühendis", "Doktor", "Avukat", "Yazılımcı", "Sanatçı", "Yazar", "Memur", "Esnaf", "Yönetici", "Emekli", "Ev Hanımı", "Diğer"];
@@ -337,7 +377,7 @@
 
         // --- Localization ---
         const uiText = {
-            tr: { dir: "ltr", title: "Felsefi Tutum Ölçeği", subtitle: "75 Soru ile Detaylı Analiz", start: "Teste Başla", admin: "Yönetici", labels: { year: "Doğum Yılı", gender: "Cinsiyet", edu: "Eğitim", income: "Gelir", city: "Şehir", country: "Ülke", prof: "Meslek" }, opts: { m: "Erkek", f: "Kadın", hs: "Lise", ba: "Lisans", phd: "Lisansüstü", low: "Alt", mid: "Orta", high: "Üst", sel: "Seçiniz" }, calc: "Hesaplanıyor...", resTitle: "Felsefi Kimlik Kartı", restart: "Yeniden Başlat", back: "Geri", next: "İleri", radarTitle: "Eğilim Haritası", barTitle: "Baskın Görüşler", likert: ["Kesinlikle Katılmıyorum (-2)", "Katılmıyorum (-1)", "Kararsızım (0)", "Katılıyorum (+1)", "Kesinlikle Katılıyorum (+2)"], pdf: "Belgeyi İndir", reset: "Sıfırla" },
+            tr: { dir: "ltr", title: "Felsefi Tutum Ölçeği (FTÖ)", subtitle: "6 Boyut · 75 Madde · Akademik Profil Analizi", start: "Ölçeği Başlat", admin: "Yönetici", labels: { year: "Doğum Yılı", gender: "Cinsiyet", edu: "Eğitim Düzeyi", income: "Gelir Düzeyi", city: "Şehir", country: "Ülke", prof: "Meslek" }, opts: { m: "Erkek", f: "Kadın", hs: "Lise", ba: "Lisans", phd: "Lisansüstü", low: "Alt", mid: "Orta", high: "Üst", sel: "Seçiniz" }, calc: "Profil hesaplanıyor...", resTitle: "Felsefi Profil Raporu", restart: "Ölçeği Yeniden Başlat", back: "Geri", next: "İleri", radarTitle: "Boyut Haritası", barTitle: "Baskın Felsefi Eğilimler", likert: ["Kesinlikle Katılmıyorum", "Katılmıyorum", "Kararsızım", "Katılıyorum", "Kesinlikle Katılıyorum"], pdf: "Belgeyi İndir", reset: "Sıfırla" },
             en: { dir: "ltr", title: "Philosophical Attitude Scale", subtitle: "Detailed Analysis", start: "Start", admin: "Admin", labels: { year: "Birth Year", gender: "Gender", edu: "Education", income: "Income", city: "City", country: "Country", prof: "Profession" }, opts: { m: "Male", f: "Female", hs: "High School", ba: "Bachelor", phd: "Graduate", low: "Low", mid: "Mid", high: "High", sel: "Select" }, calc: "Calculating...", resTitle: "Profile Card", restart: "Restart", back: "Back", next: "Next", radarTitle: "Tendency Map", barTitle: "Dominant Views", likert: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], pdf: "Download PDF", reset: "Reset" },
             ar: { dir: "rtl", title: "مقياس الموقف الفلسفي", subtitle: "تحليل مفصل", start: "ابدأ", admin: "مسؤول", labels: { year: "السنة", gender: "الجنس", edu: "التعليم", income: "الدخل", city: "المدينة", country: "البلد", prof: "المهنة" }, opts: { m: "ذكر", f: "أنثى", hs: "ثانوية", ba: "جامعي", phd: "عليا", low: "منخفض", mid: "متوسط", high: "مرتفع", sel: "اختر" }, calc: "جاري الحساب...", resTitle: "الهوية", restart: "إعادة", back: "عودة", next: "التالي", radarTitle: "الخريطة", barTitle: "الآراء", likert: ["أعارض بشدة", "أعارض", "محايد", "أوافق", "أوافق بشدة"], pdf: "تحميل PDF", reset: "إعادة" },
              de: { dir: "ltr", title: "Philosophische Einstellungsskala", subtitle: "Detaillierte Analyse", start: "Starten", admin: "Admin", labels: { year: "Geburtsjahr", gender: "Geschlecht", edu: "Bildung", income: "Einkommen", city: "Stadt", country: "Land", prof: "Beruf" }, opts: { m: "Männlich", f: "Weiblich", hs: "Abitur", ba: "Bachelor", phd: "Master", low: "Niedrig", mid: "Mittel", high: "Hoch", sel: "Wählen" }, calc: "Berechnung...", resTitle: "Profilkarte", restart: "Neustart", back: "Zurück", next: "Weiter", radarTitle: "Tendenzkarte", barTitle: "Dominante Ansichten", likert: ["Stimme überhaupt nicht zu", "Stimme nicht zu", "Neutral", "Stimme zu", "Stimme voll zu"], pdf: "PDF Herunterladen", reset: "Zurücksetzen" },
@@ -757,16 +797,15 @@
                         <div className="bg-white w-full max-w-3xl rounded-2xl shadow-lg fade-in border border-gray-100 relative overflow-hidden">
                             <div className="p-8 md:p-12">
                                 <h3 className="text-xl md:text-2xl font-serif text-slate-800 mb-2 leading-relaxed text-center">{currentQ.t}</h3>
-                                {/* Soru Açıklaması */}
-                                <p className="text-sm text-gray-500 italic text-center mb-8">{currentQ.d}</p>
+                                <p className="text-xs text-slate-400 text-center mb-8 uppercase tracking-widest">{currentQ.d}</p>
 
                                 <div className="likert-container">
-                                    {["Kesinlikle Katılmıyorum (-2)", "Katılmıyorum (-1)", "Kararsızım (0)", "Katılıyorum (+1)", "Kesinlikle Katılıyorum (+2)"].map((label, idx) => {
-                                        const val = idx - 2; 
+                                    {["Kesinlikle Katılmıyorum", "Katılmıyorum", "Kararsızım", "Katılıyorum", "Kesinlikle Katılıyorum"].map((label, idx) => {
+                                        const val = idx - 2;
                                         return (
                                             <button key={val} onClick={()=>answer(val, currentQ.c, currentQ.s)} className={`likert-btn scale-${idx+1}`}>
                                                 <span className="block text-lg font-bold">{val > 0 ? `+${val}` : val}</span>
-                                                <span className="text-[10px] uppercase tracking-wide">{label.split(' (')[0]}</span>
+                                                <span className="text-[10px] uppercase tracking-wide">{label}</span>
                                             </button>
                                         )
                                     })}
