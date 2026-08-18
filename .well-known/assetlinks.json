@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.omferdem.felsefitutumolcegi",
+      "sha256_cert_fingerprints": [
+        "5B:18:07:5A:3F:F4:F6:17:05:5F:6A:1C:58:25:B5:B3:98:58:D0:B4:84:E1:7F:F8:CA:56:59:7A:E9:58:80:BD"
+      ]
+    }
+  }
+]
