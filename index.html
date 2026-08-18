@@ -433,7 +433,71 @@
         }
         const QUESTIONS_ORDERED = seededShuffle(QUESTIONS, 20260818);
 
-        const PROFESSIONS = ["Öğrenci", "Akademisyen", "Öğretmen", "Mühendis", "Doktor", "Avukat", "Yazılımcı", "Sanatçı", "Yazar", "Memur", "Esnaf", "Yönetici", "Emekli", "Ev Hanımı", "Diğer"];
+        // --- Enneagram Kişilik Testi (ayrı, eğlence amaçlı bir modül) ---
+        // Not: Enneagram'ın akademik psikometrik geçerliği FTÖ'nünkiyle kıyaslanamaz;
+        // bilinçli olarak FTÖ'nün madde havuzundan ve puanlamasından tamamen ayrı
+        // tutulmuştur ki ölçeğin bilimsel ciddiyeti zedelenmesin.
+        const ENNEAGRAM_TYPES = {
+            tip1: { no: 1, label: "Mükemmeliyetçi (Reformcu)", desc: "İlkeli, düzenli ve doğruyu arayan bir karakter yapısı.", fear: "Kusurlu, yozlaşmış ya da hatalı olmak.", desire: "Doğru, iyi ve dürüst olmak.", traits: ["Yüksek standartlara sahiptir", "Adalete ve düzene önem verir", "Kendini ve başkalarını eleştirmeye eğilimlidir", "Sorumluluk sahibi ve güvenilirdir", "Kurallara ve ilkelere bağlıdır"] },
+            tip2: { no: 2, label: "Yardımsever", desc: "Sıcak, cömert ve ilişki odaklı bir karakter yapısı.", fear: "Sevilmeye ve istenmeye değer olmadığını düşünmek.", desire: "Sevilmek ve değer görmek.", traits: ["Empati kurma yeteneği güçlüdür", "Başkalarının ihtiyaçlarına duyarlıdır", "Cömert ve fedakârdır", "Onay ve takdir arayışındadır", "İlişkilerde kendini geri plana atabilir"] },
+            tip3: { no: 3, label: "Başarı Odaklı", desc: "Hırslı, uyum sağlayan ve imaj bilinci yüksek bir karakter yapısı.", fear: "Değersiz ya da başarısız görünmek.", desire: "Değerli, başarılı ve takdir edilen biri olmak.", traits: ["Hedef odaklı ve verimlidir", "Değişen ortamlara hızla uyum sağlar", "İmajına ve algılanışına önem verir", "Rekabetçi bir yapısı vardır", "Üretkenlikten güç alır"] },
+            tip4: { no: 4, label: "Özgün (Bireyci)", desc: "Duygusal derinliği ve özgünlüğü önemseyen bir karakter yapısı.", fear: "Kimliksiz, sıradan ya da önemsiz olmak.", desire: "Kendine özgü bir kimlik ve anlam bulmak.", traits: ["Duygusal derinliğe sahiptir", "Yaratıcı ve dışavurumcudur", "Kendini diğerlerinden farklı hisseder", "Estetik duyarlılığı yüksektir", "Melankoli ile özlem arasında gidip gelebilir"] },
+            tip5: { no: 5, label: "Araştırmacı (Gözlemci)", desc: "Analitik, gözlemci ve bilgiye aç bir karakter yapısı.", fear: "Yetersiz, bilgisiz ya da güçsüz kalmak.", desire: "Yetkin, bilgili ve kendi kendine yeten biri olmak.", traits: ["Derinlemesine araştırmayı sever", "Bağımsızlığa ve mahremiyete değer verir", "Analitik ve gözlemcidir", "Duygularını içe atmaya eğilimlidir", "Enerjisini dikkatli biçimde yönetir"] },
+            tip6: { no: 6, label: "Sorgulayıcı (Sadık)", desc: "Güvenilir, hazırlıklı ve sadık bir karakter yapısı.", fear: "Destek ve rehberlikten yoksun kalmak.", desire: "Güvenlik ve destek bulmak.", traits: ["Sorumluluk sahibi ve güvenilirdir", "Olası riskleri önceden düşünür", "Bağlılığa ve sadakate önem verir", "Otoriteye karşı hem güvenir hem şüphelenir", "Ekip çalışmasında güçlüdür"] },
+            tip7: { no: 7, label: "Maceracı (Coşkulu)", desc: "Enerjik, iyimser ve deneyime açık bir karakter yapısı.", fear: "Kısıtlanmak, sıkışıp kalmak ya da acı çekmek.", desire: "Mutlu, tatmin olmuş ve özgür olmak.", traits: ["Enerjik ve iyimserdir", "Yeni deneyimlere açıktır", "Çok yönlü ilgi alanlarına sahiptir", "Sıkıntılı duygulardan kaçınmaya eğilimlidir", "Spontane ve esnek bir yapısı vardır"] },
+            tip8: { no: 8, label: "Meydan Okuyan (Lider)", desc: "Güçlü, kararlı ve koruyucu bir karakter yapısı.", fear: "Kontrol edilmek ya da zayıf görünmek.", desire: "Kendi kaderini kontrol etmek ve güçlü olmak.", traits: ["Kararlı ve doğrudandır", "Adaletsizliğe karşı harekete geçer", "Zayıfları korumaya eğilimlidir", "Kontrolü elde tutmayı sever", "Çatışmadan çekinmez"] },
+            tip9: { no: 9, label: "Barışçı (Uzlaştırıcı)", desc: "Sakin, hoşgörülü ve uyum arayan bir karakter yapısı.", fear: "Kayıp yaşamak, ayrılık ya da parçalanma.", desire: "İç huzuru ve uyumu korumak.", traits: ["Sakin ve hoşgörülüdür", "Çatışmadan kaçınmaya eğilimlidir", "Başkalarının bakış açısını kolayca anlar", "İstikrarlı ortamlarda rahat eder", "Kendi önceliklerini erteleyebilir"] }
+        };
+
+        const ENNEAGRAM_QUESTIONS = [
+            {t:"Bir işi yaparken en doğru ve en iyi şekilde yapılmasına büyük önem veririm.", type:"tip1"},
+            {t:"Kurallara ve ilkelere uymayan davranışlar beni rahatsız eder.", type:"tip1"},
+            {t:"Hatalarımı fark ettiğimde kendimi eleştirmekten alamam.", type:"tip1"},
+            {t:"Düzensizlik ve tutarsızlık karşısında içimde bir gerginlik hissederim.", type:"tip1"},
+
+            {t:"Başkalarının ihtiyaçlarını kendi ihtiyaçlarımdan önce fark ederim.", type:"tip2"},
+            {t:"İnsanlara yardım ettiğimde kendimi değerli hissederim.", type:"tip2"},
+            {t:"Sevdiklerimin beni ne kadar önemsediğini bilmek benim için önemlidir.", type:"tip2"},
+            {t:"Birine hayır demek bana zor gelir.", type:"tip2"},
+
+            {t:"Başarılı ve verimli görünmek benim için önemlidir.", type:"tip3"},
+            {t:"Bir hedefe odaklandığımda enerjimi ve zamanımı ona yönlendiririm.", type:"tip3"},
+            {t:"Başkalarının beni nasıl gördüğü motivasyonumu etkiler.", type:"tip3"},
+            {t:"Rekabetçi ortamlarda kendimi daha canlı hissederim.", type:"tip3"},
+
+            {t:"Kendimi diğer insanlardan farklı ve özel biri olarak hissederim.", type:"tip4"},
+            {t:"Duygularımın derinliği, benim için önemli bir parçamdır.", type:"tip4"},
+            {t:"Sıradan ve tekdüze bir hayat bana anlamsız gelir.", type:"tip4"},
+            {t:"Kendimi ifade edebileceğim özgün bir tarzım olsun isterim.", type:"tip4"},
+
+            {t:"Bir konuyu anlamadan önce derinlemesine araştırmayı severim.", type:"tip5"},
+            {t:"Kalabalık ortamlardan çok, yalnız kalıp düşünmeyi tercih ederim.", type:"tip5"},
+            {t:"Duygularımı paylaşmaktan çok gözlemlemeyi ve analiz etmeyi tercih ederim.", type:"tip5"},
+            {t:"Enerjimi ve zamanımı gereksiz yere harcamaktan hoşlanmam.", type:"tip5"},
+
+            {t:"Bir karar vermeden önce olası riskleri ve tehlikeleri düşünürüm.", type:"tip6"},
+            {t:"Güvenilir ve bağlı olduğum insanlarla birlikteyken kendimi güvende hissederim.", type:"tip6"},
+            {t:"Belirsizlik karşısında tedirginlik hissederim.", type:"tip6"},
+            {t:"Otoriteye karşı hem güven duyar hem şüpheyle yaklaşırım.", type:"tip6"},
+
+            {t:"Yeni deneyimler ve maceralar beni heyecanlandırır.", type:"tip7"},
+            {t:"Sıkıcı ya da monoton durumlardan hızla uzaklaşmak isterim.", type:"tip7"},
+            {t:"Hayatın olumlu ve eğlenceli taraflarına odaklanmayı tercih ederim.", type:"tip7"},
+            {t:"Aynı anda birden fazla plan yapmaktan hoşlanırım.", type:"tip7"},
+
+            {t:"Zor durumlarda kontrolü elime almayı tercih ederim.", type:"tip8"},
+            {t:"Doğrudan ve açık sözlü olmak benim için önemlidir.", type:"tip8"},
+            {t:"Başkalarının bana hükmetmesine izin vermem.", type:"tip8"},
+            {t:"Adaletsizlik karşısında sesimi yükseltmekten çekinmem.", type:"tip8"},
+
+            {t:"Çatışmadan kaçınmayı, uyumu korumayı tercih ederim.", type:"tip9"},
+            {t:"Başkalarının bakış açısını kolayca anlayabilirim.", type:"tip9"},
+            {t:"Kendi isteklerimi bazen geri planda tutarım.", type:"tip9"},
+            {t:"Sakin ve istikrarlı bir ortamda kendimi rahat hissederim.", type:"tip9"}
+        ];
+        const ENNEAGRAM_QUESTIONS_ORDERED = seededShuffle(ENNEAGRAM_QUESTIONS, 730197531);
+
+        const PROFESSIONS =["Öğrenci", "Akademisyen", "Öğretmen", "Mühendis", "Doktor", "Avukat", "Yazılımcı", "Sanatçı", "Yazar", "Memur", "Esnaf", "Yönetici", "Emekli", "Ev Hanımı", "Diğer"];
         const INCOMES = [{val: "low", label: "Alt"}, {val: "low_mid", label: "Alt-Orta"}, {val: "mid", label: "Orta"}, {val: "mid_high", label: "Üst-Orta"}, {val: "high", label: "Yüksek"}];
         const COUNTRIES = ["Türkiye", "Almanya", "ABD", "Azerbaycan", "Fransa", "İngiltere", "Rusya", "Çin", "Diğer"];
         const CITIES_TR = ["Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin", "Aydın", "Balıkesir", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkari", "Hatay", "Isparta", "Mersin", "İstanbul", "İzmir", "Kars", "Kastamonu", "Kayseri", "Kırklareli", "Kırşehir", "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Kahramanmaraş", "Mardin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Rize", "Sakarya", "Samsun", "Siirt", "Sinop", "Sivas", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Şanlıurfa", "Uşak", "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman", "Kırıkkale", "Batman", "Şırnak", "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce"];
@@ -549,12 +613,25 @@
 
         function AdminPanel({ onBack }) {
             const [data, setData] = React.useState([]);
+            const [email, setEmail] = React.useState("");
             const [pass, setPass] = React.useState("");
-            const [auth, setAuth] = React.useState(false);
+            const [adminUser, setAdminUser] = React.useState(null);
+            const [authChecking, setAuthChecking] = React.useState(true);
+            const [loginError, setLoginError] = React.useState("");
             const [sel, setSel] = React.useState([]);
 
+            // Gerçek Firebase Authentication (e-posta/şifre) — anonim ziyaretçi
+            // oturumlarından ayırt etmek için isAnonymous kontrolü yapılır.
             React.useEffect(() => {
-                if (auth) {
+                const unsub = auth.onAuthStateChanged(u => {
+                    setAdminUser(u && !u.isAnonymous ? u : null);
+                    setAuthChecking(false);
+                });
+                return () => unsub();
+            }, []);
+
+            React.useEffect(() => {
+                if (adminUser) {
                     const unsub = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('survey_results_v1_academic')
                         .onSnapshot(snap => {
                             const res = snap.docs.map(d => ({id: d.id, ...d.data()}));
@@ -563,7 +640,22 @@
                         });
                     return () => unsub();
                 }
-            }, [auth]);
+            }, [adminUser]);
+
+            const handleLogin = async () => {
+                setLoginError("");
+                try {
+                    await auth.signInWithEmailAndPassword(email, pass);
+                } catch (e) {
+                    setLoginError("Giriş başarısız: e-posta ya da şifre hatalı.");
+                }
+            };
+
+            const handleLogout = async () => {
+                await auth.signOut();
+                auth.signInAnonymously().catch(() => {});
+                onBack();
+            };
 
             const dlCSV = () => {
                 const subKeys = Object.keys(SUB_DIMENSIONS);
@@ -609,13 +701,22 @@
                 setSel([]);
             };
 
-            if(!auth) return <div className="h-screen flex items-center justify-center bg-gray-100"><div className="bg-white p-8 rounded shadow w-80 text-center"><input type="password" value={pass} onChange={e=>setPass(e.target.value)} className="border p-2 w-full mb-4 rounded" placeholder="Şifre (admin123)"/><button onClick={()=>pass==="Omferdem_79"?setAuth(true):alert("Hatalı Şifre")} className="bg-slate-800 text-white w-full p-2 rounded">Giriş</button><button onClick={onBack} className="w-full mt-4 text-xs text-gray-500">Geri</button></div></div>;
+            if (authChecking) return <div className="h-screen flex items-center justify-center bg-gray-100"><div className="animate-spin h-8 w-8 border-4 border-slate-800 border-t-transparent rounded-full"></div></div>;
+
+            if (!adminUser) return <div className="h-screen flex items-center justify-center bg-gray-100"><div className="bg-white p-8 rounded shadow w-80 text-center">
+                <h3 className="text-sm font-bold text-slate-700 mb-4">Yönetici Girişi</h3>
+                <input type="email" value={email} onChange={e=>setEmail(e.target.value)} className="border p-2 w-full mb-2 rounded" placeholder="E-posta" autoComplete="username"/>
+                <input type="password" value={pass} onChange={e=>setPass(e.target.value)} onKeyDown={e=>e.key==='Enter' && handleLogin()} className="border p-2 w-full mb-4 rounded" placeholder="Şifre" autoComplete="current-password"/>
+                {loginError && <p className="text-xs text-red-500 mb-3">{loginError}</p>}
+                <button onClick={handleLogin} className="bg-slate-800 text-white w-full p-2 rounded">Giriş</button>
+                <button onClick={onBack} className="w-full mt-4 text-xs text-gray-500">Geri</button>
+            </div></div>;
 
             return (
                 <div className="min-h-screen bg-gray-50 p-4">
                     <div className="flex justify-between mb-4 items-center">
                         <div className="flex gap-4 items-center"><h2 className="text-xl font-bold">Veriler (Akademik Sürüm v1)</h2>{sel.length>0 && <button onClick={delBatch} className="bg-red-600 text-white px-3 py-1 rounded text-sm">Seç ({sel.length}) Sil</button>}</div>
-                        <div><button onClick={dlCSV} className="bg-green-600 text-white px-3 py-1 rounded mr-2 text-xs">Excel (Özet)</button><button onClick={dlJSON} className="bg-indigo-600 text-white px-3 py-1 rounded mr-2 text-xs">Ham Veri (JSON)</button><button onClick={onBack} className="bg-gray-500 text-white px-3 py-1 rounded text-xs">Çıkış</button></div>
+                        <div><button onClick={dlCSV} className="bg-green-600 text-white px-3 py-1 rounded mr-2 text-xs">Excel (Özet)</button><button onClick={dlJSON} className="bg-indigo-600 text-white px-3 py-1 rounded mr-2 text-xs">Ham Veri (JSON)</button><button onClick={onBack} className="bg-gray-400 text-white px-3 py-1 rounded mr-2 text-xs">Geri</button><button onClick={handleLogout} className="bg-gray-600 text-white px-3 py-1 rounded text-xs">Oturumu Kapat</button></div>
                     </div>
                     <div className="bg-white shadow overflow-x-auto rounded">
                         <table className="min-w-full text-xs text-left admin-table">
@@ -660,6 +761,12 @@
             const [scores, setScores] = React.useState({});
             const [answers, setAnswers] = React.useState({}); // { [qIndex]: rawLikertVal(-2..2) }
             const [res, setRes] = React.useState(null);
+
+            // --- Enneagram (ayrı, FTÖ'den bağımsız durum) ---
+            const [eqIndex, setEqIndex] = React.useState(0);
+            const [eAnswers, setEAnswers] = React.useState({});
+            const [eRes, setERes] = React.useState(null);
+            const [eScores, setEScores] = React.useState({});
 
             const t = uiText[lang] || uiText['tr'];
             const currentQuestions = React.useMemo(() => getQuestions(lang), [lang]);
@@ -708,8 +815,11 @@
             }, []);
 
             // --- SESSION SAVE ---
+            // Enneagram adımları FTÖ oturumunun bir parçası değildir; bu adımlarda
+            // kayıt yapılmaz ki "yarım kalan teste devam et" bandı yanlış adıma
+            // (FTÖ quiz'ine) yönlendirmesin.
             React.useEffect(() => {
-                if (step !== 'intro') {
+                if (step !== 'intro' && !step.startsWith('enneagram')) {
                     localStorage.setItem('fye_v1_academic_session', JSON.stringify({ step, input, qIndex, scores, answers, res }));
                 }
             }, [step, input, qIndex, scores, answers, res]);
@@ -740,7 +850,25 @@
                     setStep('calc');
                 }
             };
-            
+
+            const eAnswer = (val) => {
+                setEAnswers(prev => ({ ...prev, [eqIndex]: val }));
+
+                if (eqIndex < ENNEAGRAM_QUESTIONS_ORDERED.length - 1) {
+                    setEqIndex(prev => prev + 1);
+                } else {
+                    setStep('enneagram_calc');
+                }
+            };
+
+            const restartEnneagram = () => {
+                setEqIndex(0);
+                setEAnswers({});
+                setEScores({});
+                setERes(null);
+                setStep('enneagram_quiz');
+            };
+
             const downloadPDF = async () => {
                 try {
                     // Update certificate data before capture
@@ -839,6 +967,22 @@
                 }
             }, [step]);
 
+            React.useEffect(() => {
+                if (step === 'enneagram_calc') {
+                    const sums = {};
+                    ENNEAGRAM_QUESTIONS_ORDERED.forEach((q, idx) => {
+                        const raw = eAnswers[idx];
+                        if (raw === undefined) return;
+                        sums[q.type] = (sums[q.type] || 0) + raw;
+                    });
+                    setEScores(sums);
+                    let win = null, max = -999;
+                    Object.entries(sums).forEach(([type, pts]) => { if (pts > max) { max = pts; win = type; } });
+                    setERes(win);
+                    setStep('enneagram_res');
+                }
+            }, [step]);
+
             const LangSwitcher = () => (
                 <div className="flex justify-center gap-2 p-4 border-b border-slate-100 bg-white/50 backdrop-blur-sm">
                     {['tr','en','ar','de','ru','zh'].map(l => (
@@ -887,12 +1031,112 @@
                                 if(!input.year || !input.country || !input.city || !input.prof || !input.gender) { alert("Lütfen tüm alanları doldurunuz."); return; }
                                 setStep('quiz');
                             }} className="w-full bg-slate-900 text-white font-bold py-3 rounded hover:bg-slate-800 transition">{t.start}</button>
-                            <button onClick={()=>setStep('admin')} className="w-full mt-4 text-xs text-gray-400 underline text-center block">Yönetici Paneli</button>
+
+                            <div className="my-6 flex items-center gap-3 text-xs text-slate-400 uppercase tracking-widest"><div className="flex-1 h-px bg-slate-200"></div>veya<div className="flex-1 h-px bg-slate-200"></div></div>
+
+                            <button onClick={restartEnneagram} className="w-full bg-gradient-to-r from-fuchsia-600 to-indigo-600 text-white font-bold py-3 rounded-lg hover:opacity-90 transition shadow-md flex items-center justify-center gap-2">
+                                <span className="text-lg">🧭</span> Enneagram Kişilik Testini Dene <span className="text-[10px] font-normal opacity-80">(36 Soru · 9 Karakter Tipi)</span>
+                            </button>
+
+                            <button onClick={()=>setStep('admin')} className="w-full mt-6 text-xs text-gray-400 underline text-center block">Yönetici Paneli</button>
                         </div>
                         <div className="absolute bottom-3 left-4 text-[11px] signature">Ömer Faruk Erdem tarafından hazırlanmıştır</div>
                     </div>
                 </div>
             );
+
+            if (step === 'enneagram_quiz') {
+                const currentQ = ENNEAGRAM_QUESTIONS_ORDERED[eqIndex];
+                const progress = ((eqIndex + 1) / ENNEAGRAM_QUESTIONS_ORDERED.length) * 100;
+                const currentAnswer = eAnswers[eqIndex];
+
+                return (
+                    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-indigo-50 to-fuchsia-50">
+                        <div className="w-full max-w-3xl mb-6">
+                            <div className="flex justify-between items-end mb-2 text-slate-500 text-xs font-bold uppercase tracking-widest">
+                                <span>🧭 Enneagram Kişilik Testi</span><span>{eqIndex+1} / {ENNEAGRAM_QUESTIONS_ORDERED.length}</span>
+                            </div>
+                            <div className="h-1.5 w-full bg-gray-200 rounded-full"><div className="h-full bg-fuchsia-600 progress-bar" style={{width: `${progress}%`}}></div></div>
+                        </div>
+                        <div className="bg-white w-full max-w-3xl rounded-2xl shadow-lg fade-in border border-gray-100 relative overflow-hidden">
+                            <div className="p-8 md:p-12">
+                                <h3 className="text-xl md:text-2xl font-serif text-slate-800 mb-8 leading-relaxed text-center">{currentQ.t}</h3>
+
+                                <div className="likert-container">
+                                    {["Kesinlikle Katılmıyorum", "Katılmıyorum", "Kararsızım", "Katılıyorum", "Kesinlikle Katılıyorum"].map((label, idx) => {
+                                        const val = idx - 2;
+                                        const isSelected = currentAnswer === val;
+                                        return (
+                                            <button key={val} onClick={()=>eAnswer(val)} className={`likert-btn scale-${idx+1}`} style={isSelected ? {outline: '2px solid #a21caf', outlineOffset: '1px'} : undefined}>
+                                                <span className="block text-lg font-bold">{val > 0 ? `+${val}` : val}</span>
+                                                <span className="text-[10px] uppercase tracking-wide">{label}</span>
+                                            </button>
+                                        )
+                                    })}
+                                </div>
+                                <div className="mt-8 flex justify-between">
+                                    {eqIndex > 0 ? <button onClick={()=>setEqIndex(eqIndex-1)} className="text-sm text-gray-400 hover:text-gray-600">Geri</button> : <div></div>}
+                                    <button onClick={()=>setStep('intro')} className="text-xs text-red-400 hover:text-red-600">Çıkış</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (step === 'enneagram_calc') return <div className="h-screen flex items-center justify-center bg-white"><div className="text-center"><div className="animate-spin h-12 w-12 border-4 border-fuchsia-600 border-t-transparent rounded-full mx-auto mb-4"></div><h2 className="text-xl font-bold">Karakter tipin hesaplanıyor...</h2></div></div>;
+
+            if (step === 'enneagram_res' && eRes) {
+                const et = ENNEAGRAM_TYPES[eRes];
+                const ranked = Object.entries(eScores).sort((a,b)=>b[1]-a[1]).map(([type,pts]) => ({ type, pts, label: ENNEAGRAM_TYPES[type].label, no: ENNEAGRAM_TYPES[type].no }));
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-fuchsia-50 py-10 px-4">
+                        <div className="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden fade-in">
+                            <div className="bg-gradient-to-r from-fuchsia-600 to-indigo-600 text-white p-8 text-center">
+                                <p className="text-xs uppercase tracking-widest opacity-80 mb-2">Enneagram Sonucun</p>
+                                <h2 className="text-4xl serif font-bold mb-1">Tip {et.no}: {et.label}</h2>
+                                <p className="text-sm opacity-90 mt-2">{et.desc}</p>
+                            </div>
+                            <div className="p-8">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                                    <div className="bg-red-50 border border-red-100 p-5 rounded-xl">
+                                        <h4 className="text-xs font-bold text-red-400 uppercase mb-1">Temel Korku</h4>
+                                        <p className="text-sm text-slate-700">{et.fear}</p>
+                                    </div>
+                                    <div className="bg-emerald-50 border border-emerald-100 p-5 rounded-xl">
+                                        <h4 className="text-xs font-bold text-emerald-500 uppercase mb-1">Temel Arzu</h4>
+                                        <p className="text-sm text-slate-700">{et.desire}</p>
+                                    </div>
+                                </div>
+                                <div className="bg-slate-50 border border-slate-200 p-5 rounded-xl mb-8">
+                                    <h4 className="text-xs font-bold text-slate-500 uppercase mb-3">Karakter Özellikleri</h4>
+                                    <ul className="space-y-2">
+                                        {et.traits.map((tr, i) => <li key={i} className="flex items-start gap-2 text-sm text-slate-700"><span className="text-fuchsia-500 font-bold">•</span>{tr}</li>)}
+                                    </ul>
+                                </div>
+                                <div className="mb-8">
+                                    <h4 className="text-xs font-bold text-slate-400 uppercase mb-3 text-center">Tüm Tiplere Göre Eğilimin</h4>
+                                    <div className="space-y-1.5">
+                                        {ranked.map(r => (
+                                            <div key={r.type} className="flex items-center gap-2 text-xs">
+                                                <span className={`w-28 shrink-0 ${r.type===eRes ? 'font-bold text-fuchsia-700' : 'text-slate-500'}`}>Tip {r.no}: {r.label}</span>
+                                                <div className="flex-1 h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                                                    <div className={`h-full ${r.type===eRes ? 'bg-fuchsia-600' : 'bg-slate-300'}`} style={{width: `${Math.max(4, ((r.pts + 8) / 16) * 100)}%`}}></div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                <p className="text-[11px] text-slate-400 text-center leading-relaxed mb-6">Bu test eğlence ve farkındalık amaçlıdır; Enneagram, akademik ölçme-değerlendirme literatüründe Felsefi Tutum Ölçeği gibi geçerlik-güvenirlik çalışmalarından geçmiş bir araç değildir.</p>
+                                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                                    <button onClick={restartEnneagram} className="bg-white border border-slate-300 px-6 py-2 rounded-full font-bold hover:bg-slate-100 transition">Testi Yeniden Yap</button>
+                                    <button onClick={()=>setStep('intro')} className="bg-slate-900 text-white px-6 py-2 rounded-full font-bold hover:bg-slate-800 transition">Ana Sayfaya Dön</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
 
             if (step === 'quiz') {
                 const currentQ = currentQuestions[qIndex];
