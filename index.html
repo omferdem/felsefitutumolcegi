@@ -122,8 +122,8 @@
             <div style="margin-bottom: 30px;">
                 <p style="font-size: 16px; line-height: 1.6;">Sayın <strong><span id="cert-name">Katılımcı</span></strong>,</p>
                 <p style="font-size: 16px; line-height: 1.6;">
-                    Bu belge, felsefi yönelimlerinizi belirlemek amacıyla hazırlanan 100 maddelik akademik ölçeğe (Felsefi Tutum Ölçeği – FTÖ) katılımınız üzerine düzenlenmiştir.
-                    Verdiğiniz yanıtlar doğrultusunda oluşturulan kişisel felsefi profiliniz aşağıdadır. Ölçek; varlık (ontoloji), bilginin kaynağı ve değeri (epistemoloji), etik ve estetik boyutlarını kapsamaktadır.
+                    Bu belge, felsefi yönelimlerinizi belirlemek amacıyla hazırlanan 124 maddelik akademik ölçeğe (Felsefi Tutum Ölçeği – FTÖ) katılımınız üzerine düzenlenmiştir.
+                    Verdiğiniz yanıtlar doğrultusunda oluşturulan kişisel felsefi profiliniz aşağıdadır. Ölçek; varlık (ontoloji), bilginin kaynağı ve değeri (epistemoloji), etik, estetik ve tanrı tasavvuru boyutlarını kapsamaktadır.
                 </p>
             </div>
 
@@ -178,7 +178,8 @@
             epistemology_source: "Bilginin Kaynağı",
             epistemology_value: "Bilginin Değeri",
             ethics: "Ahlak (Etik)",
-            aesthetics: "Estetik"
+            aesthetics: "Estetik",
+            theology: "Tanrı Tasavvuru"
         };
 
         const SUB_DIMENSIONS = {
@@ -215,7 +216,15 @@
             oznelci_estetik: { label: "Öznelci Estetik", desc: "Güzellik bakanda.", summary: "Güzelliğin tamamen bakan kişinin algısında olduğunu savunuyorsunuz." },
             ifadeci_estetik: { label: "İfadeci Estetik", desc: "Duygu ifadesi.", summary: "Sanatın amacının duyguları dışa vurmak olduğuna inanıyorsunuz." },
             bicimci_estetik: { label: "Biçimci Estetik", desc: "Form güzelliği.", summary: "Sanat eserinin değerini biçimsel uyumunda arıyorsunuz." },
-            yansitmaci_estetik: { label: "Yansıtmacı Estetik", desc: "Doğayı taklit.", summary: "Sanatın doğayı ve hayatı olduğu gibi yansıtması/taklit etmesi gerektiğini savunuyorsunuz." }
+            yansitmaci_estetik: { label: "Yansıtmacı Estetik", desc: "Doğayı taklit.", summary: "Sanatın doğayı ve hayatı olduğu gibi yansıtması/taklit etmesi gerektiğini savunuyorsunuz." },
+
+            // --- Tanrı Tasavvuru ---
+            teizm: { label: "Teizm", desc: "Müdahil Tanrı.", summary: "Evreni yaratan, sürdüren ve ona aktif biçimde müdahale eden kişisel bir Tanrı inancına sahipsiniz." },
+            deizm: { label: "Deizm", desc: "Yaratıcı ama müdahil olmayan Tanrı.", summary: "Tanrı'nın evreni yarattığını ama sonradan işleyişine karışmadığını düşünüyorsunuz." },
+            panteizm: { label: "Panteizm", desc: "Tanrı ve evren özdeştir.", summary: "Tanrı ile evrenin ayrı şeyler olmadığını, ilahi olanın evrenin kendisi olduğunu düşünüyorsunuz." },
+            panenteizm: { label: "Panenteizm", desc: "Evren Tanrı'dadır, Tanrı evreni aşar.", summary: "Evrenin Tanrı'nın içinde olduğunu, ancak Tanrı'nın evrenden ibaret olmayıp onu aştığını düşünüyorsunuz." },
+            agnostisizm: { label: "Agnostisizm", desc: "Bilinemezcilik.", summary: "Tanrı'nın var olup olmadığının insan bilişiyle kesin olarak bilinemeyeceğini düşünüyorsunuz." },
+            ateizm: { label: "Ateizm", desc: "Tanrı yoktur.", summary: "Tanrı veya doğaüstü bir gücün varlığını reddediyorsunuz." }
         };
 
         // Not: Her alt boyutta 3 düz + 1 ters puanlanan (r:true) madde bulunur.
@@ -370,7 +379,43 @@
             {t:"Sanatın temel görevi, doğayı ve hayatı olabildiğince gerçeğe uygun biçimde yansıtmak ya da taklit etmektir.", d:"(Sanat ve taklit)", c:"aesthetics", s:"yansitmaci_estetik"},
             {t:"Bir eserin başarısı, gerçekliği ne kadar sadık ve inandırıcı biçimde temsil ettiğiyle ölçülür.", d:"(Temsil başarısı)", c:"aesthetics", s:"yansitmaci_estetik"},
             {t:"İyi bir sanat eseri, izleyene gerçek hayattan bir kesiti tanıdık ve inandırıcı biçimde hissettirir.", d:"(Gerçeğe sadakat)", c:"aesthetics", s:"yansitmaci_estetik"},
-            {t:"Gerçekliği birebir yansıtmayan, hatta onu bilinçli olarak çarpıtan bir eser de en az gerçekçi bir eser kadar sanatsal değer taşıyabilir.", d:"(Çarpıtma ve değer)", c:"aesthetics", s:"yansitmaci_estetik", r:true}
+            {t:"Gerçekliği birebir yansıtmayan, hatta onu bilinçli olarak çarpıtan bir eser de en az gerçekçi bir eser kadar sanatsal değer taşıyabilir.", d:"(Çarpıtma ve değer)", c:"aesthetics", s:"yansitmaci_estetik", r:true},
+
+            // === D6: Tanrı Tasavvuru — Teizm ===
+            {t:"Evreni yaratan, varlığını sürdüren ve tarihsel olaylara müdahale eden kişisel bir Tanrı mevcuttur.", d:"(Tanrı ve müdahale)", c:"theology", s:"teizm"},
+            {t:"Dua, ibadet ve vahiy; Tanrı ile insan arasındaki gerçek ve canlı bir ilişkiyi yansıtır.", d:"(Tanrı ve iletişim)", c:"theology", s:"teizm"},
+            {t:"Tanrı yalnızca uzak bir ilk neden değil; insanın yaşamıyla aktif biçimde ilgilenen bir varlıktır.", d:"(Tanrı ve insan)", c:"theology", s:"teizm"},
+            {t:"Tanrı'nın var olduğunu kabul etsem bile, O'nun insan hayatına doğrudan müdahale ettiğine ikna olmuş değilim.", d:"(Müdahale şüphesi)", c:"theology", s:"teizm", r:true},
+
+            // === D6: Tanrı Tasavvuru — Deizm ===
+            {t:"Evreni var eden bir Yaratıcı'nın varlığını kabul etmekle birlikte, bu varlığın sonradan işlere karışmadığını düşünüyorum.", d:"(Yaratıcı ve müdahale)", c:"theology", s:"deizm"},
+            {t:"Akıl ve gözlem, vahye ya da kutsal metinlere gerek kalmaksızın bir Yaratıcı'nın varlığına ulaşmanın yeterli aracıdır.", d:"(Akıl ve Yaratıcı)", c:"theology", s:"deizm"},
+            {t:"Tanrı evreni mükemmel bir düzende yaratmış ve kurduğu bu işleyişe müdahil olmamıştır.", d:"(Yaratılış ve düzen)", c:"theology", s:"deizm"},
+            {t:"Tanrı, evreni yarattıktan sonra da dua ve ibadetlere karşılık vererek olaylara müdahale etmeyi sürdürür.", d:"(Süregelen müdahale)", c:"theology", s:"deizm", r:true},
+
+            // === D6: Tanrı Tasavvuru — Panteizm ===
+            {t:"Tanrı, evrenden ayrı bir varlık değildir; Tanrı ile evren özdeştir.", d:"(Tanrı ve evren özdeşliği)", c:"theology", s:"panteizm"},
+            {t:"Doğada gördüğümüz her şey, aslında ilahi olanın kendisinin bir görünümüdür.", d:"(Doğa ve ilahilik)", c:"theology", s:"panteizm"},
+            {t:"Evrenin ötesinde, ondan bağımsız ayrı bir yaratıcı aramak anlamsızdır; kutsal olan zaten evrenin kendisidir.", d:"(Kutsal ve evren)", c:"theology", s:"panteizm"},
+            {t:"Tanrı, yarattığı evrenden ayrı, ondan bağımsız bir varlığa sahiptir; Tanrı ile evren aynı şey değildir.", d:"(Tanrı-evren ayrımı)", c:"theology", s:"panteizm", r:true},
+
+            // === D6: Tanrı Tasavvuru — Panenteizm ===
+            {t:"Evren Tanrı'nın içindedir, ancak Tanrı evrenden ibaret değildir; O, evreni aşan bir gerçekliğe de sahiptir.", d:"(İçkinlik ve aşkınlık)", c:"theology", s:"panenteizm"},
+            {t:"Tanrı hem dünyanın içinde hem de onun ötesinde var olan bir gerçekliktir.", d:"(İçkin ve aşkın Tanrı)", c:"theology", s:"panenteizm"},
+            {t:"Evrendeki her şey ilahi olanın bir parçasıdır, fakat ilahi olan bununla sınırlı kalmaz, onu aşar.", d:"(Sınırı aşan ilahilik)", c:"theology", s:"panenteizm"},
+            {t:"Tanrı ya tamamen evrenin dışında ayrı bir varlıktır ya da tamamen evrenin kendisiyle özdeştir; bu ikisi arasında bir orta yol düşünmüyorum.", d:"(İkili seçenek)", c:"theology", s:"panenteizm", r:true},
+
+            // === D6: Tanrı Tasavvuru — Agnostisizm ===
+            {t:"Tanrı'nın var olup olmadığı sorusu, insan bilişinin kesin olarak karara bağlayabileceği bir soru değildir.", d:"(Bilginin sınırı)", c:"theology", s:"agnostisizm"},
+            {t:"Tanrı'nın varlığını ya da yokluğunu ispatlamaya yetecek güvenilir bir kanıt mevcut değildir.", d:"(Kanıt yetersizliği)", c:"theology", s:"agnostisizm"},
+            {t:"Bu konuda kesin bir hükme varmak yerine belirsizliği kabullenmek, entelektüel açıdan en dürüst tutumdur.", d:"(Entelektüel dürüstlük)", c:"theology", s:"agnostisizm"},
+            {t:"Tanrı'nın var olup olmadığı konusunda kişisel olarak net ve kesin bir kanaate sahibim.", d:"(Kesin kanaat)", c:"theology", s:"agnostisizm", r:true},
+
+            // === D6: Tanrı Tasavvuru — Ateizm ===
+            {t:"Evrenin oluşumunu ve işleyişini açıklamak için doğaüstü bir varlığa başvurmak gerekmemektedir.", d:"(Doğal açıklama)", c:"theology", s:"ateizm"},
+            {t:"Mevcut bilimsel ve felsefi kanıtlar, bir Tanrı ya da doğaüstü varlığın var olduğuna işaret etmemektedir.", d:"(Kanıt ve inanç)", c:"theology", s:"ateizm"},
+            {t:"Tanrı inancı, insan psikolojisinin anlam arayışı ve belirsizliğe karşı geliştirdiği bir savunma mekanizmasının ürünüdür.", d:"(İnancın psikolojisi)", c:"theology", s:"ateizm"},
+            {t:"Evrenin var oluşunu ve düzenini yalnızca doğal/maddi nedenlerle açıklamak bana yetersiz geliyor; bunun ötesinde bir açıklayıcı ilkeye ihtiyaç olduğunu düşünüyorum.", d:"(Açıklayıcı ilke ihtiyacı)", c:"theology", s:"ateizm", r:true}
         ];
 
         // Sabit (deterministik) karıştırma: her katılımcıya aynı sırayı sunar,
@@ -401,7 +446,7 @@
 
         // --- Localization ---
         const uiText = {
-            tr: { dir: "ltr", title: "Felsefi Tutum Ölçeği (FTÖ)", subtitle: "5 Boyut · 25 Alt Boyut · 100 Madde · Akademik Ölçek Geliştirme Sürümü", start: "Ölçeği Başlat", admin: "Yönetici", labels: { year: "Doğum Yılı", gender: "Cinsiyet", edu: "Eğitim Düzeyi", income: "Gelir Düzeyi", city: "Şehir", country: "Ülke", prof: "Meslek" }, opts: { m: "Erkek", f: "Kadın", hs: "Lise", ba: "Lisans", phd: "Lisansüstü", low: "Alt", mid: "Orta", high: "Üst", sel: "Seçiniz" }, calc: "Profil hesaplanıyor...", resTitle: "Felsefi Profil Raporu", restart: "Ölçeği Yeniden Başlat", back: "Geri", next: "İleri", radarTitle: "Boyut Haritası", barTitle: "Baskın Felsefi Eğilimler", likert: ["Kesinlikle Katılmıyorum", "Katılmıyorum", "Kararsızım", "Katılıyorum", "Kesinlikle Katılıyorum"], pdf: "Belgeyi İndir", reset: "Sıfırla" },
+            tr: { dir: "ltr", title: "Felsefi Tutum Ölçeği (FTÖ)", subtitle: "6 Boyut · 31 Alt Boyut · 124 Madde · Akademik Ölçek Geliştirme Sürümü", start: "Ölçeği Başlat", admin: "Yönetici", labels: { year: "Doğum Yılı", gender: "Cinsiyet", edu: "Eğitim Düzeyi", income: "Gelir Düzeyi", city: "Şehir", country: "Ülke", prof: "Meslek" }, opts: { m: "Erkek", f: "Kadın", hs: "Lise", ba: "Lisans", phd: "Lisansüstü", low: "Alt", mid: "Orta", high: "Üst", sel: "Seçiniz" }, calc: "Profil hesaplanıyor...", resTitle: "Felsefi Profil Raporu", restart: "Ölçeği Yeniden Başlat", back: "Geri", next: "İleri", radarTitle: "Boyut Haritası", barTitle: "Baskın Felsefi Eğilimler", likert: ["Kesinlikle Katılmıyorum", "Katılmıyorum", "Kararsızım", "Katılıyorum", "Kesinlikle Katılıyorum"], pdf: "Belgeyi İndir", reset: "Sıfırla" },
             en: { dir: "ltr", title: "Philosophical Attitude Scale", subtitle: "Detailed Analysis", start: "Start", admin: "Admin", labels: { year: "Birth Year", gender: "Gender", edu: "Education", income: "Income", city: "City", country: "Country", prof: "Profession" }, opts: { m: "Male", f: "Female", hs: "High School", ba: "Bachelor", phd: "Graduate", low: "Low", mid: "Mid", high: "High", sel: "Select" }, calc: "Calculating...", resTitle: "Profile Card", restart: "Restart", back: "Back", next: "Next", radarTitle: "Tendency Map", barTitle: "Dominant Views", likert: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], pdf: "Download PDF", reset: "Reset" },
             ar: { dir: "rtl", title: "مقياس الموقف الفلسفي", subtitle: "تحليل مفصل", start: "ابدأ", admin: "مسؤول", labels: { year: "السنة", gender: "الجنس", edu: "التعليم", income: "الدخل", city: "المدينة", country: "البلد", prof: "المهنة" }, opts: { m: "ذكر", f: "أنثى", hs: "ثانوية", ba: "جامعي", phd: "عليا", low: "منخفض", mid: "متوسط", high: "مرتفع", sel: "اختر" }, calc: "جاري الحساب...", resTitle: "الهوية", restart: "إعادة", back: "عودة", next: "التالي", radarTitle: "الخريطة", barTitle: "الآراء", likert: ["أعارض بشدة", "أعارض", "محايد", "أوافق", "أوافق بشدة"], pdf: "تحميل PDF", reset: "إعادة" },
              de: { dir: "ltr", title: "Philosophische Einstellungsskala", subtitle: "Detaillierte Analyse", start: "Starten", admin: "Admin", labels: { year: "Geburtsjahr", gender: "Geschlecht", edu: "Bildung", income: "Einkommen", city: "Stadt", country: "Land", prof: "Beruf" }, opts: { m: "Männlich", f: "Weiblich", hs: "Abitur", ba: "Bachelor", phd: "Master", low: "Niedrig", mid: "Mittel", high: "Hoch", sel: "Wählen" }, calc: "Berechnung...", resTitle: "Profilkarte", restart: "Neustart", back: "Zurück", next: "Weiter", radarTitle: "Tendenzkarte", barTitle: "Dominante Ansichten", likert: ["Stimme überhaupt nicht zu", "Stimme nicht zu", "Neutral", "Stimme zu", "Stimme voll zu"], pdf: "PDF Herunterladen", reset: "Zurücksetzen" },
@@ -411,17 +456,17 @@
 
         const categoryTrans = {
             tr: CATEGORIES,
-            en: { ontology: "Ontology", epistemology_source: "Epist. Source", epistemology_value: "Epist. Value", ethics: "Ethics", aesthetics: "Aesthetics" },
-            ar: { ontology: "الوجود", epistemology_source: "مصدر المعرفة", epistemology_value: "قيمة المعرفة", ethics: "الأخلاق", aesthetics: "الجمال" },
-            de: { ontology: "Ontologie", epistemology_source: "Epist. Quelle", epistemology_value: "Epist. Wert", ethics: "Ethik", aesthetics: "Ästhetik" },
-            ru: { ontology: "Онтология", epistemology_source: "Эпист. Источник", epistemology_value: "Эпист. Ценность", ethics: "Этика", aesthetics: "Эстетика" },
-            zh: { ontology: "本体论", epistemology_source: "认识论来源", epistemology_value: "认识论价值", ethics: "伦理学", aesthetics: "美学" }
+            en: { ontology: "Ontology", epistemology_source: "Epist. Source", epistemology_value: "Epist. Value", ethics: "Ethics", aesthetics: "Aesthetics", theology: "Conception of God" },
+            ar: { ontology: "الوجود", epistemology_source: "مصدر المعرفة", epistemology_value: "قيمة المعرفة", ethics: "الأخلاق", aesthetics: "الجمال", theology: "تصور الإله" },
+            de: { ontology: "Ontologie", epistemology_source: "Epist. Quelle", epistemology_value: "Epist. Wert", ethics: "Ethik", aesthetics: "Ästhetik", theology: "Gottesvorstellung" },
+            ru: { ontology: "Онтология", epistemology_source: "Эпист. Источник", epistemology_value: "Эпист. Ценность", ethics: "Этика", aesthetics: "Эстетика", theology: "Представление о Боге" },
+            zh: { ontology: "本体论", epistemology_source: "认识论来源", epistemology_value: "认识论价值", ethics: "伦理学", aesthetics: "美学", theology: "神观" }
         };
 
         const subDimTrans = {
             tr: Object.fromEntries(Object.entries(SUB_DIMENSIONS).map(([k, v]) => [k, v.label])),
-            en: { materyalizm: "Materialism", dualizm: "Dualism", idealizm: "Idealism", fenomenalizm: "Phenomenalism", ontolojik_realizm: "Realism", rasyonalizm: "Rationalism", empirizm: "Empiricism", sansualizm: "Sensualism", intuisyonizm: "Intuitionism", dogmatizm: "Dogmatism", pragmatizm: "Pragmatism", septisizm: "Skepticism", relativizm: "Relativism", kritisizm: "Criticism", pozitivizm: "Positivism", deontoloji: "Deontology", teleoloji: "Teleology", erdem_etigi: "Virtue Ethics", ilahi_buyruk: "Divine Command", hedonizm: "Hedonism", nesnelci_estetik: "Objective Aes.", oznelci_estetik: "Subjective Aes.", ifadeci_estetik: "Expressionism", bicimci_estetik: "Formalism", yansitmaci_estetik: "Mimetic Aes." },
-            ar: { materyalizm: "المادية", dualizm: "الثنائية", idealizm: "المثالية", fenomenalizm: "الظاهراتية", ontolojik_realizm: "الواقعية", rasyonalizm: "العقلانية", empirizm: "التجريبية", sansualizm: "الحسية", intuisyonizm: "الحدسية", dogmatizm: "الدوغمائية", pragmatizm: "الذرائعية", septisizm: "الشكية", relativizm: "النسبية", kritisizm: "النقدية", pozitivizm: "الوضعية", deontoloji: "الواجبية", teleoloji: "الأخلاق الغائية", erdem_etigi: "أخلاق الفضيلة", ilahi_buyruk: "الأمر الإلهي", hedonizm: "المتعة", nesnelci_estetik: "الجمال الموضوعي", oznelci_estetik: "الجمال الذاتي", ifadeci_estetik: "التعبيرية", bicimci_estetik: "الشكلية", yansitmaci_estetik: "المحاكاة" },
+            en: { materyalizm: "Materialism", dualizm: "Dualism", idealizm: "Idealism", fenomenalizm: "Phenomenalism", ontolojik_realizm: "Realism", rasyonalizm: "Rationalism", empirizm: "Empiricism", sansualizm: "Sensualism", intuisyonizm: "Intuitionism", dogmatizm: "Dogmatism", pragmatizm: "Pragmatism", septisizm: "Skepticism", relativizm: "Relativism", kritisizm: "Criticism", pozitivizm: "Positivism", deontoloji: "Deontology", teleoloji: "Teleology", erdem_etigi: "Virtue Ethics", ilahi_buyruk: "Divine Command", hedonizm: "Hedonism", nesnelci_estetik: "Objective Aes.", oznelci_estetik: "Subjective Aes.", ifadeci_estetik: "Expressionism", bicimci_estetik: "Formalism", yansitmaci_estetik: "Mimetic Aes.", teizm: "Theism", deizm: "Deism", panteizm: "Pantheism", panenteizm: "Panentheism", agnostisizm: "Agnosticism", ateizm: "Atheism" },
+            ar: { materyalizm: "المادية", dualizm: "الثنائية", idealizm: "المثالية", fenomenalizm: "الظاهراتية", ontolojik_realizm: "الواقعية", rasyonalizm: "العقلانية", empirizm: "التجريبية", sansualizm: "الحسية", intuisyonizm: "الحدسية", dogmatizm: "الدوغمائية", pragmatizm: "الذرائعية", septisizm: "الشكية", relativizm: "النسبية", kritisizm: "النقدية", pozitivizm: "الوضعية", deontoloji: "الواجبية", teleoloji: "الأخلاق الغائية", erdem_etigi: "أخلاق الفضيلة", ilahi_buyruk: "الأمر الإلهي", hedonizm: "المتعة", nesnelci_estetik: "الجمال الموضوعي", oznelci_estetik: "الجمال الذاتي", ifadeci_estetik: "التعبيرية", bicimci_estetik: "الشكلية", yansitmaci_estetik: "المحاكاة", teizm: "التأليه", deizm: "الربوبية", panteizm: "وحدة الوجود", panenteizm: "وحدة الشهود", agnostisizm: "اللاأدرية", ateizm: "الإلحاد" },
             de: { materyalizm: "Materialismus", dualizm: "Dualismus", idealizm: "Idealismus" },
             ru: { materyalizm: "Материализм", dualizm: "Дуализм", idealizm: "Идеализм" },
             zh: { materyalizm: "唯物主义", dualizm: "二元论", idealizm: "唯心主义" }
@@ -522,7 +567,7 @@
 
             const dlCSV = () => {
                 const subKeys = Object.keys(SUB_DIMENSIONS);
-                const head = ["Tarih","Yaş","Cinsiyet","Eğitim","Meslek","Gelir","Şehir","Ülke","Dil","Varlık","Bilgi-K","Bilgi-D","Etik","Estetik", ...subKeys.map(k => `M_${k}`)];
+                const head = ["Tarih","Yaş","Cinsiyet","Eğitim","Meslek","Gelir","Şehir","Ülke","Dil","Varlık","Bilgi-K","Bilgi-D","Etik","Estetik","İnanç", ...subKeys.map(k => `M_${k}`)];
                 const rows = [head.join(",")];
                 data.forEach(r => {
                     const d = r.demographics || {};
@@ -532,7 +577,7 @@
                     rows.push([
                         date, d.age, d.gender, d.education, `"${d.prof}"`, d.income, `"${d.city}"`, `"${d.country}"`, r.lang,
                         `"${res.ontology}"`, `"${res.epistemology_source}"`, `"${res.epistemology_value}"`,
-                        `"${res.ethics}"`, `"${res.aesthetics}"`, ...subKeys.map(k => sm[k] ?? '')
+                        `"${res.ethics}"`, `"${res.aesthetics}"`, `"${res.theology}"`, ...subKeys.map(k => sm[k] ?? '')
                     ].join(","));
                 });
                 const link = document.createElement("a");
@@ -577,7 +622,7 @@
                             <thead className="bg-gray-100 border-b">
                                 <tr>
                                     <th className="p-3 w-10 text-center"><input type="checkbox" onChange={e=>setSel(e.target.checked?data.map(d=>d.id):[])} checked={data.length>0 && sel.length===data.length}/></th>
-                                    <th>Tarih</th><th>Yaş</th><th>Cinsiyet</th><th>Eğitim</th><th>Meslek</th><th>Gelir</th><th>Şehir</th><th>Ülke</th><th>Varlık</th><th>Bilgi K.</th><th>Bilgi D.</th><th>Etik</th><th>Estetik</th>
+                                    <th>Tarih</th><th>Yaş</th><th>Cinsiyet</th><th>Eğitim</th><th>Meslek</th><th>Gelir</th><th>Şehir</th><th>Ülke</th><th>Varlık</th><th>Bilgi K.</th><th>Bilgi D.</th><th>Etik</th><th>Estetik</th><th>İnanç</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -594,6 +639,7 @@
                                             <td className="text-purple-700">{res.epistemology_value}</td>
                                             <td className="text-red-700">{res.ethics}</td>
                                             <td className="text-indigo-700">{res.aesthetics}</td>
+                                            <td className="font-bold text-amber-700">{res.theology}</td>
                                         </tr>
                                     );
                                 })}
