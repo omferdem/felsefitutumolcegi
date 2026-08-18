@@ -690,7 +690,8 @@
                         auth.signInAnonymously().catch(() => {});
                     }
                 } catch (e) {
-                    setLoginError("Google ile giriş başarısız oldu. Lütfen tekrar deneyin.");
+                    console.error("Google login error:", e);
+                    setLoginError(`Google ile giriş başarısız: ${e.code || e.message || 'bilinmeyen hata'}`);
                 }
             };
 
