@@ -192,48 +192,98 @@
 
         const SUB_DIMENSIONS = {
             // --- Varlık (Ontoloji) ---
-            materyalizm: { label: "Materyalizm", desc: "Varlığın temeli maddedir.", summary: "Varlık anlayışınızda maddeyi temel alıyorsunuz. Sizin için zihinsel ve ruhsal süreçler dahil her şeyin temeli fiziksel gerçekliktir." },
-            dualizm: { label: "Dualizm", desc: "Madde ve ruh ayrı tözlerdir.", summary: "Evreni madde ve ruh olarak iki ayrı töz üzerinden değerlendiriyorsunuz." },
-            idealizm: { label: "İdealizm", desc: "Gerçeklik zihinseldir.", summary: "Gerçekliğin temelinde maddenin değil, zihnin veya ideanın olduğunu düşünüyorsunuz." },
-            ontolojik_realizm: { label: "Ontolojik Realizm", desc: "Dış dünya bağımsızdır.", summary: "Dış dünyanın insan zihninden bağımsız, nesnel bir gerçekliğe sahip olduğunu düşünüyorsunuz." },
-            fenomenalizm: { label: "Fenomenalizm", desc: "Varlık algıdır.", summary: "Varlığın sadece algılandığı sürece var olduğunu savunuyorsunuz." },
+            materyalizm: { label: "Materyalizm", desc: "Varlığın temeli maddedir.", summary: "Varlık anlayışınızda maddeyi temel alıyorsunuz. Sizin için zihinsel ve ruhsal süreçler dahil her şeyin temeli fiziksel gerçekliktir.", detail: "Bu bakış açısı, dünyayı somut ve ölçülebilir olanla sınırlı gören, gizemden çok açıklamaya değer veren bir kimlik oluşturur. Soyut ya da doğaüstü iddialara karşı doğal bir temkinlilik geliştirir, bir şeyin 'gerçek' sayılması için fiziksel bir karşılığının olmasını beklersiniz." },
+            dualizm: { label: "Dualizm", desc: "Madde ve ruh ayrı tözlerdir.", summary: "Evreni madde ve ruh olarak iki ayrı töz üzerinden değerlendiriyorsunuz.", detail: "Bu bakış açısı, insanı hem bedensel hem de bedenin ötesinde bir varlık olarak gören bir kimlik oluşturur. Zihninizi ve iç dünyanızı beyninizdeki kimyasal süreçlere indirgemeye direnir; kişisel deneyiminizin maddi açıklamaların ötesinde bir anlamı olduğuna inanırsınız." },
+            idealizm: { label: "İdealizm", desc: "Gerçeklik zihinseldir.", summary: "Gerçekliğin temelinde maddenin değil, zihnin veya ideanın olduğunu düşünüyorsunuz.", detail: "Bu bakış açısı, gerçekliği zihnin ve algının biçimlendirdiği bir kimlik oluşturur. Dış dünyayı pasif biçimde kaydetmek yerine onu zihinsel olarak inşa ettiğinizi düşünür, öznel deneyime ve bilince büyük değer verirsiniz." },
+            ontolojik_realizm: { label: "Ontolojik Realizm", desc: "Dış dünya bağımsızdır.", summary: "Dış dünyanın insan zihninden bağımsız, nesnel bir gerçekliğe sahip olduğunu düşünüyorsunuz.", detail: "Bu bakış açısı, kişisel algılardan bağımsız, nesnel bir gerçekliğe güvenen bir kimlik oluşturur. Bilimin ve mantığın öznel yorumların ötesinde paylaşılan bir dünyayı tarif ettiğine inanır, göreceliğe karşı temkinli durursunuz." },
+            fenomenalizm: { label: "Fenomenalizm", desc: "Varlık algıdır.", summary: "Varlığın sadece algılandığı sürece var olduğunu savunuyorsunuz.", detail: "Bu bakış açısı, deneyimi ve algıyı varlığın merkezine koyan bir kimlik oluşturur. Sizin için bir şeyin varlığı deneyimlenebilirliğiyle iç içedir; soyut, deneyimden kopuk 'kendinde şeyler' hakkında konuşmayı anlamsız bulursunuz." },
 
             // --- Bilginin Kaynağı ---
-            rasyonalizm: { label: "Rasyonalizm", desc: "Bilgi akıldan gelir.", summary: "Doğru bilgiye ulaşmada duyulardan ziyade akıl ve mantığa güveniyorsunuz." },
-            empirizm: { label: "Empirizm", desc: "Bilgi deneyden gelir.", summary: "Tüm bilginin sonradan deneyim ve tecrübelerle kazanıldığını düşünüyorsunuz." },
-            sansualizm: { label: "Sansüalizm", desc: "Bilgi duyulardan gelir.", summary: "Bilginin tek kaynağının beş duyu organı olduğunu savunuyorsunuz." },
-            intuisyonizm: { label: "İntüisyonizm", desc: "Bilgi sezgiden gelir.", summary: "Gerçek hakikatin ancak sezgi ve içgörü ile kavranabileceğine inanıyorsunuz." },
+            rasyonalizm: { label: "Rasyonalizm", desc: "Bilgi akıldan gelir.", summary: "Doğru bilgiye ulaşmada duyulardan ziyade akıl ve mantığa güveniyorsunuz.", detail: "Bu bakış açısı, akıl yürütmeye ve mantıksal tutarlılığa güvenen bir kimlik oluşturur. Kararlarınızda içgüdüden çok sistematik düşünmeyi önceler, bir iddiayı kabul etmeden önce onun mantıksal olarak savunulabilir olup olmadığını sorgularsınız." },
+            empirizm: { label: "Empirizm", desc: "Bilgi deneyden gelir.", summary: "Tüm bilginin sonradan deneyim ve tecrübelerle kazanıldığını düşünüyorsunuz.", detail: "Bu bakış açısı, gözlem ve deneyimi bilginin nihai sınayıcısı olarak gören bir kimlik oluşturur. Soyut teorilere şüpheyle yaklaşır, bir iddianın sınanabilir ve gözlemlenebilir bir temeli olmasını beklersiniz." },
+            sansualizm: { label: "Sansüalizm", desc: "Bilgi duyulardan gelir.", summary: "Bilginin tek kaynağının beş duyu organı olduğunu savunuyorsunuz.", detail: "Bu bakış açısı, somut duyusal deneyime güçlü bir öncelik tanıyan bir kimlik oluşturur. Soyut spekülasyondan çok elle tutulur, gözle görülür kanıtlara güvenir, duyularınızın verdiği veriyi bilginin en güvenilir kaynağı sayarsınız." },
+            intuisyonizm: { label: "İntüisyonizm", desc: "Bilgi sezgiden gelir.", summary: "Gerçek hakikatin ancak sezgi ve içgörü ile kavranabileceğine inanıyorsunuz.", detail: "Bu bakış açısı, sezgisel kavrayışa ve içgörüye değer veren bir kimlik oluşturur. Bazı gerçeklerin analitik çıkarımdan önce doğrudan hissedilerek bilinebileceğine inanır, kararlarınızda içgüdünüze kulak vermekten çekinmezsiniz." },
 
             // --- Bilginin Değeri ---
-            dogmatizm: { label: "Dogmatizm", desc: "Kesin bilgi vardır.", summary: "Evrensel ve değişmez doğruların varlığına inanıyorsunuz." },
-            pragmatizm: { label: "Pragmatizm", desc: "Doğru olan faydalıdır.", summary: "Bir düşüncenin doğruluğunu, pratikte sağladığı faydaya göre ölçüyorsunuz." },
-            septisizm: { label: "Septisizm", desc: "Kesin bilgi yoktur.", summary: "Mutlak bilgiye ulaşmanın imkansız olduğunu düşünüyor, şüpheci yaklaşıyorsunuz." },
-            relativizm: { label: "Relativizm", desc: "Doğru görecelidir.", summary: "Doğruluğun kişiye ve kültüre göre değiştiğini savunuyorsunuz." },
-            kritisizm: { label: "Kritisizm", desc: "Bilgi sınırlıdır.", summary: "Aklın sınırları olduğunu ve her şeyi bilemeyeceğimizi düşünüyorsunuz." },
-            pozitivizm: { label: "Pozitivizm", desc: "Bilimsel bilgi esastır.", summary: "Sadece bilimsel ve olgusal bilgiyi kabul ediyor, metafiziği reddediyorsunuz." },
+            dogmatizm: { label: "Dogmatizm", desc: "Kesin bilgi vardır.", summary: "Evrensel ve değişmez doğruların varlığına inanıyorsunuz.", detail: "Bu bakış açısı, evrensel ve değişmez doğrulara olan inancı merkeze alan bir kimlik oluşturur. Değerlerinizde istikrarlı bir zemine sahip olur, sürekli sorgulamaktan çok temel aldığınız ilkelere güvenirsiniz." },
+            pragmatizm: { label: "Pragmatizm", desc: "Doğru olan faydalıdır.", summary: "Bir düşüncenin doğruluğunu, pratikte sağladığı faydaya göre ölçüyorsunuz.", detail: "Bu bakış açısı, fikirleri soyut doğruluklarından çok pratikteki sonuçlarına göre değerlendiren bir kimlik oluşturur. 'İşe yarıyor mu?' sorusu sizin için 'mutlak olarak doğru mu?' sorusundan daha belirleyicidir; esnek ve sonuç odaklı bir tutum sergilersiniz." },
+            septisizm: { label: "Septisizm", desc: "Kesin bilgi yoktur.", summary: "Mutlak bilgiye ulaşmanın imkansız olduğunu düşünüyor, şüpheci yaklaşıyorsunuz.", detail: "Bu bakış açısı, kesinlik iddialarına temkinli yaklaşan, sürekli sorgulayan bir kimlik oluşturur. Hiçbir inancı sorgulanamaz kabul etmez, kendi görüşleriniz dahil her iddiayı eleştirel bir mesafeyle değerlendirirsiniz." },
+            relativizm: { label: "Relativizm", desc: "Doğru görecelidir.", summary: "Doğruluğun kişiye ve kültüre göre değiştiğini savunuyorsunuz.", detail: "Bu bakış açısı, doğrunun bağlama göre değiştiğini kabul eden, farklı bakış açılarına açık bir kimlik oluşturur. Kendi kültürel ya da kişisel çerçevenizin tek geçerli çerçeve olmadığının bilincinde olur, başka görüşlere hoşgörülü yaklaşırsınız." },
+            kritisizm: { label: "Kritisizm", desc: "Bilgi sınırlıdır.", summary: "Aklın sınırları olduğunu ve her şeyi bilemeyeceğimizi düşünüyorsunuz.", detail: "Bu bakış açısı, aklın hem gücünü hem sınırlarını kabul eden dengeli bir kimlik oluşturur. Ne saf bir dogmatik ne tam bir şüpheci olursunuz; bilginin hem deneyimden hem akıldan beslendiğini, ama asla mutlak olamayacağını bilerek hareket edersiniz." },
+            pozitivizm: { label: "Pozitivizm", desc: "Bilimsel bilgi esastır.", summary: "Sadece bilimsel ve olgusal bilgiyi kabul ediyor, metafiziği reddediyorsunuz.", detail: "Bu bakış açısı, bilimsel yöntemi bilginin altın standardı sayan bir kimlik oluşturur. Metafizik ya da doğrulanamaz iddialara mesafeli durur, somut kanıta dayanmayan görüşleri temkinli bir şüpheyle karşılarsınız." },
 
             // --- Etik ---
-            deontoloji: { label: "Deontoloji", desc: "Ödev ahlakı.", summary: "Ahlaki eylemlerde sonucun değil, niyetin ve ilkelere uymanın önemli olduğunu düşünüyorsunuz." },
-            teleoloji: { label: "Teleoloji", desc: "Sonuç odaklı ahlak.", summary: "Eylemin ahlaki değerini, doğurduğu sonuca (fayda/mutluluk) göre değerlendiriyorsunuz." },
-            erdem_etigi: { label: "Erdem Etiği", desc: "Karakter odaklı.", summary: "Ahlakın temeline kuralları değil, kişinin karakterini ve erdemlerini koyuyorsunuz." },
-            ilahi_buyruk: { label: "İlahi Buyruk", desc: "Dini ahlak.", summary: "İyi ve kötüyü Tanrı'nın buyruklarına dayandırıyorsunuz." },
-            hedonizm: { label: "Hedonizm", desc: "Haz odaklı.", summary: "Yaşamın amacının acıdan kaçmak ve hazza/mutluluğa ulaşmak olduğunu düşünüyorsunuz." },
+            deontoloji: { label: "Deontoloji", desc: "Ödev ahlakı.", summary: "Ahlaki eylemlerde sonucun değil, niyetin ve ilkelere uymanın önemli olduğunu düşünüyorsunuz.", detail: "Bu bakış açısı, ilkelere ve ödeve sadık, tutarlı bir ahlaki kimlik oluşturur. Sonuçlar ne kadar cazip olursa olsun bazı sınırları asla aşmayacağınızı bilir, bu da çevrenizde güvenilir biri olarak tanınmanızı sağlar." },
+            teleoloji: { label: "Teleoloji", desc: "Sonuç odaklı ahlak.", summary: "Eylemin ahlaki değerini, doğurduğu sonuca (fayda/mutluluk) göre değerlendiriyorsunuz.", detail: "Bu bakış açısı, sonuçlara ve genel faydaya odaklanan pragmatik bir ahlaki kimlik oluşturur. Bir kararın doğruluğunu soyut kurallardan çok yarattığı somut etkiyle değerlendirir, büyük resmi görmeye çalışırsınız." },
+            erdem_etigi: { label: "Erdem Etiği", desc: "Karakter odaklı.", summary: "Ahlakın temeline kuralları değil, kişinin karakterini ve erdemlerini koyuyorsunuz.", detail: "Bu bakış açısı, kurallardan çok karakteri merkeze alan bir ahlaki kimlik oluşturur. 'Doğru olan ne?' sorusundan önce 'iyi bir insan olarak ben ne yapardım?' sorusunu sorar, ahlakı bir alışkanlık ve karakter meselesi olarak görürsünüz." },
+            ilahi_buyruk: { label: "İlahi Buyruk", desc: "Dini ahlak.", summary: "İyi ve kötüyü Tanrı'nın buyruklarına dayandırıyorsunuz.", detail: "Bu bakış açısı, ahlakı aşkın, insan iradesinin ötesinde bir kaynağa bağlayan bir kimlik oluşturur. Değerlerinizin öznel bir tercihten ibaret olmadığını, daha büyük bir otoriteye dayandığını hissetmek size sağlam bir zemin verir." },
+            hedonizm: { label: "Hedonizm", desc: "Haz odaklı.", summary: "Yaşamın amacının acıdan kaçmak ve hazza/mutluluğa ulaşmak olduğunu düşünüyorsunuz.", detail: "Bu bakış açısı, haz ve mutluluğu yaşamın merkezine koyan bir kimlik oluşturur. Kararlarınızda 'bu bana ve başkalarına ne hissettirecek?' sorusu belirleyicidir; acıdan kaçınmayı ve iyi hissetmeyi meşru bir amaç olarak görürsünüz." },
 
             // --- Estetik ---
-            nesnelci_estetik: { label: "Nesnelci Estetik", desc: "Güzellik eserde.", summary: "Güzelliğin eserin kendisindeki oran ve uyumda saklı olduğunu düşünüyorsunuz." },
-            oznelci_estetik: { label: "Öznelci Estetik", desc: "Güzellik bakanda.", summary: "Güzelliğin tamamen bakan kişinin algısında olduğunu savunuyorsunuz." },
-            ifadeci_estetik: { label: "İfadeci Estetik", desc: "Duygu ifadesi.", summary: "Sanatın amacının duyguları dışa vurmak olduğuna inanıyorsunuz." },
-            bicimci_estetik: { label: "Biçimci Estetik", desc: "Form güzelliği.", summary: "Sanat eserinin değerini biçimsel uyumunda arıyorsunuz." },
-            yansitmaci_estetik: { label: "Yansıtmacı Estetik", desc: "Doğayı taklit.", summary: "Sanatın doğayı ve hayatı olduğu gibi yansıtması/taklit etmesi gerektiğini savunuyorsunuz." },
+            nesnelci_estetik: { label: "Nesnelci Estetik", desc: "Güzellik eserde.", summary: "Güzelliğin eserin kendisindeki oran ve uyumda saklı olduğunu düşünüyorsunuz.", detail: "Bu bakış açısı, güzelliği kişisel zevkin ötesinde nesnel ölçütlere bağlayan bir kimlik oluşturur. Sanat ve estetik yargılarınızda 'bu iyi mi kötü mü' sorusunun tartışmaya açık ama cevaplanabilir olduğunu düşünürsünüz." },
+            oznelci_estetik: { label: "Öznelci Estetik", desc: "Güzellik bakanda.", summary: "Güzelliğin tamamen bakan kişinin algısında olduğunu savunuyorsunuz.", detail: "Bu bakış açısı, güzelliği bakan kişinin gözünde bulan, öznelliğe değer veren bir kimlik oluşturur. Başkalarının zevklerini yargılamak yerine, estetik deneyimin kişisel ve biricik olduğunu kabul edersiniz." },
+            ifadeci_estetik: { label: "İfadeci Estetik", desc: "Duygu ifadesi.", summary: "Sanatın amacının duyguları dışa vurmak olduğuna inanıyorsunuz.", detail: "Bu bakış açısı, sanatı bir duygu ve iç dünya aktarımı olarak gören, duygusal sahiciliğe değer veren bir kimlik oluşturur. Bir eseri değerlendirirken tekniğinden çok, size ne hissettirdiğine ve ne kadar samimi olduğuna bakarsınız." },
+            bicimci_estetik: { label: "Biçimci Estetik", desc: "Form güzelliği.", summary: "Sanat eserinin değerini biçimsel uyumunda arıyorsunuz.", detail: "Bu bakış açısı, biçimsel uyuma ve yapıya değer veren, düzenli bir estetik kimlik oluşturur. Bir eserin mesajından çok nasıl kurulduğuna, oranlarına ve iç tutarlılığına dikkat edersiniz." },
+            yansitmaci_estetik: { label: "Yansıtmacı Estetik", desc: "Doğayı taklit.", summary: "Sanatın doğayı ve hayatı olduğu gibi yansıtması/taklit etmesi gerektiğini savunuyorsunuz.", detail: "Bu bakış açısı, sanatı gerçekliğin bir aynası olarak gören, gerçekçiliğe değer veren bir kimlik oluşturur. Bir eserin başarısını, hayatı ne kadar inandırıcı ve tanıdık biçimde yansıttığıyla ölçersiniz." },
 
             // --- Tanrı Tasavvuru ---
-            teizm: { label: "Teizm", desc: "Müdahil Tanrı.", summary: "Evreni yaratan, sürdüren ve ona aktif biçimde müdahale eden kişisel bir Tanrı inancına sahipsiniz." },
-            deizm: { label: "Deizm", desc: "Yaratıcı ama müdahil olmayan Tanrı.", summary: "Tanrı'nın evreni yarattığını ama sonradan işleyişine karışmadığını düşünüyorsunuz." },
-            panteizm: { label: "Panteizm", desc: "Tanrı ve evren özdeştir.", summary: "Tanrı ile evrenin ayrı şeyler olmadığını, ilahi olanın evrenin kendisi olduğunu düşünüyorsunuz." },
-            panenteizm: { label: "Panenteizm", desc: "Evren Tanrı'dadır, Tanrı evreni aşar.", summary: "Evrenin Tanrı'nın içinde olduğunu, ancak Tanrı'nın evrenden ibaret olmayıp onu aştığını düşünüyorsunuz." },
-            agnostisizm: { label: "Agnostisizm", desc: "Bilinemezcilik.", summary: "Tanrı'nın var olup olmadığının insan bilişiyle kesin olarak bilinemeyeceğini düşünüyorsunuz." },
-            ateizm: { label: "Ateizm", desc: "Tanrı yoktur.", summary: "Tanrı veya doğaüstü bir gücün varlığını reddediyorsunuz." }
+            teizm: { label: "Teizm", desc: "Müdahil Tanrı.", summary: "Evreni yaratan, sürdüren ve ona aktif biçimde müdahale eden kişisel bir Tanrı inancına sahipsiniz.", detail: "Bu bakış açısı, hayatınızı kişisel ve müdahil bir Tanrı inancı etrafında anlamlandıran bir kimlik oluşturur. Dua, ibadet ve ilahi rehberlik arayışı sizin için soyut bir kavram değil, yaşayan bir ilişkidir." },
+            deizm: { label: "Deizm", desc: "Yaratıcı ama müdahil olmayan Tanrı.", summary: "Tanrı'nın evreni yarattığını ama sonradan işleyişine karışmadığını düşünüyorsunuz.", detail: "Bu bakış açısı, akla ve gözleme dayanan ama kurumsal dinden bağımsız bir inanç kimliği oluşturur. Bir Yaratıcı'nın varlığını kabul eder, ama günlük hayatınızı vahiyden çok akıl yürütmeyle yönlendirirsiniz." },
+            panteizm: { label: "Panteizm", desc: "Tanrı ve evren özdeştir.", summary: "Tanrı ile evrenin ayrı şeyler olmadığını, ilahi olanın evrenin kendisi olduğunu düşünüyorsunuz.", detail: "Bu bakış açısı, kutsalı doğanın ve evrenin kendisinde bulan, birleştirici bir kimlik oluşturur. Tanrı'yı uzak ve ayrı bir varlık olarak değil, var olan her şeyin özünde hissedersiniz." },
+            panenteizm: { label: "Panenteizm", desc: "Evren Tanrı'dadır, Tanrı evreni aşar.", summary: "Evrenin Tanrı'nın içinde olduğunu, ancak Tanrı'nın evrenden ibaret olmayıp onu aştığını düşünüyorsunuz.", detail: "Bu bakış açısı, hem içkinliği hem aşkınlığı bir arada tutan, dengeli bir tinsel kimlik oluşturur. Tanrı'yı evrenin hem içinde hem de onu aşan bir gerçeklik olarak deneyimlersiniz." },
+            agnostisizm: { label: "Agnostisizm", desc: "Bilinemezcilik.", summary: "Tanrı'nın var olup olmadığının insan bilişiyle kesin olarak bilinemeyeceğini düşünüyorsunuz.", detail: "Bu bakış açısı, kesin hükümlerden kaçınan, entelektüel dürüstlüğe değer veren bir kimlik oluşturur. Tanrı sorusunda bilmediğinizi kabul etmenin, sahte bir kesinlikten daha dürüst olduğunu düşünürsünüz." },
+            ateizm: { label: "Ateizm", desc: "Tanrı yoktur.", summary: "Tanrı veya doğaüstü bir gücün varlığını reddediyorsunuz.", detail: "Bu bakış açısı, açıklamalarını doğal nedenlere dayandıran, doğaüstüne ihtiyaç duymayan bir kimlik oluşturur. Anlamı ve değeri, dini bir çerçeveden değil, insani ve dünyevi kaynaklardan türetirsiniz." }
         };
+
+        // --- Felsefi Kimlik Sentezi ---
+        // Altı boyuttaki sonuçların birlikte hangi tutarlı (ya da çok yönlü)
+        // örüntüyü oluşturduğunu betimleyen, kural tabanlı bir yorumlama katmanı.
+        // Bu bir psikometrik sınıflandırma değil, sonuçların birlikte okunmasına
+        // dayanan açıklayıcı bir sentezdir.
+        const IDENTITY_AXES = {
+            naturalist: new Set(['materyalizm', 'ontolojik_realizm', 'empirizm', 'sansualizm', 'pozitivizm', 'ateizm', 'agnostisizm']),
+            idealistSpiritual: new Set(['idealizm', 'dualizm', 'fenomenalizm', 'rasyonalizm', 'intuisyonizm', 'dogmatizm', 'kritisizm', 'teizm', 'panteizm', 'panenteizm', 'deizm']),
+            objectivistValue: new Set(['deontoloji', 'ilahi_buyruk', 'nesnelci_estetik', 'yansitmaci_estetik']),
+            subjectivistValue: new Set(['teleoloji', 'hedonizm', 'oznelci_estetik', 'ifadeci_estetik'])
+        };
+
+        function buildIdentitySynthesis(res) {
+            const subKeys = Object.keys(CATEGORIES)
+                .map(cat => Object.keys(SUB_DIMENSIONS).find(k => SUB_DIMENSIONS[k].label === res[cat]))
+                .filter(Boolean);
+
+            let natCount = 0, idealCount = 0, objCount = 0, subjCount = 0;
+            subKeys.forEach(k => {
+                if (IDENTITY_AXES.naturalist.has(k)) natCount++;
+                if (IDENTITY_AXES.idealistSpiritual.has(k)) idealCount++;
+                if (IDENTITY_AXES.objectivistValue.has(k)) objCount++;
+                if (IDENTITY_AXES.subjectivistValue.has(k)) subjCount++;
+            });
+
+            const parts = [];
+
+            if (natCount >= 3 && natCount > idealCount) {
+                parts.push("Varlık, bilgi ve inanç boyutlarındaki yanıtlarınız birlikte okunduğunda güçlü bir natüralist-ampirist eğilim ortaya çıkıyor: dünyayı büyük ölçüde maddi, gözlemlenebilir ve akılla ya da deneyle sınanabilir bir çerçevede anlamlandırıyorsunuz. Bu, kararlarınızda somut kanıta ve pratik sonuçlara öncelik veren, soyut ya da doğaüstü açıklamalara temkinli yaklaşan tutarlı bir dünya görüşüne işaret eder.");
+            } else if (idealCount >= 3 && idealCount > natCount) {
+                parts.push("Varlık, bilgi ve inanç boyutlarındaki yanıtlarınız birlikte okunduğunda güçlü bir idealist-tinsel eğilim ortaya çıkıyor: gerçekliği yalnızca maddi olanla sınırlamıyor, zihne, akla ve/veya aşkın bir boyuta önemli bir yer veriyorsunuz. Bu, dünyayı anlamlandırırken salt gözlemlenebilir olanın ötesine geçmeye açık, tutarlı bir dünya görüşüne işaret eder.");
+            } else if (natCount >= 2 && idealCount >= 2) {
+                parts.push("Varlık, bilgi ve inanç boyutlarındaki yanıtlarınız, natüralist ve idealist eğilimleri bir arada barındırıyor. Bu, tek bir kalıba sığmayan; konuya göre bazen somut kanıta, bazen de akla ve içgörüye öncelik veren sentezci bir dünya görüşüne işaret eder — bu durum bir tutarsızlıktan çok, farklı meseleler için farklı araçlar kullanan esnek bir zihniyeti yansıtabilir.");
+            }
+
+            if (objCount >= 2 && objCount > subjCount) {
+                parts.push("Ahlak ve estetik alanındaki tercihleriniz de bu resmi tamamlıyor: değerleri (iyi, kötü, güzel) kişisel tercihlerin ötesinde, ilkeli ve nispeten sabit ölçütlere bağlıyorsunuz. Bu, gerek ahlaki gerek sanatsal yargılarınızda tutarlılığı ve ilkeye bağlılığı önemseyen bir kimliğe işaret eder.");
+            } else if (subjCount >= 2 && subjCount > objCount) {
+                parts.push("Ahlak ve estetik alanındaki tercihleriniz de bu resmi tamamlıyor: değerleri (iyi, kötü, güzel) büyük ölçüde sonuçlara, duyguya ve kişisel deneyime bağlıyorsunuz. Bu, esnek, bağlama duyarlı ve öznel deneyimi önemseyen bir kimliğe işaret eder.");
+            }
+
+            if (parts.length === 0) {
+                parts.push("Boyutlar arasındaki sonuçlarınız, tek bir baskın felsefi eksene indirgenemeyecek kadar çeşitli. Bu, farklı konularda farklı akıl yürütme biçimlerini bir arada kullanan, çok yönlü ve senteze açık bir felsefi kimliğe işaret ediyor olabilir.");
+            }
+
+            parts.push("Unutmayın: bu sentez, altı boyuttaki yanıtlarınızın birlikte okunmasından türetilen betimsel bir yorumdur; kişiliğinizin sabit ya da tek bir kalıba indirgenebilir olduğu anlamına gelmez.");
+
+            return parts;
+        }
 
         // Not: Her alt boyutta 3 düz + 1 ters puanlanan (r:true) madde bulunur.
         // Sunum sırası (SHUFFLE_SEED ile) alt boyutlara göre iç içe geçirilerek
@@ -446,15 +496,87 @@
         // bilinçli olarak FTÖ'nün madde havuzundan ve puanlamasından tamamen ayrı
         // tutulmuştur ki ölçeğin bilimsel ciddiyeti zedelenmesin.
         const ENNEAGRAM_TYPES = {
-            tip1: { no: 1, label: "Mükemmeliyetçi (Reformcu)", desc: "İlkeli, düzenli ve doğruyu arayan bir karakter yapısı.", fear: "Kusurlu, yozlaşmış ya da hatalı olmak.", desire: "Doğru, iyi ve dürüst olmak.", traits: ["Yüksek standartlara sahiptir", "Adalete ve düzene önem verir", "Kendini ve başkalarını eleştirmeye eğilimlidir", "Sorumluluk sahibi ve güvenilirdir", "Kurallara ve ilkelere bağlıdır"] },
-            tip2: { no: 2, label: "Yardımsever", desc: "Sıcak, cömert ve ilişki odaklı bir karakter yapısı.", fear: "Sevilmeye ve istenmeye değer olmadığını düşünmek.", desire: "Sevilmek ve değer görmek.", traits: ["Empati kurma yeteneği güçlüdür", "Başkalarının ihtiyaçlarına duyarlıdır", "Cömert ve fedakârdır", "Onay ve takdir arayışındadır", "İlişkilerde kendini geri plana atabilir"] },
-            tip3: { no: 3, label: "Başarı Odaklı", desc: "Hırslı, uyum sağlayan ve imaj bilinci yüksek bir karakter yapısı.", fear: "Değersiz ya da başarısız görünmek.", desire: "Değerli, başarılı ve takdir edilen biri olmak.", traits: ["Hedef odaklı ve verimlidir", "Değişen ortamlara hızla uyum sağlar", "İmajına ve algılanışına önem verir", "Rekabetçi bir yapısı vardır", "Üretkenlikten güç alır"] },
-            tip4: { no: 4, label: "Özgün (Bireyci)", desc: "Duygusal derinliği ve özgünlüğü önemseyen bir karakter yapısı.", fear: "Kimliksiz, sıradan ya da önemsiz olmak.", desire: "Kendine özgü bir kimlik ve anlam bulmak.", traits: ["Duygusal derinliğe sahiptir", "Yaratıcı ve dışavurumcudur", "Kendini diğerlerinden farklı hisseder", "Estetik duyarlılığı yüksektir", "Melankoli ile özlem arasında gidip gelebilir"] },
-            tip5: { no: 5, label: "Araştırmacı (Gözlemci)", desc: "Analitik, gözlemci ve bilgiye aç bir karakter yapısı.", fear: "Yetersiz, bilgisiz ya da güçsüz kalmak.", desire: "Yetkin, bilgili ve kendi kendine yeten biri olmak.", traits: ["Derinlemesine araştırmayı sever", "Bağımsızlığa ve mahremiyete değer verir", "Analitik ve gözlemcidir", "Duygularını içe atmaya eğilimlidir", "Enerjisini dikkatli biçimde yönetir"] },
-            tip6: { no: 6, label: "Sorgulayıcı (Sadık)", desc: "Güvenilir, hazırlıklı ve sadık bir karakter yapısı.", fear: "Destek ve rehberlikten yoksun kalmak.", desire: "Güvenlik ve destek bulmak.", traits: ["Sorumluluk sahibi ve güvenilirdir", "Olası riskleri önceden düşünür", "Bağlılığa ve sadakate önem verir", "Otoriteye karşı hem güvenir hem şüphelenir", "Ekip çalışmasında güçlüdür"] },
-            tip7: { no: 7, label: "Maceracı (Coşkulu)", desc: "Enerjik, iyimser ve deneyime açık bir karakter yapısı.", fear: "Kısıtlanmak, sıkışıp kalmak ya da acı çekmek.", desire: "Mutlu, tatmin olmuş ve özgür olmak.", traits: ["Enerjik ve iyimserdir", "Yeni deneyimlere açıktır", "Çok yönlü ilgi alanlarına sahiptir", "Sıkıntılı duygulardan kaçınmaya eğilimlidir", "Spontane ve esnek bir yapısı vardır"] },
-            tip8: { no: 8, label: "Meydan Okuyan (Lider)", desc: "Güçlü, kararlı ve koruyucu bir karakter yapısı.", fear: "Kontrol edilmek ya da zayıf görünmek.", desire: "Kendi kaderini kontrol etmek ve güçlü olmak.", traits: ["Kararlı ve doğrudandır", "Adaletsizliğe karşı harekete geçer", "Zayıfları korumaya eğilimlidir", "Kontrolü elde tutmayı sever", "Çatışmadan çekinmez"] },
-            tip9: { no: 9, label: "Barışçı (Uzlaştırıcı)", desc: "Sakin, hoşgörülü ve uyum arayan bir karakter yapısı.", fear: "Kayıp yaşamak, ayrılık ya da parçalanma.", desire: "İç huzuru ve uyumu korumak.", traits: ["Sakin ve hoşgörülüdür", "Çatışmadan kaçınmaya eğilimlidir", "Başkalarının bakış açısını kolayca anlar", "İstikrarlı ortamlarda rahat eder", "Kendi önceliklerini erteleyebilir"] }
+            tip1: { no: 1, label: "Mükemmeliyetçi (Reformcu)", desc: "İlkeli, düzenli ve doğruyu arayan bir karakter yapısı.",
+                detailedDesc: "Tip 1 karakter yapısına sahip kişiler, dünyayı 'olması gerektiği gibi' olma ve olmama ekseninde değerlendirir. İçlerinde sürekli çalışan bir iç eleştirmen sesi vardır; bu ses hem kendilerini hem çevrelerini daha iyiye, daha doğruya taşımak ister. Adalet, dürüstlük ve düzen onlar için soyut kavramlar değil, günlük hayatın somut gerekleridir. Bu yönelim, onları güvenilir ve ilkeli kılarken, bazen aşırı eleştirel ya da esnek olmayan biri olarak da görünmelerine yol açabilir.",
+                fear: "Kusurlu, yozlaşmış ya da hatalı olmak.", desire: "Doğru, iyi ve dürüst olmak.",
+                traits: ["Yüksek standartlara sahiptir", "Adalete ve düzene önem verir", "Kendini ve başkalarını eleştirmeye eğilimlidir", "Sorumluluk sahibi ve güvenilirdir", "Kurallara ve ilkelere bağlıdır"],
+                strengths: ["Yüksek sorumluluk duygusu", "Adalet ve dürüstlüğe bağlılık", "Detaylara gösterdiği özen", "Sözünün arkasında durma"],
+                challenges: ["Kendine karşı aşırı eleştirel olma", "Mükemmeliyetçilik yüzünden işleri erteleyebilme", "Esneklik göstermekte zorlanma", "Öfkeyi bastırma eğilimi"],
+                relationships: "İlişkilerinde adil ve güvenilir bir taraf olmaya çalışır; sevdiklerinden de aynı standardı beklediğinde gerginlik yaşanabilir. Eleştirilerini iyi niyetle, geliştirmek amacıyla yapar ama karşı taraf bunu bazen sert bulabilir.",
+                stress: "Baskı altında kuralcılığı artabilir, küçük detaylara daha fazla takılabilir ve öfkesini bastırmakta zorlanabilir. Bu dönemlerde kendini rahatlatmak yerine daha da sıkı kontrol kurma eğilimi görülür.",
+                growthTip: "Kendine ve başkalarına karşı biraz daha hoşgörülü olmak, 'yeterince iyi'nin bazen 'mükemmel'den daha değerli olduğunu kabul etmek, bu tipin gelişiminde önemli bir adımdır." },
+            tip2: { no: 2, label: "Yardımsever", desc: "Sıcak, cömert ve ilişki odaklı bir karakter yapısı.",
+                detailedDesc: "Tip 2 karakter yapısındaki kişiler, kendilerini başkalarına faydalı olarak var ederler. Sevginin kazanılması gerektiğine dair örtük bir inançla, çevrelerindeki insanların ihtiyaçlarını fark etmede olağanüstü bir yeteneğe sahiptirler. Bu özen çoğu zaman gerçek ve içtendir; ancak bazen kendi ihtiyaçlarını geri plana atarak bir tükenmişliğe de sürüklenebilirler.",
+                fear: "Sevilmeye ve istenmeye değer olmadığını düşünmek.", desire: "Sevilmek ve değer görmek.",
+                traits: ["Empati kurma yeteneği güçlüdür", "Başkalarının ihtiyaçlarına duyarlıdır", "Cömert ve fedakârdır", "Onay ve takdir arayışındadır", "İlişkilerde kendini geri plana atabilir"],
+                strengths: ["Güçlü empati ve şefkat", "İlişkilerde sıcaklık kurma becerisi", "Cömertlik", "Başkalarının ihtiyacını fark etme"],
+                challenges: ["Kendi ihtiyaçlarını erteleme", "Onay bağımlılığı geliştirme riski", "Sınır koymakta zorlanma", "Verdiğinin karşılığını örtük biçimde bekleme"],
+                relationships: "İlişkilerinde besleyici ve destekleyici bir rol üstlenir; ancak bazen 'vazgeçilmez' olma ihtiyacı, karşı tarafın bağımsızlığını kısıtlayacak kadar ileri gidebilir.",
+                stress: "Baskı altında, verdiği emeğin karşılığını göremediğini hissettiğinde kırgınlığa ve pasif-agresif tepkilere yönelebilir; kendini ihmal ettiği için bedensel ve duygusal tükenmişlik yaşayabilir.",
+                growthTip: "Kendi ihtiyaçlarını fark etmek ve onları doğrudan ifade etmek, karşılıksız sevginin gerçek anlamda özgür olabilmesi için bu tipin öğrenmesi gereken en önemli beceridir." },
+            tip3: { no: 3, label: "Başarı Odaklı", desc: "Hırslı, uyum sağlayan ve imaj bilinci yüksek bir karakter yapısı.",
+                detailedDesc: "Tip 3 karakter yapısındaki kişiler için değer, başarıyla ölçülür. Hedeflere ulaşma, verimli olma ve başkalarının gözünde iyi bir imaj çizme konusunda doğal bir yetenekleri vardır. Enerjilerini büyük bir kararlılıkla işlerine yönlendirirler; bu da onları genellikle başarılı kılar. Zorluk, kim olduklarıyla ne başardıkları arasındaki çizgiyi bazen kaybetmeleridir.",
+                fear: "Değersiz ya da başarısız görünmek.", desire: "Değerli, başarılı ve takdir edilen biri olmak.",
+                traits: ["Hedef odaklı ve verimlidir", "Değişen ortamlara hızla uyum sağlar", "İmajına ve algılanışına önem verir", "Rekabetçi bir yapısı vardır", "Üretkenlikten güç alır"],
+                strengths: ["Yüksek motivasyon ve hedef odaklılık", "Uyum sağlama becerisi", "Verimli çalışma", "İlham verici bir duruş"],
+                challenges: ["Kimliğini başarıyla özdeşleştirme", "İmaj kaygısı yüzünden sahiciliğini kaybetme riski", "Duygularını ikinci plana atma", "Aşırı rekabetçilik"],
+                relationships: "İlişkilerinde de 'iyi görünme' ve başarılı olma isteği öne çıkabilir; partnerinin ya da yakınlarının başarılarını da kendi imajının bir parçası gibi görme eğilimi taşıyabilir.",
+                stress: "Baskı altında işkolikliğe yönelebilir, duygusal ihtiyaçlarını tamamen bastırıp performansa odaklanabilir; başarısızlık korkusu davranışlarını daha kontrolcü hale getirebilir.",
+                growthTip: "Değerinin yaptıklarından değil, olduğu kişiden geldiğini fark etmek, bu tip için en dönüştürücü içgörüdür." },
+            tip4: { no: 4, label: "Özgün (Bireyci)", desc: "Duygusal derinliği ve özgünlüğü önemseyen bir karakter yapısı.",
+                detailedDesc: "Tip 4 karakter yapısındaki kişiler, kendilerini sıradan olanın dışında, özgün bir kimlikle tanımlama ihtiyacı duyar. Duygusal iniş çıkışları derinden yaşar ve bu yoğunluğu genellikle bir yaratıcılık kaynağına dönüştürürler. Eksiklik ya da özlem hissi kimliklerinin merkezinde yer alabilir; bu da onlara hem derin bir estetik duyarlılık hem de zaman zaman melankolik bir bakış açısı kazandırır.",
+                fear: "Kimliksiz, sıradan ya da önemsiz olmak.", desire: "Kendine özgü bir kimlik ve anlam bulmak.",
+                traits: ["Duygusal derinliğe sahiptir", "Yaratıcı ve dışavurumcudur", "Kendini diğerlerinden farklı hisseder", "Estetik duyarlılığı yüksektir", "Melankoli ile özlem arasında gidip gelebilir"],
+                strengths: ["Yüksek yaratıcılık ve estetik duyarlılık", "Duygusal derinlik ve özgünlük", "Otantiklik arayışı", "Başkalarının acısına empati kurabilme"],
+                challenges: ["Kıyaslama yaparak kendini eksik hissetme", "Duygu durumuna aşırı bağımlılık", "Sıradanlıktan kaçınma isteğinin izolasyona yol açması", "Melankoliye eğilim"],
+                relationships: "İlişkilerinde derin ve tutkulu bağlar kurar; ancak terk edilme korkusu ya da 'anlaşılmama' hissi, zaman zaman ilişkilerde iniş çıkışlara yol açabilir.",
+                stress: "Baskı altında içe kapanma, kendini izole etme ya da duygusal durumun abartılı biçimde dışavurulması görülebilir; 'kimse beni anlamıyor' hissi güçlenebilir.",
+                growthTip: "Duygusal yoğunluğu bir kimlik zorunluluğu değil, geçici bir deneyim olarak görebilmek, bu tip için önemli bir denge kaynağıdır." },
+            tip5: { no: 5, label: "Araştırmacı (Gözlemci)", desc: "Analitik, gözlemci ve bilgiye aç bir karakter yapısı.",
+                detailedDesc: "Tip 5 karakter yapısındaki kişiler, dünyayı anlamak için önce geri çekilip gözlemlemeyi tercih eder. Bilgi ve yetkinlik onlar için bir güvenlik kaynağıdır; ne kadar çok bilirlerse kendilerini o kadar hazırlıklı hissederler. Mahremiyete ve bağımsızlığa verdikleri değer yüksektir; enerjilerini dikkatli biçimde yönetir, gereksiz sosyal ya da duygusal taleplerden kaçınmaya eğilim gösterirler.",
+                fear: "Yetersiz, bilgisiz ya da güçsüz kalmak.", desire: "Yetkin, bilgili ve kendi kendine yeten biri olmak.",
+                traits: ["Derinlemesine araştırmayı sever", "Bağımsızlığa ve mahremiyete değer verir", "Analitik ve gözlemcidir", "Duygularını içe atmaya eğilimlidir", "Enerjisini dikkatli biçimde yönetir"],
+                strengths: ["Derin analitik düşünme", "Bağımsız çalışabilme", "Nesnellik ve soğukkanlılık", "Karmaşık konuları kavrama becerisi"],
+                challenges: ["Duygusal ifade etmekte zorlanma", "Aşırı içe kapanma riski", "Bilgi biriktirmeyi eyleme geçirmenin önüne koyma", "Sosyal taleplerden kaçınma"],
+                relationships: "İlişkilerinde kendi alanına ve zamanına duyduğu ihtiyaç önceliklidir; yakınlık kurduğunda derin ve sadık bir bağ geliştirir, ancak fazla talepkâr bulduğu ilişkilerden geri çekilebilir.",
+                stress: "Baskı altında daha da içe kapanabilir, insanlardan ve taleplerden uzaklaşarak kendi zihinsel dünyasına sığınabilir; bu da yalnızlaşmayı derinleştirebilir.",
+                growthTip: "Bilgiyi biriktirmekle yetinmeyip paylaşmak ve ilişkilerde biraz daha savunmasız olabilmek, bu tipin gelişim yolunda atabileceği en değerli adımdır." },
+            tip6: { no: 6, label: "Sorgulayıcı (Sadık)", desc: "Güvenilir, hazırlıklı ve sadık bir karakter yapısı.",
+                detailedDesc: "Tip 6 karakter yapısındaki kişiler, güvenliği ve öngörülebilirliği önemser; olası riskleri önceden düşünme konusunda doğal bir yetenekleri vardır. Bağlılık ve sadakat onlar için merkezi değerlerdir; güvendikleri kişilere ve kurumlara derinden bağlanırlar. Aynı zamanda otoriteyle karmaşık bir ilişkileri vardır — hem rehberlik ararlar hem de sorgularlar.",
+                fear: "Destek ve rehberlikten yoksun kalmak.", desire: "Güvenlik ve destek bulmak.",
+                traits: ["Sorumluluk sahibi ve güvenilirdir", "Olası riskleri önceden düşünür", "Bağlılığa ve sadakate önem verir", "Otoriteye karşı hem güvenir hem şüphelenir", "Ekip çalışmasında güçlüdür"],
+                strengths: ["Güçlü sorumluluk duygusu", "Sadakat ve güvenilirlik", "Riskleri öngörme becerisi", "Ekip içinde dayanışma kurma"],
+                challenges: ["Aşırı kaygı ve tedirginlik", "Kararsızlık", "Otoriteye karşı güvensizlik ya da aşırı bağımlılık", "Olası kötü senaryolara odaklanma"],
+                relationships: "İlişkilerinde güven inşa etmek zaman alabilir, ama bir kez güven oluştuğunda son derece sadık ve destekleyici bir taraf olur; belirsizlik dönemlerinde kaygıları ilişkiye de yansıyabilir.",
+                stress: "Baskı altında kaygı düzeyi belirgin biçimde artabilir, en kötü senaryoları düşünmeye başlayabilir ya da tam tersine aniden pervasız kararlar alabilir.",
+                growthTip: "İçindeki güvenilir rehberliğe -kendi iç sesine- güvenmeyi öğrenmek, dışarıdan sürekli güvence arama ihtiyacını azaltan en önemli adımdır." },
+            tip7: { no: 7, label: "Maceracı (Coşkulu)", desc: "Enerjik, iyimser ve deneyime açık bir karakter yapısı.",
+                detailedDesc: "Tip 7 karakter yapısındaki kişiler, hayatı olabildiğince geniş bir yelpazede deneyimlemek ister. Enerjileri yüksektir, yeni fikirlere ve deneyimlere açıktırlar; acı veya sıkıcı duygulardan kaçınmak için sürekli yeni planlar, yeni uyaranlar ararlar. Bu iyimserlik onları çevrelerinde ilham verici kılar, ama bazen yüzeysellik ya da kalıcılık eksikliğine de yol açabilir.",
+                fear: "Kısıtlanmak, sıkışıp kalmak ya da acı çekmek.", desire: "Mutlu, tatmin olmuş ve özgür olmak.",
+                traits: ["Enerjik ve iyimserdir", "Yeni deneyimlere açıktır", "Çok yönlü ilgi alanlarına sahiptir", "Sıkıntılı duygulardan kaçınmaya eğilimlidir", "Spontane ve esnek bir yapısı vardır"],
+                strengths: ["Yüksek enerji ve iyimserlik", "Yaratıcı ve esnek düşünme", "Yeni fikirlere açıklık", "Krizlerde umudu koruma"],
+                challenges: ["Zor duygulardan kaçınma", "Taahhütlerde kalıcı olamama", "Dikkat dağınıklığı", "Doyumsuzluk hissi"],
+                relationships: "İlişkilerinde eğlenceli ve enerji verici bir taraftır; ancak zorlayıcı duygusal konulardan kaçınma eğilimi, derin ve sürdürülebilir yakınlık kurmanın önünde bazen engel oluşturabilir.",
+                stress: "Baskı altında daha da fazla uyarana yönelebilir, dikkatini dağıtacak yeni planlar yapabilir ya da tam tersine ani bir huzursuzluk ve tatminsizlik hissi yaşayabilir.",
+                growthTip: "Zor duygularla kaçmadan kalabilmeyi öğrenmek, gerçek doyumun sürekli yeni uyaranlarda değil an içinde kalabilmekte olduğunu keşfetmek bu tip için dönüştürücüdür." },
+            tip8: { no: 8, label: "Meydan Okuyan (Lider)", desc: "Güçlü, kararlı ve koruyucu bir karakter yapısı.",
+                detailedDesc: "Tip 8 karakter yapısındaki kişiler, güç ve kontrolün hayatlarının merkezinde olduğunu hisseder. Zayıf görünmekten kaçınır, doğrudan ve kararlı bir duruş sergilerler. Adaletsizliğe karşı harekete geçme konusunda güçlü bir içgüdüleri vardır; genellikle çevrelerindeki daha zayıf konumdaki insanları korumaya eğilimlidirler. Bu güç, liderlik konusunda onları öne çıkarırken, bazen başkalarını ezici bulunacak kadar baskın da olabilir.",
+                fear: "Kontrol edilmek ya da zayıf görünmek.", desire: "Kendi kaderini kontrol etmek ve güçlü olmak.",
+                traits: ["Kararlı ve doğrudandır", "Adaletsizliğe karşı harekete geçer", "Zayıfları korumaya eğilimlidir", "Kontrolü elde tutmayı sever", "Çatışmadan çekinmez"],
+                strengths: ["Güçlü liderlik ve kararlılık", "Adaletsizliğe karşı durma cesareti", "Doğrudan iletişim", "Zor zamanlarda sorumluluk alma"],
+                challenges: ["Kontrolü bırakmakta zorlanma", "Zayıflığı kabul etmekte güçlük çekme", "Çatışmacı ya da baskın algılanma", "Güven kurmakta temkinli davranma"],
+                relationships: "İlişkilerinde koruyucu ve güçlü bir taraf olur; ancak savunmasızlığını göstermekte zorlanması, yakınlarının onu daha derinden tanımasını güçleştirebilir.",
+                stress: "Baskı altında kontrolü daha sıkı elde tutmaya çalışabilir, öfkesini daha açık gösterebilir ya da tam tersine, alışılmadık biçimde geri çekilebilir.",
+                growthTip: "Savunmasız olmanın zayıflık değil, gerçek yakınlığın bir koşulu olduğunu kabul etmek, bu tipin en önemli gelişim alanıdır." },
+            tip9: { no: 9, label: "Barışçı (Uzlaştırıcı)", desc: "Sakin, hoşgörülü ve uyum arayan bir karakter yapısı.",
+                detailedDesc: "Tip 9 karakter yapısındaki kişiler, iç ve dış huzuru korumaya büyük önem verir. Farklı bakış açılarını kolayca anlayabilir, çatışmadan doğal olarak kaçınırlar. Bu uzlaştırıcı tutum onları sevilen ve güvenilir kişiler yapar; ama kendi önceliklerini ve isteklerini geri plana atma eğilimi, zamanla kendi seslerini kaybetmelerine yol açabilir.",
+                fear: "Kayıp yaşamak, ayrılık ya da parçalanma.", desire: "İç huzuru ve uyumu korumak.",
+                traits: ["Sakin ve hoşgörülüdür", "Çatışmadan kaçınmaya eğilimlidir", "Başkalarının bakış açısını kolayca anlar", "İstikrarlı ortamlarda rahat eder", "Kendi önceliklerini erteleyebilir"],
+                strengths: ["Empati ve uzlaştırıcılık", "Sakinlik ve istikrar", "Farklı görüşleri bir araya getirme becerisi", "Sabır"],
+                challenges: ["Kendi önceliklerini erteleme", "Çatışmadan kaçınmak için pasif kalma", "Kararsızlık", "Öfkeyi bastırma"],
+                relationships: "İlişkilerde uyumlu ve destekleyici bir taraf olur; ancak kendi ihtiyaçlarını dile getirmekte zorlandığında, biriken hoşnutsuzluk zamanla pasif-agresif bir tutuma dönüşebilir.",
+                stress: "Baskı altında erteleme ve kayıtsızlık artabilir, kararsızlık büyüyebilir; bazen aniden biriken öfke beklenmedik bir patlamayla açığa çıkabilir.",
+                growthTip: "Kendi isteklerinin de en az başkalarının ki kadar önemli olduğunu kabul etmek ve sesini yükseltmekten çekinmemek, bu tip için en kritik gelişim adımıdır." }
         };
 
         const ENNEAGRAM_QUESTIONS = [
@@ -511,34 +633,45 @@
         // standartlaştırılmış, telifli klinik testlerin bir kopyası DEĞİLDİR ve
         // sonuç ekranı kesin bir "IQ puanı" değil, açıkça uyarılmış "tahmini
         // aralık" gösterir — gerçek zekâ ölçümü uzman gözetiminde yapılır.
+        const IQ_CATEGORIES = {
+            sayisal: "Sayısal Akıl Yürütme",
+            sozel: "Sözel Akıl Yürütme",
+            mantik: "Mantıksal Çıkarım"
+        };
         const IQ_QUESTIONS = [
-            {t:"2, 4, 8, 16, 32, ? — Dizide bir sonraki sayı nedir?", options:["48","60","64","128"], correct:2},
-            {t:"1, 1, 2, 3, 5, 8, 13, ? — Dizide bir sonraki sayı nedir?", options:["18","20","21","24"], correct:2},
-            {t:"3, 6, 12, 24, ? — Dizide bir sonraki sayı nedir?", options:["36","42","48","30"], correct:2},
-            {t:"Kalem : Yazmak :: Bıçak : ?", options:["Yemek","Kesmek","Mutfak","Keskin"], correct:1},
-            {t:"Kitap : Sayfa :: Ağaç : ?", options:["Kök","Dal","Yaprak","Orman"], correct:2},
-            {t:"Aşağıdakilerden hangisi diğerlerinden farklıdır?", options:["Koşmak","Yürümek","Atlamak","Yüzmek"], correct:3},
-            {t:"\"Tüm kediler memelidir. Bazı memeliler uçamaz.\" Bu önermelere göre hangisi kesinlikle doğrudur?", options:["Tüm kediler uçamaz","Bazı kediler uçabilir","Hiçbir kedi memeli değildir","Verilen bilgilerle kedilerin uçup uçamayacağı belirlenemez"], correct:3},
-            {t:"Bir çiftlikte tavuk ve keçiler var. Toplamda 10 baş hayvan ve 28 ayak var. Kaç keçi vardır?", options:["3","4","5","6"], correct:1},
-            {t:"A, C, E, G, ? — Dizide bir sonraki harf nedir?", options:["H","I","J","K"], correct:1},
-            {t:"5, 10, 20, 40, ? — Dizide bir sonraki sayı nedir?", options:["60","70","80","45"], correct:2},
-            {t:"Doktor : Hastane :: Öğretmen : ?", options:["Kitap","Okul","Öğrenci","Ders"], correct:1},
-            {t:"Bir odada 3 anahtar var, sadece biri kapıyı açıyor. Rastgele denersen kapıyı ilk denemede açma olasılığın nedir?", options:["1/2","1/3","1/4","2/3"], correct:1},
-            {t:"1, 4, 9, 16, 25, ? — Dizide bir sonraki sayı nedir?", options:["30","32","34","36"], correct:3},
-            {t:"\"Ali, Veli'den daha uzundur. Veli, Can'dan daha uzundur.\" Buna göre en uzun kimdir?", options:["Ali","Veli","Can","Belirlenemez"], correct:0},
-            {t:"Bir otomobil 3 saatte 180 km yol alıyor. Aynı hızla 5 saatte kaç km yol alır?", options:["250","280","300","320"], correct:2},
-            {t:"Üçgen (3 kenar), kare (4 kenar), beşgen (5 kenar), altıgen (6 kenar)... Sırada kaç kenarlı bir şekil gelir?", options:["6","7","8","5"], correct:1},
-            {t:"\"Bazı çiçekler kırmızıdır. Güller çiçektir.\" Bu ifadelere göre hangisi kesinlikle doğrudur?", options:["Tüm güller kırmızıdır","Bazı güller kırmızı olabilir ama kesin değildir","Hiçbir gül kırmızı değildir","Çiçekler güldür"], correct:1},
-            {t:"2, 5, 11, 23, 47, ? — Dizide bir sonraki sayı nedir? (İpucu: her sayı bir öncekinin iki katı artı bir)", options:["90","94","95","99"], correct:2}
+            {t:"2, 4, 8, 16, 32, ? — Dizide bir sonraki sayı nedir?", options:["48","60","64","128"], correct:2, cat:"sayisal"},
+            {t:"1, 1, 2, 3, 5, 8, 13, ? — Dizide bir sonraki sayı nedir?", options:["18","20","21","24"], correct:2, cat:"sayisal"},
+            {t:"3, 6, 12, 24, ? — Dizide bir sonraki sayı nedir?", options:["36","42","48","30"], correct:2, cat:"sayisal"},
+            {t:"Kalem : Yazmak :: Bıçak : ?", options:["Yemek","Kesmek","Mutfak","Keskin"], correct:1, cat:"sozel"},
+            {t:"Kitap : Sayfa :: Ağaç : ?", options:["Kök","Dal","Yaprak","Orman"], correct:2, cat:"sozel"},
+            {t:"Aşağıdakilerden hangisi diğerlerinden farklıdır?", options:["Koşmak","Yürümek","Atlamak","Yüzmek"], correct:3, cat:"sozel"},
+            {t:"\"Tüm kediler memelidir. Bazı memeliler uçamaz.\" Bu önermelere göre hangisi kesinlikle doğrudur?", options:["Tüm kediler uçamaz","Bazı kediler uçabilir","Hiçbir kedi memeli değildir","Verilen bilgilerle kedilerin uçup uçamayacağı belirlenemez"], correct:3, cat:"mantik"},
+            {t:"Bir çiftlikte tavuk ve keçiler var. Toplamda 10 baş hayvan ve 28 ayak var. Kaç keçi vardır?", options:["3","4","5","6"], correct:1, cat:"sayisal"},
+            {t:"A, C, E, G, ? — Dizide bir sonraki harf nedir?", options:["H","I","J","K"], correct:1, cat:"mantik"},
+            {t:"5, 10, 20, 40, ? — Dizide bir sonraki sayı nedir?", options:["60","70","80","45"], correct:2, cat:"sayisal"},
+            {t:"Doktor : Hastane :: Öğretmen : ?", options:["Kitap","Okul","Öğrenci","Ders"], correct:1, cat:"sozel"},
+            {t:"Bir odada 3 anahtar var, sadece biri kapıyı açıyor. Rastgele denersen kapıyı ilk denemede açma olasılığın nedir?", options:["1/2","1/3","1/4","2/3"], correct:1, cat:"sayisal"},
+            {t:"1, 4, 9, 16, 25, ? — Dizide bir sonraki sayı nedir?", options:["30","32","34","36"], correct:3, cat:"sayisal"},
+            {t:"\"Ali, Veli'den daha uzundur. Veli, Can'dan daha uzundur.\" Buna göre en uzun kimdir?", options:["Ali","Veli","Can","Belirlenemez"], correct:0, cat:"mantik"},
+            {t:"Bir otomobil 3 saatte 180 km yol alıyor. Aynı hızla 5 saatte kaç km yol alır?", options:["250","280","300","320"], correct:2, cat:"sayisal"},
+            {t:"Üçgen (3 kenar), kare (4 kenar), beşgen (5 kenar), altıgen (6 kenar)... Sırada kaç kenarlı bir şekil gelir?", options:["6","7","8","5"], correct:1, cat:"mantik"},
+            {t:"\"Bazı çiçekler kırmızıdır. Güller çiçektir.\" Bu ifadelere göre hangisi kesinlikle doğrudur?", options:["Tüm güller kırmızıdır","Bazı güller kırmızı olabilir ama kesin değildir","Hiçbir gül kırmızı değildir","Çiçekler güldür"], correct:1, cat:"mantik"},
+            {t:"2, 5, 11, 23, 47, ? — Dizide bir sonraki sayı nedir? (İpucu: her sayı bir öncekinin iki katı artı bir)", options:["90","94","95","99"], correct:2, cat:"sayisal"}
         ];
         const IQ_QUESTIONS_ORDERED = seededShuffle(IQ_QUESTIONS, 314159265);
         const IQ_BANDS = [
-            { min:0, max:3, label:"Başlangıç Seviyesi", range:"~80-90" },
-            { min:4, max:6, label:"Gelişmekte", range:"~90-100" },
-            { min:7, max:9, label:"Ortalama", range:"~100-110" },
-            { min:10, max:12, label:"Ortalama Üstü", range:"~110-118" },
-            { min:13, max:15, label:"İyi", range:"~118-126" },
-            { min:16, max:18, label:"Çok İyi", range:"~126-135" }
+            { min:0, max:3, label:"Başlangıç Seviyesi", range:"~80-90",
+              detail:"Bu bölümdeki sorularda zorlandın gibi görünüyor. Bu tek başına zekânı yansıtmaz; mantık ve örüntü soruları da tıpkı bir kas gibi pratikle gelişir. Hangi soru türlerinde daha çok zorlandığını aşağıdaki kırılımdan görebilirsin." },
+            { min:4, max:6, label:"Gelişmekte", range:"~90-100",
+              detail:"Bazı soru tiplerinde daha güçlü bir performans gösterirken bazılarında zorlanmışsın. Bu dengesizlik oldukça normaldir; herkesin rahat ettiği akıl yürütme türü farklıdır. Kırılıma bakarak hangi alanda daha çok pratik yapman gerektiğini görebilirsin." },
+            { min:7, max:9, label:"Ortalama", range:"~100-110",
+              detail:"Bu, çoğu insanın bu tür sorularda gösterdiği tipik bir performans aralığı. Sayısal, sözel ve mantıksal akıl yürütme arasında görece dengeli bir dağılım sergiliyorsun." },
+            { min:10, max:12, label:"Ortalama Üstü", range:"~110-118",
+              detail:"Akıl yürütme sorularının çoğunda sağlam bir performans sergiledin. Örüntüleri fark etme ve mantıksal çıkarım yapma konusunda iyi bir yatkınlığın olduğu söylenebilir." },
+            { min:13, max:15, label:"İyi", range:"~118-126",
+              detail:"Bu oldukça güçlü bir performans. Farklı akıl yürütme türlerinde (sayısal, sözel, mantıksal) tutarlı biçimde başarılı oldun." },
+            { min:16, max:18, label:"Çok İyi", range:"~126-135",
+              detail:"Bu bölümdeki neredeyse tüm soru tiplerinde üst düzey bir performans sergiledin; bu, analitik düşünme ve örüntü tanıma becerilerinin güçlü olduğuna işaret ediyor. Yine de unutma: bu resmi, standartlaştırılmış bir zekâ testi değildir." }
         ];
 
         const PROFESSIONS =["Öğrenci", "Akademisyen", "Öğretmen", "Mühendis", "Doktor", "Avukat", "Yazılımcı", "Sanatçı", "Yazar", "Memur", "Esnaf", "Yönetici", "Emekli", "Ev Hanımı", "Diğer"];
@@ -825,6 +958,7 @@
             const [iqAnswers, setIqAnswers] = React.useState({});
             const [iqCorrectCount, setIqCorrectCount] = React.useState(0);
             const [iqBand, setIqBand] = React.useState(null);
+            const [iqBreakdown, setIqBreakdown] = React.useState({});
 
             const t = uiText[lang] || uiText['tr'];
             const currentQuestions = React.useMemo(() => getQuestions(lang), [lang]);
@@ -942,6 +1076,7 @@
                 setIqAnswers({});
                 setIqCorrectCount(0);
                 setIqBand(null);
+                setIqBreakdown({});
                 setStep('iq_quiz');
             };
 
@@ -1062,10 +1197,17 @@
             React.useEffect(() => {
                 if (step === 'iq_calc') {
                     let correct = 0;
+                    const byCat = {}; // cat -> { correct, total }
                     IQ_QUESTIONS_ORDERED.forEach((q, idx) => {
-                        if (iqAnswers[idx] === q.correct) correct += 1;
+                        if (!byCat[q.cat]) byCat[q.cat] = { correct: 0, total: 0 };
+                        byCat[q.cat].total += 1;
+                        if (iqAnswers[idx] === q.correct) {
+                            correct += 1;
+                            byCat[q.cat].correct += 1;
+                        }
                     });
                     setIqCorrectCount(correct);
+                    setIqBreakdown(byCat);
                     const band = IQ_BANDS.find(b => correct >= b.min && correct <= b.max) || IQ_BANDS[0];
                     setIqBand(band);
                     setStep('iq_res');
@@ -1191,6 +1333,10 @@
                                 <p className="text-sm opacity-90 mt-2">{et.desc}</p>
                             </div>
                             <div className="p-8">
+                                <div className="bg-indigo-50/60 border border-indigo-100 p-5 rounded-xl mb-8">
+                                    <h4 className="text-xs font-bold text-indigo-500 uppercase mb-2">Detaylı Açıklama</h4>
+                                    <p className="text-sm text-slate-700 leading-relaxed">{et.detailedDesc}</p>
+                                </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                                     <div className="bg-red-50 border border-red-100 p-5 rounded-xl">
                                         <h4 className="text-xs font-bold text-red-400 uppercase mb-1">Temel Korku</h4>
@@ -1206,6 +1352,34 @@
                                     <ul className="space-y-2">
                                         {et.traits.map((tr, i) => <li key={i} className="flex items-start gap-2 text-sm text-slate-700"><span className="text-fuchsia-500 font-bold">•</span>{tr}</li>)}
                                     </ul>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                                    <div className="bg-white border border-slate-200 p-5 rounded-xl">
+                                        <h4 className="text-xs font-bold text-emerald-600 uppercase mb-3">💪 Güçlü Yönler</h4>
+                                        <ul className="space-y-1.5">
+                                            {et.strengths.map((s, i) => <li key={i} className="flex items-start gap-2 text-sm text-slate-700"><span className="text-emerald-500 font-bold">•</span>{s}</li>)}
+                                        </ul>
+                                    </div>
+                                    <div className="bg-white border border-slate-200 p-5 rounded-xl">
+                                        <h4 className="text-xs font-bold text-amber-600 uppercase mb-3">🌱 Gelişim Alanları</h4>
+                                        <ul className="space-y-1.5">
+                                            {et.challenges.map((c, i) => <li key={i} className="flex items-start gap-2 text-sm text-slate-700"><span className="text-amber-500 font-bold">•</span>{c}</li>)}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div className="space-y-4 mb-8">
+                                    <div className="bg-white border border-slate-200 p-5 rounded-xl">
+                                        <h4 className="text-xs font-bold text-slate-500 uppercase mb-2">🤝 İlişkilerde</h4>
+                                        <p className="text-sm text-slate-700 leading-relaxed">{et.relationships}</p>
+                                    </div>
+                                    <div className="bg-white border border-slate-200 p-5 rounded-xl">
+                                        <h4 className="text-xs font-bold text-slate-500 uppercase mb-2">⚡ Baskı Altındayken</h4>
+                                        <p className="text-sm text-slate-700 leading-relaxed">{et.stress}</p>
+                                    </div>
+                                    <div className="bg-fuchsia-50 border border-fuchsia-100 p-5 rounded-xl">
+                                        <h4 className="text-xs font-bold text-fuchsia-600 uppercase mb-2">🧭 Gelişim Önerisi</h4>
+                                        <p className="text-sm text-slate-700 leading-relaxed">{et.growthTip}</p>
+                                    </div>
                                 </div>
                                 <div className="mb-8">
                                     <h4 className="text-xs font-bold text-slate-400 uppercase mb-3 text-center">Tüm Tiplere Göre Eğilimin</h4>
@@ -1277,6 +1451,30 @@
                                 <p className="text-lg opacity-90 mt-2">{iqBand.label} · Tahmini Aralık: {iqBand.range}</p>
                             </div>
                             <div className="p-8">
+                                <div className="bg-slate-50 border border-slate-200 p-5 rounded-xl mb-6">
+                                    <h4 className="text-xs font-bold text-slate-500 uppercase mb-2">Ne Anlama Geliyor?</h4>
+                                    <p className="text-sm text-slate-700 leading-relaxed">{iqBand.detail}</p>
+                                </div>
+                                <div className="mb-6">
+                                    <h4 className="text-xs font-bold text-slate-400 uppercase mb-3 text-center">Soru Türüne Göre Kırılım</h4>
+                                    <div className="space-y-3">
+                                        {Object.entries(IQ_CATEGORIES).map(([catKey, catLabel]) => {
+                                            const b = iqBreakdown[catKey] || { correct: 0, total: 0 };
+                                            const pct = b.total ? (b.correct / b.total) * 100 : 0;
+                                            return (
+                                                <div key={catKey}>
+                                                    <div className="flex justify-between text-xs text-slate-600 mb-1">
+                                                        <span className="font-bold">{catLabel}</span>
+                                                        <span>{b.correct} / {b.total} doğru</span>
+                                                    </div>
+                                                    <div className="h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                                                        <div className="h-full bg-blue-600" style={{width: `${Math.max(4, pct)}%`}}></div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
                                 <div className="bg-amber-50 border border-amber-200 p-5 rounded-xl mb-6">
                                     <h4 className="text-xs font-bold text-amber-600 uppercase mb-2">⚠️ Önemli Not</h4>
                                     <p className="text-sm text-slate-700 leading-relaxed">Bu, <strong>resmi ya da klinik bir IQ testi değildir</strong>. Gerçek zekâ testleri (WAIS, Stanford-Binet vb.) standartlaştırılmış, normlandırılmış ve bir uzman gözetiminde uygulanan araçlardır. Buradaki sonuç yalnızca eğlence ve farkındalık amaçlıdır; hiçbir klinik, akademik ya da mesleki karar için kullanılmamalıdır.</p>
@@ -1333,7 +1531,9 @@
 
             if (step === 'calc') return <div className="h-screen flex items-center justify-center bg-white"><div className="text-center"><div className="animate-spin h-12 w-12 border-4 border-indigo-600 border-t-transparent rounded-full mx-auto mb-4"></div><h2 className="text-xl font-bold">Hesaplanıyor...</h2></div></div>;
 
-            if (step === 'res') return (
+            if (step === 'res') {
+              const identityParas = buildIdentitySynthesis(res);
+              return (
                 <div className="min-h-screen bg-slate-50 py-10 px-4">
                     <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden fade-in relative">
                         <div className="bg-slate-900 text-white p-8 text-center">
@@ -1346,12 +1546,26 @@
                         </div>
                         <div className="p-8">
                             <ResultsChart scores={scores} categories={CATEGORIES} lang="tr" />
+
+                            <div className="mt-10 bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-2xl p-6 md:p-8 shadow-lg">
+                                <h3 className="text-xl md:text-2xl font-bold serif mb-1 flex items-center gap-2">🧩 Felsefi Kimlik Sentezi</h3>
+                                <p className="text-indigo-200 text-xs mb-4">Aşağıdaki altı boyuttaki yanıtlarınızın birlikte oluşturduğu bütünsel görünüm</p>
+                                <div className="space-y-3">
+                                    {identityParas.map((para, i) => (
+                                        <p key={i} className={"text-sm leading-relaxed " + (i === identityParas.length - 1 ? "text-indigo-300 text-xs italic border-t border-white/10 pt-3 mt-3" : "text-indigo-50")}>{para}</p>
+                                    ))}
+                                </div>
+                            </div>
+
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
                                 {Object.entries(res).map(([k,v])=>(
                                     <div key={k} className="bg-slate-50 p-5 rounded-xl border border-slate-200 hover:shadow-md transition">
                                         <h4 className="text-xs font-bold text-slate-400 uppercase mb-1">{CATEGORIES[k]}</h4>
                                         <div className="text-lg font-bold text-indigo-900 serif border-b pb-2 mb-2">{SUB_DIMENSIONS[v]?.label || v}</div>
-                                        <p className="text-xs text-slate-500 leading-relaxed italic">{SUB_DIMENSIONS[v]?.desc || ""}</p>
+                                        <p className="text-xs text-slate-600 leading-relaxed mb-2">{SUB_DIMENSIONS[v]?.summary || SUB_DIMENSIONS[v]?.desc || ""}</p>
+                                        {SUB_DIMENSIONS[v]?.detail && (
+                                            <p className="text-xs text-slate-500 leading-relaxed italic border-t border-slate-200 pt-2 mt-2">{SUB_DIMENSIONS[v].detail}</p>
+                                        )}
                                     </div>
                                 ))}
                             </div>
@@ -1359,7 +1573,8 @@
                         <div className="bg-slate-50 p-6 text-center border-t"><button onClick={clearSession} className="bg-white border border-slate-300 px-6 py-2 rounded-full font-bold hover:bg-slate-100 transition">Testi Yeniden Başlat</button></div>
                     </div>
                 </div>
-            );
+              );
+            }
 
             if (step === 'admin') return <AdminPanel onBack={()=>setStep('intro')} />;
             return null;
