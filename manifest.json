@@ -1,0 +1,33 @@
+{
+  "name": "Felsefi Tutum Analizi - Enneagram - IQ",
+  "short_name": "Felsefi Tutum",
+  "description": "Felsefi Tutum Ölçeği (varlık, bilgi, etik, estetik, Tanrı tasavvuru), Enneagram Kişilik Testi ve IQ Testi.",
+  "start_url": "/?utm_source=pwa",
+  "id": "/?utm_source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#0f172a",
+  "orientation": "portrait-primary",
+  "lang": "tr",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
