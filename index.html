@@ -1228,6 +1228,10 @@
                         <LangSwitcher />
                         <div className="bg-slate-900 p-8 text-center text-white"><h1 className="text-2xl font-bold serif mb-2">{t.title}</h1><p className="text-xs uppercase tracking-widest text-slate-400">{t.subtitle}</p></div>
                         <div className="p-8">
+                            <p className="text-sm text-slate-600 leading-relaxed mb-6 bg-slate-50 border border-slate-200 rounded-lg p-4">
+                                Bu ölçek; <b>varlık, bilginin kaynağı, bilginin değeri, etik, estetik ve Tanrı tasavvuru</b> olmak üzere 6 temel alanda felsefi tutumunuzu ortaya çıkarmayı amaçlayan 124 maddelik bilimsel bir araçtır. Her madde için <b>-2 (Kesinlikle Katılmıyorum)</b> ile <b>+2 (Kesinlikle Katılıyorum)</b> arasında, sizi en iyi yansıtan seçeneği işaretleyeceksiniz — doğru ya da yanlış cevap yoktur. Tamamlaması ortalama 15-20 dakika sürer.
+                            </p>
+
                             {localStorage.getItem('fye_v1_academic_session') && (
                                 <button onClick={() => {
                                     const s = JSON.parse(localStorage.getItem('fye_v1_academic_session'));
@@ -1297,6 +1301,10 @@
                             <div className="p-8 md:p-12">
                                 <h3 className="text-xl md:text-2xl font-serif text-slate-800 mb-8 leading-relaxed text-center">{currentQ.t}</h3>
 
+                                <div className="flex justify-between items-center text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-wide mb-1 px-1">
+                                    <span>◄ Katılmıyorum</span>
+                                    <span>Katılıyorum ►</span>
+                                </div>
                                 <div className="likert-container">
                                     {["Kesinlikle Katılmıyorum", "Katılmıyorum", "Kararsızım", "Katılıyorum", "Kesinlikle Katılıyorum"].map((label, idx) => {
                                         const val = idx - 2;
@@ -1507,6 +1515,10 @@
                                 <h3 className="text-xl md:text-2xl font-serif text-slate-800 mb-2 leading-relaxed text-center">{currentQ.t}</h3>
                                 <p className="text-xs text-slate-400 text-center mb-8 uppercase tracking-widest">{currentQ.d}</p>
 
+                                <div className="flex justify-between items-center text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-wide mb-1 px-1">
+                                    <span>◄ Katılmıyorum</span>
+                                    <span>Katılıyorum ►</span>
+                                </div>
                                 <div className="likert-container">
                                     {["Kesinlikle Katılmıyorum", "Katılmıyorum", "Kararsızım", "Katılıyorum", "Kesinlikle Katılıyorum"].map((label, idx) => {
                                         const val = idx - 2;
