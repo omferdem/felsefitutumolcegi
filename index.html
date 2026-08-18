@@ -122,8 +122,8 @@
             <div style="margin-bottom: 30px;">
                 <p style="font-size: 16px; line-height: 1.6;">Sayın <strong><span id="cert-name">Katılımcı</span></strong>,</p>
                 <p style="font-size: 16px; line-height: 1.6;">
-                    Bu belge, felsefi yönelimlerinizi belirlemek amacıyla hazırlanan 75 maddelik akademik ölçeğe (Felsefi Tutum Ölçeği – FTÖ) katılımınız üzerine düzenlenmiştir.
-                    Verdiğiniz yanıtlar doğrultusunda oluşturulan kişisel felsefi profiliniz aşağıdadır. Ölçek; ontoloji, epistemoloji, etik, estetik ve tanrı tasavvuru boyutlarını kapsamaktadır.
+                    Bu belge, felsefi yönelimlerinizi belirlemek amacıyla hazırlanan 100 maddelik akademik ölçeğe (Felsefi Tutum Ölçeği – FTÖ) katılımınız üzerine düzenlenmiştir.
+                    Verdiğiniz yanıtlar doğrultusunda oluşturulan kişisel felsefi profiliniz aşağıdadır. Ölçek; varlık (ontoloji), bilginin kaynağı ve değeri (epistemoloji), etik ve estetik boyutlarını kapsamaktadır.
                 </p>
             </div>
 
@@ -171,191 +171,222 @@
         const appId = "felsefi-profil-analizi";
 
         // --- GLOBAL CONSTANTS ---
+        // Ölçek yapısı: Varlık → Bilginin Kaynağı → Bilginin Değeri → Etik → Estetik
+        // (Akademik geçerlik/güvenirlik çalışmasına temel oluşturacak şekilde tasarlanmıştır.)
         const CATEGORIES = {
             ontology: "Varlık (Ontoloji)",
-            epistemology_source: "Bilgi Kaynağı",
-            epistemology_value: "Bilgi Değeri",
+            epistemology_source: "Bilginin Kaynağı",
+            epistemology_value: "Bilginin Değeri",
             ethics: "Ahlak (Etik)",
-            aesthetics: "Estetik",
-            theology: "Tanrı Tasavvuru"
+            aesthetics: "Estetik"
         };
 
         const SUB_DIMENSIONS = {
+            // --- Varlık (Ontoloji) ---
             materyalizm: { label: "Materyalizm", desc: "Varlığın temeli maddedir.", summary: "Varlık anlayışınızda maddeyi temel alıyorsunuz. Sizin için zihinsel ve ruhsal süreçler dahil her şeyin temeli fiziksel gerçekliktir." },
             dualizm: { label: "Dualizm", desc: "Madde ve ruh ayrı tözlerdir.", summary: "Evreni madde ve ruh olarak iki ayrı töz üzerinden değerlendiriyorsunuz." },
             idealizm: { label: "İdealizm", desc: "Gerçeklik zihinseldir.", summary: "Gerçekliğin temelinde maddenin değil, zihnin veya ideanın olduğunu düşünüyorsunuz." },
-            monist_metafizik: { label: "Monist Metafizik", desc: "Tek bir töz vardır.", summary: "Evrendeki her şeyin tek bir tözden türediğine inanıyorsunuz." },
-            fenomenalizm: { label: "Fenomenalizm", desc: "Varlık algıdır.", summary: "Varlığın sadece algılandığı sürece var olduğunu savunuyorsunuz." },
             ontolojik_realizm: { label: "Ontolojik Realizm", desc: "Dış dünya bağımsızdır.", summary: "Dış dünyanın insan zihninden bağımsız, nesnel bir gerçekliğe sahip olduğunu düşünüyorsunuz." },
-            
+            fenomenalizm: { label: "Fenomenalizm", desc: "Varlık algıdır.", summary: "Varlığın sadece algılandığı sürece var olduğunu savunuyorsunuz." },
+
+            // --- Bilginin Kaynağı ---
             rasyonalizm: { label: "Rasyonalizm", desc: "Bilgi akıldan gelir.", summary: "Doğru bilgiye ulaşmada duyulardan ziyade akıl ve mantığa güveniyorsunuz." },
             empirizm: { label: "Empirizm", desc: "Bilgi deneyden gelir.", summary: "Tüm bilginin sonradan deneyim ve tecrübelerle kazanıldığını düşünüyorsunuz." },
             sansualizm: { label: "Sansüalizm", desc: "Bilgi duyulardan gelir.", summary: "Bilginin tek kaynağının beş duyu organı olduğunu savunuyorsunuz." },
             intuisyonizm: { label: "İntüisyonizm", desc: "Bilgi sezgiden gelir.", summary: "Gerçek hakikatin ancak sezgi ve içgörü ile kavranabileceğine inanıyorsunuz." },
-            
+
+            // --- Bilginin Değeri ---
             dogmatizm: { label: "Dogmatizm", desc: "Kesin bilgi vardır.", summary: "Evrensel ve değişmez doğruların varlığına inanıyorsunuz." },
             pragmatizm: { label: "Pragmatizm", desc: "Doğru olan faydalıdır.", summary: "Bir düşüncenin doğruluğunu, pratikte sağladığı faydaya göre ölçüyorsunuz." },
             septisizm: { label: "Septisizm", desc: "Kesin bilgi yoktur.", summary: "Mutlak bilgiye ulaşmanın imkansız olduğunu düşünüyor, şüpheci yaklaşıyorsunuz." },
             relativizm: { label: "Relativizm", desc: "Doğru görecelidir.", summary: "Doğruluğun kişiye ve kültüre göre değiştiğini savunuyorsunuz." },
             kritisizm: { label: "Kritisizm", desc: "Bilgi sınırlıdır.", summary: "Aklın sınırları olduğunu ve her şeyi bilemeyeceğimizi düşünüyorsunuz." },
             pozitivizm: { label: "Pozitivizm", desc: "Bilimsel bilgi esastır.", summary: "Sadece bilimsel ve olgusal bilgiyi kabul ediyor, metafiziği reddediyorsunuz." },
-            
+
+            // --- Etik ---
             deontoloji: { label: "Deontoloji", desc: "Ödev ahlakı.", summary: "Ahlaki eylemlerde sonucun değil, niyetin ve ilkelere uymanın önemli olduğunu düşünüyorsunuz." },
             teleoloji: { label: "Teleoloji", desc: "Sonuç odaklı ahlak.", summary: "Eylemin ahlaki değerini, doğurduğu sonuca (fayda/mutluluk) göre değerlendiriyorsunuz." },
             erdem_etigi: { label: "Erdem Etiği", desc: "Karakter odaklı.", summary: "Ahlakın temeline kuralları değil, kişinin karakterini ve erdemlerini koyuyorsunuz." },
-            ilahi_buyruk: { label: "İlahi Buyruk", desc: "Dini ahlak.", summary: "İyi ve kötüyü tamamen Tanrı'nın emirlerine dayandırıyorsunuz." },
-            hedonizm: { label: "Hedonizm", desc: "Haz odaklı.", summary: "Yaşamın amacının acıdan kaçmak ve hazza ulaşmak olduğunu düşünüyorsunuz." },
-            nesnelcilik: { label: "Ahlaki Nesnelcilik", desc: "Evrensel değerler.", summary: "Ahlaki değerlerin insan görüşünden bağımsız, evrensel gerçekliği olduğunu savunuyorsunuz." },
-            gorecilik: { label: "Ahlaki Görecilik", desc: "Kültürel değerler.", summary: "Ahlaki değerlerin topluma göre değiştiğini düşünüyorsunuz." },
-            nihilizm: { label: "Ahlaki Nihilizm", desc: "Değer yoktur.", summary: "Nesnel bir ahlakın veya yaşamın anlamının olmadığını düşünüyorsunuz." },
-            teolojik_aksiyoloji: { label: "Teolojik Değer", desc: "Tanrı kaynaklı.", summary: "Tüm değerlerin kaynağının Tanrı olduğunu savunuyorsunuz." },
-            
+            ilahi_buyruk: { label: "İlahi Buyruk", desc: "Dini ahlak.", summary: "İyi ve kötüyü Tanrı'nın buyruklarına dayandırıyorsunuz." },
+            hedonizm: { label: "Hedonizm", desc: "Haz odaklı.", summary: "Yaşamın amacının acıdan kaçmak ve hazza/mutluluğa ulaşmak olduğunu düşünüyorsunuz." },
+
+            // --- Estetik ---
             nesnelci_estetik: { label: "Nesnelci Estetik", desc: "Güzellik eserde.", summary: "Güzelliğin eserin kendisindeki oran ve uyumda saklı olduğunu düşünüyorsunuz." },
             oznelci_estetik: { label: "Öznelci Estetik", desc: "Güzellik bakanda.", summary: "Güzelliğin tamamen bakan kişinin algısında olduğunu savunuyorsunuz." },
-            idealist_estetik: { label: "İdealist Estetik", desc: "İdeal güzellik.", summary: "Sanatın mükemmel formları (ideaları) yansıtması gerektiğini düşünüyorsunuz." },
             ifadeci_estetik: { label: "İfadeci Estetik", desc: "Duygu ifadesi.", summary: "Sanatın amacının duyguları dışa vurmak olduğuna inanıyorsunuz." },
             bicimci_estetik: { label: "Biçimci Estetik", desc: "Form güzelliği.", summary: "Sanat eserinin değerini biçimsel uyumunda arıyorsunuz." },
-            kutsal_estetik: { label: "Kutsal Estetik", desc: "İlahi yansıma.", summary: "Sanatın ilahi güzelliğin bir yansıması olması gerektiğini düşünüyorsunuz." },
-            yansitmaci: { label: "Yansıtmacı Kuram", desc: "Doğayı taklit.", summary: "Sanatın doğayı ve hayatı olduğu gibi taklit etmesi gerektiğini savunuyorsunuz." },
-            
-            teizm: { label: "Teizm", desc: "Müdahil Tanrı.", summary: "Evreni yaratan ve ona müdahale eden bir Tanrı inancına sahipsiniz." },
-            deizm: { label: "Deizm", desc: "Yaratıcı Tanrı.", summary: "Tanrı'nın evreni yaratıp işleyişine karışmadığını düşünüyorsunuz." },
-            panteizm: { label: "Panteizm", desc: "Evren Tanrı'dır.", summary: "Tanrı ve evrenin bir ve aynı şey olduğunu düşünüyorsunuz." },
-            panenteizm: { label: "Panenteizm", desc: "Evren Tanrı'dadır.", summary: "Evrenin Tanrı'nın içinde olduğunu ancak Tanrı'nın ondan büyük olduğunu düşünüyorsunuz." },
-            agnostisizm: { label: "Agnostisizm", desc: "Bilinemez.", summary: "Tanrı'nın varlığının bilinemeyeceğini düşünüyorsunuz." },
-            ateizm: { label: "Ateizm", desc: "Tanrı yoktur.", summary: "Tanrı veya doğaüstü bir gücün varlığını reddediyorsunuz." }
+            yansitmaci_estetik: { label: "Yansıtmacı Estetik", desc: "Doğayı taklit.", summary: "Sanatın doğayı ve hayatı olduğu gibi yansıtması/taklit etmesi gerektiğini savunuyorsunuz." }
         };
 
+        // Not: Her alt boyutta 3 düz + 1 ters puanlanan (r:true) madde bulunur.
+        // Sunum sırası (SHUFFLE_SEED ile) alt boyutlara göre iç içe geçirilerek
+        // katılımcının madde-alt boyut örüntüsünü fark etmesi engellenir.
         const QUESTIONS = [
-            // C1: Ontoloji — Materyalizm
+            // === D1: Varlık (Ontoloji) — Materyalizm ===
             {t:"Zihin, bilinç ve duygu dahil tüm olgular, nihayetinde maddesel ve fiziksel süreçlere indirgenebilir.", d:"(Varlık ve madde)", c:"ontology", s:"materyalizm"},
-            {t:"Bilimsel araçlarla gözlemlenip ölçülemeyen hiçbir varlığın gerçek anlamda var olduğunu kanıtlamak mümkün değildir.", d:"(Varlığın ölçütü)", c:"ontology", s:"materyalizm"},
             {t:"Nörolojik bir müdahaleyle bilinç ve kişiliğin değişmesi, zihnin maddeden bağımsız olamayacağını gösterir.", d:"(Beyin ve bilinç)", c:"ontology", s:"materyalizm"},
+            {t:"Var olduğu iddia edilen her şeyin, ilke olarak fiziksel yollarla gözlemlenebilir ya da ölçülebilir olması gerekir.", d:"(Varlığın ölçütü)", c:"ontology", s:"materyalizm"},
+            {t:"Öznel deneyimin (örneğin bir rengin bize nasıl hissettirdiğinin) yalnızca fiziksel-kimyasal süreçler cinsinden tam olarak açıklanabileceğini sanmıyorum.", d:"(Öznel deneyim)", c:"ontology", s:"materyalizm", r:true},
 
-            // C1: Ontoloji — Dualizm
-            {t:"İnsan, birbirinden özce farklı iki tözden oluşur: maddi bir beden ve maddi olmayan bir zihin ya da ruh.", d:"(Beden ve zihin)", c:"ontology", s:"dualizm"},
+            // === D1: Varlık (Ontoloji) — Dualizm ===
+            {t:"İnsan, birbirinden özce farklı iki unsurdan oluşur: maddi bir beden ve maddi olmayan bir zihin ya da ruh.", d:"(Beden ve zihin)", c:"ontology", s:"dualizm"},
             {t:"Zihinsel deneyimler, yalnızca nöral süreçlere indirgenerek tam anlamıyla açıklanamaz.", d:"(Zihin ve beyin)", c:"ontology", s:"dualizm"},
-            {t:"Kişisel kimliğin, bedenin biyolojik ölümünden sonra da sürmesi kavramsal olarak mümkündür.", d:"(Kimlik ve süreklilik)", c:"ontology", s:"dualizm"},
+            {t:"Kişisel kimliğin, bedenin biyolojik ölümünden sonra da bir biçimde sürmesi kavramsal olarak mümkündür.", d:"(Kimlik ve süreklilik)", c:"ontology", s:"dualizm"},
+            {t:"Zihin dediğimiz şey, beyinden ayrı bağımsız bir töz değil, beynin işleyişinin başka bir görünümünden ibarettir.", d:"(Zihnin doğası)", c:"ontology", s:"dualizm", r:true},
 
-            // C1: Ontoloji — İdealizm
-            {t:"Algıdan bağımsız, nesnel bir fiziksel dünyanın var olduğunu kanıtlamak epistemolojik açıdan güçtür.", d:"(Gerçeklik ve algı)", c:"ontology", s:"idealizm"},
+            // === D1: Varlık (Ontoloji) — İdealizm ===
             {t:"Nihai gerçeklik maddesel değil; zihinsel ya da tinsel bir yapıya sahiptir.", d:"(Gerçekliğin doğası)", c:"ontology", s:"idealizm"},
-            {t:"Maddi nesneler, onları algılayan bir zihin olmaksızın bağımsız biçimde var olamazlar.", d:"(Varlık ve zihin)", c:"ontology", s:"idealizm"},
+            {t:"Maddi nesneler, onları algılayan bir zihin olmaksızın bağımsız biçimde var olamaz.", d:"(Varlık ve zihin)", c:"ontology", s:"idealizm"},
+            {t:"Algıdan bağımsız, saf nesnel bir fiziksel dünyanın var olduğunu kanıtlamak epistemolojik açıdan güçtür.", d:"(Gerçeklik ve algı)", c:"ontology", s:"idealizm"},
+            {t:"Dış dünyadaki nesneler, hiçbir zihin onları algılamasa da kendi başlarına, maddi olarak var olmaya devam eder.", d:"(Algısız madde)", c:"ontology", s:"idealizm", r:true},
 
-            // C1: Ontoloji — Fenomenalizm
-            {t:"Bir varlığın gerçekten var olması, onun bir özne tarafından algılanmasına bağlıdır.", d:"(Algı ve varoluş)", c:"ontology", s:"fenomenalizm"},
-            {t:"Hiçbir özne tarafından algılanmayan bir nesnenin o anda var olmaya devam ettiğini savunmak tutarsızdır.", d:"(Algısız varoluş)", c:"ontology", s:"fenomenalizm"},
-            {t:"Deneyimlediğimiz fenomenler, bunların ardında duran algıdan bağımsız bir gerçekliği zorunlu kılmaz.", d:"(Fenomen ve gerçeklik)", c:"ontology", s:"fenomenalizm"},
-
-            // C1: Ontoloji — Ontolojik Realizm
+            // === D1: Varlık (Ontoloji) — Ontolojik Realizm ===
             {t:"Dış dünya, onu algılayan hiçbir bilinç olmasa dahi bağımsız ve nesnel olarak var olmaya devam eder.", d:"(Nesnel gerçeklik)", c:"ontology", s:"ontolojik_realizm"},
             {t:"Doğa yasaları, insan zihninden bağımsız olarak gerçek dünyada var olan ilişkileri yansıtır.", d:"(Nesnel yasalar)", c:"ontology", s:"ontolojik_realizm"},
             {t:"Bilgi sistemlerimizdeki ya da algılarımızdaki değişimler, gerçekliğin kendisini değiştirmez.", d:"(Gerçekliğin sabitliği)", c:"ontology", s:"ontolojik_realizm"},
+            {t:"Bir şeyin 'gerçek' sayılması, büyük ölçüde onu algılayan zihnin ona verdiği anlamla ilgilidir.", d:"(Gerçeklik ve zihin)", c:"ontology", s:"ontolojik_realizm", r:true},
 
-            // C2: Bilgi Kaynağı — Rasyonalizm
+            // === D1: Varlık (Ontoloji) — Fenomenalizm ===
+            {t:"Bir varlığın gerçekten var olması, onun bir özne tarafından algılanmasına bağlıdır.", d:"(Algı ve varoluş)", c:"ontology", s:"fenomenalizm"},
+            {t:"Hiçbir özne tarafından algılanmayan bir nesnenin o anda var olmaya devam ettiğini savunmak tutarsızdır.", d:"(Algısız varoluş)", c:"ontology", s:"fenomenalizm"},
+            {t:"Deneyimlediğimiz fenomenler, bunların ardında duran algıdan bağımsız bir gerçekliği zorunlu kılmaz.", d:"(Fenomen ve gerçeklik)", c:"ontology", s:"fenomenalizm"},
+            {t:"Bir nesne, kimse onu görmediği ya da hissetmediği anlarda da kendi başına var olmaya devam eder.", d:"(Algısız devamlılık)", c:"ontology", s:"fenomenalizm", r:true},
+
+            // === D2: Bilginin Kaynağı — Rasyonalizm ===
             {t:"Matematiğin ve mantığın temel doğruları, duyusal deneyimden bağımsız olarak salt akıl yoluyla bilinebilir.", d:"(Aklın bilgisi)", c:"epistemology_source", s:"rasyonalizm"},
             {t:"Duyular bizi yanıltabildiğinden, güvenilir bilginin nihai dayanağı akıl yürütme ve mantıksal çıkarımdır.", d:"(Aklın güvenilirliği)", c:"epistemology_source", s:"rasyonalizm"},
             {t:"Bazı evrensel kavramlar ve ilkeler, deneyimden önce gelen yapılar olarak zihinde mevcuttur.", d:"(Doğuştan kavramlar)", c:"epistemology_source", s:"rasyonalizm"},
+            {t:"Akıl yürütme ne kadar tutarlı olursa olsun, deneyimle sınanmadığı sürece dünya hakkında güvenilir bir bilgi vermez.", d:"(Aklın sınırı)", c:"epistemology_source", s:"rasyonalizm", r:true},
 
-            // C2: Bilgi Kaynağı — Empirizm
+            // === D2: Bilginin Kaynağı — Empirizm ===
             {t:"Tüm bilgimizin kökeni, doğrudan ya da dolaylı biçimde gözlem ve deneyime dayanmaktadır.", d:"(Deneyim ve bilgi)", c:"epistemology_source", s:"empirizm"},
             {t:"Doğuştan gelen kavram ya da bilgilerin varlığını savunmak için inandırıcı bir kanıt bulunmamaktadır.", d:"(Bilginin kökeni)", c:"epistemology_source", s:"empirizm"},
             {t:"Bilimsel bilginin güvenilirliği, onun gözlem ve deneyle sınanabilir olmasından kaynaklanır.", d:"(Gözlem ve doğrulama)", c:"epistemology_source", s:"empirizm"},
+            {t:"Bazı temel doğrulara, herhangi bir gözlem ya da deneyime başvurmadan, yalnızca düşünerek ulaşabiliriz.", d:"(Deneyimsiz bilgi)", c:"epistemology_source", s:"empirizm", r:true},
 
-            // C2: Bilgi Kaynağı — Sansüalizm
+            // === D2: Bilginin Kaynağı — Sansüalizm ===
             {t:"Beş duyu organı aracılığıyla edinilemeyen hiçbir fikrin gerçek bir kaynağı olamaz.", d:"(Duyuların önemi)", c:"epistemology_source", s:"sansualizm"},
             {t:"Zihnin tüm içeriği, özünde duyusal uyarımlara ve izlenimlere dayanmaktadır.", d:"(Duyu ve zihin)", c:"epistemology_source", s:"sansualizm"},
             {t:"Duyular aracılığıyla kavranamayan bir konuda bilgi sahibi olduğumuzu iddia etmek temelsizdir.", d:"(Duyusal bilgi sınırı)", c:"epistemology_source", s:"sansualizm"},
+            {t:"Zihnimiz, duyularımızın verdiği ham izlenimleri işlerken kendi kavramlarını da işin içine katar; bilgi yalnızca duyulardan ibaret değildir.", d:"(Zihnin katkısı)", c:"epistemology_source", s:"sansualizm", r:true},
 
-            // C2: Bilgi Kaynağı — İntüisyonizm
+            // === D2: Bilginin Kaynağı — İntüisyonizm ===
             {t:"Bazı önemli gerçekler, mantıksal çıkarımdan ya da gözlemden önce doğrudan sezgisel bir kavrayışla bilinir.", d:"(Sezgi ve hakikat)", c:"epistemology_source", s:"intuisyonizm"},
             {t:"Ahlaki, sanatsal ya da ruhsal hakikatler çoğu zaman analitik düşünceden önce sezgisel olarak kavranır.", d:"(Sezgisel kavrayış)", c:"epistemology_source", s:"intuisyonizm"},
             {t:"İçgüdüsel kavrayış, bazı alanlarda sistematik çıkarımdan daha güvenilir bir bilgi aracıdır.", d:"(Sezginin gücü)", c:"epistemology_source", s:"intuisyonizm"},
+            {t:"Bir sezgi, sistemli bir akıl yürütme ya da gözlemle desteklenmedikçe güvenilir bir bilgi kaynağı sayılamaz.", d:"(Sezginin sınırı)", c:"epistemology_source", s:"intuisyonizm", r:true},
 
-            // C3: Bilgi Değeri — Dogmatizm
+            // === D3: Bilginin Değeri — Dogmatizm ===
             {t:"Evrensel geçerliliği olan, kesin ve şüphe götürmez doğrular mevcuttur.", d:"(Kesin doğru)", c:"epistemology_value", s:"dogmatizm"},
             {t:"Bazı temel hakikatler, tüm kültür ve tarihsel dönemlerde değişmeden geçerliliklerini korumuştur.", d:"(Değişmez hakikat)", c:"epistemology_value", s:"dogmatizm"},
+            {t:"Belirli konularda ulaşılan doğrular, yeni tartışmalara kapatılacak kadar sağlamdır.", d:"(Tartışmaya kapalılık)", c:"epistemology_value", s:"dogmatizm"},
+            {t:"Bugün kesin doğru saydığımız pek çok bilginin, ileride yanlışlanabileceğini düşünüyorum.", d:"(Bilginin geçiciliği)", c:"epistemology_value", s:"dogmatizm", r:true},
 
-            // C3: Bilgi Değeri — Pragmatizm
+            // === D3: Bilginin Değeri — Pragmatizm ===
             {t:"Bir önermenin doğruluğu, onun pratikte sağladığı fayda ya da işlevsellikle ölçülmelidir.", d:"(Doğruluk ve fayda)", c:"epistemology_value", s:"pragmatizm"},
             {t:"Pratik sonuç doğurma kapasitesi olmayan bir bilgi, gerçek anlamda bilgi statüsü kazanamaz.", d:"(Pratik bilgi)", c:"epistemology_value", s:"pragmatizm"},
+            {t:"Bir düşüncenin değeri, soyut tutarlılığından çok yaşamdaki karşılığıyla belirlenir.", d:"(Düşünce ve yaşam)", c:"epistemology_value", s:"pragmatizm"},
+            {t:"Bir düşüncenin doğru olup olmadığı, bize ne kadar fayda sağladığından bağımsız bir meseledir.", d:"(Doğruluk ve fayda ayrımı)", c:"epistemology_value", s:"pragmatizm", r:true},
 
-            // C3: Bilgi Değeri — Septisizm
+            // === D3: Bilginin Değeri — Septisizm ===
             {t:"Kesinlikle doğru olduğunu bilebileceğimiz hiçbir şey yoktur; her bilgi belirli bir şüpheye açıktır.", d:"(Şüphe ve bilgi)", c:"epistemology_value", s:"septisizm"},
             {t:"Duyularımızın ya da aklımızın ürettiği her önerme, prensip olarak yanılabilir niteliktedir.", d:"(Yanılabilirlik)", c:"epistemology_value", s:"septisizm"},
+            {t:"En sağlam görünen inançlarımız bile temelde köklü bir şüpheden azade değildir.", d:"(İnancın temelsizliği)", c:"epistemology_value", s:"septisizm"},
+            {t:"Gündelik hayatta ve bilimde, üzerinde hiç şüphe duymadan güvenle hareket edebileceğimiz sağlam bilgiler vardır.", d:"(Güvenilir bilgi)", c:"epistemology_value", s:"septisizm", r:true},
 
-            // C3: Bilgi Değeri — Relativizm
+            // === D3: Bilginin Değeri — Relativizm ===
             {t:"Doğruluk, kişiden kişiye ya da kültürden kültüre değişen göreceli bir özelliktir.", d:"(Göreceli doğruluk)", c:"epistemology_value", s:"relativizm"},
             {t:"Bir önermenin doğru ya da yanlış olması, büyük ölçüde içinde bulunulan tarihsel ve kültürel bağlama bağlıdır.", d:"(Kültürel bağlam)", c:"epistemology_value", s:"relativizm"},
+            {t:"Farklı toplumların 'doğru' kabul ettiği şeyler arasında hakem olacak evrensel bir ölçüt yoktur.", d:"(Evrensel ölçüt yokluğu)", c:"epistemology_value", s:"relativizm"},
+            {t:"Bazı önermeler, hangi kültürde ya da dönemde ileri sürülürse sürülsün, aynı ölçüde doğru ya da yanlıştır.", d:"(Evrensel doğruluk)", c:"epistemology_value", s:"relativizm", r:true},
 
-            // C3: Bilgi Değeri — Kritisizm
-            {t:"İnsan aklı, tüm gerçekliği kavramaya yetmez; bilgimizin kaçınılmaz sınırları vardır.", d:"(Bilginin sınırı)", c:"epistemology_value", s:"kritisizm"},
+            // === D3: Bilginin Değeri — Kritisizm ===
+            {t:"İnsan aklı tüm gerçekliği kavramaya yetmez; bilgimizin kaçınılmaz sınırları vardır.", d:"(Bilginin sınırı)", c:"epistemology_value", s:"kritisizm"},
             {t:"Hem duyusal deneyim hem de akıl yürütme, birbirini tamamlayan zorunlu bilgi kaynakları olarak işlev görür.", d:"(Bilgi sentezi)", c:"epistemology_value", s:"kritisizm"},
+            {t:"Nesnelerin 'kendinde' ne olduğunu değil, ancak bize göründükleri biçimiyle bilebiliriz.", d:"(Görünüş ve öz)", c:"epistemology_value", s:"kritisizm"},
+            {t:"Akıl, önünde hiçbir kavramsal sınır tanımadan, ilke olarak gerçekliğin tümünü kavrayabilecek bir güce sahiptir.", d:"(Aklın sınırsızlığı)", c:"epistemology_value", s:"kritisizm", r:true},
 
-            // C3: Bilgi Değeri — Pozitivizm
+            // === D3: Bilginin Değeri — Pozitivizm ===
             {t:"Yalnızca bilimsel yöntemle gözlemlenebilir ve doğrulanabilir olgular gerçek bilgi kapsamına girer.", d:"(Bilimsel doğrulama)", c:"epistemology_value", s:"pozitivizm"},
             {t:"Ampirik olarak sınanamayan metafizik ya da teolojik önermelerin bilişsel bir anlamı yoktur.", d:"(Ampirik anlam)", c:"epistemology_value", s:"pozitivizm"},
+            {t:"Bir iddianın anlamlı sayılabilmesi için, ilke olarak gözlem yoluyla doğrulanabilir ya da yanlışlanabilir olması gerekir.", d:"(Doğrulanabilirlik)", c:"epistemology_value", s:"pozitivizm"},
+            {t:"Bilimsel yöntemle doğrulanamasa da, bazı metafizik ya da dinî önermelerin gerçek bir bilgi değeri olabilir.", d:"(Metafizik anlam)", c:"epistemology_value", s:"pozitivizm", r:true},
 
-            // C4: Ahlak — Deontoloji
+            // === D4: Etik (Ahlak) — Deontoloji ===
             {t:"Bir eylemin ahlaki değerini belirleyen şey, doğurduğu sonuçlar değil; temeldeki niyet ve ahlaki ilkedir.", d:"(Niyet ve ilke)", c:"ethics", s:"deontoloji"},
             {t:"Bazı eylemler, ne kadar olumlu sonuçlar doğursa da özünde yanlıştır ve hiçbir koşulda meşrulaştırılamaz.", d:"(Mutlak yanlış)", c:"ethics", s:"deontoloji"},
             {t:"İnsan onuruna saygı, koşulsuz bir ahlaki yükümlülüktür; hiçbir gerekçeyle ihlal edilemez.", d:"(Onur ve ödev)", c:"ethics", s:"deontoloji"},
+            {t:"Bir kuralı çiğnemek, ortaya çıkan sonuç yeterince iyiyse ahlaki açıdan haklı görülebilir.", d:"(Kural ve sonuç)", c:"ethics", s:"deontoloji", r:true},
 
-            // C4: Ahlak — Teleoloji
+            // === D4: Etik (Ahlak) — Teleoloji ===
             {t:"En fazla kişi için en fazla iyilik ya da mutluluğu doğuran eylem, ahlaki açıdan en doğru eylemdir.", d:"(Toplumsal fayda)", c:"ethics", s:"teleoloji"},
             {t:"Bir eylemi değerlendirirken en belirleyici ölçüt, o eylemin öngörülebilir somut sonuçlarıdır.", d:"(Sonuç odaklılık)", c:"ethics", s:"teleoloji"},
             {t:"Daha büyük bir iyilik için bazı bireysel hakları ya da değerleri feda etmek ahlaki olarak meşrulaştırılabilir.", d:"(Büyük iyilik)", c:"ethics", s:"teleoloji"},
+            {t:"Bir eylemin sonucu ne kadar iyi olursa olsun, temelde yanlış bir ilkeye dayanıyorsa ahlaki olarak savunulamaz.", d:"(İlke ve sonuç)", c:"ethics", s:"teleoloji", r:true},
 
-            // C4: Ahlak — Erdem Etiği
+            // === D4: Etik (Ahlak) — Erdem Etiği ===
             {t:"Ahlaki yaşamın özü, kurallara uymaktan ziyade erdemli bir karakter ve kişilik geliştirmektir.", d:"(Erdem ve karakter)", c:"ethics", s:"erdem_etigi"},
             {t:"'Bu eylem kurala uygun mu?' sorusundan önce 'Ben nasıl bir insan olmak istiyorum?' sorusu gelir.", d:"(Erdemli yaşam)", c:"ethics", s:"erdem_etigi"},
             {t:"Ahlaki gelişim, bireyin pratik bilgelik ve erdem alışkanlıkları kazanması sürecidir.", d:"(Erdem alışkanlığı)", c:"ethics", s:"erdem_etigi"},
+            {t:"Ahlaklı davranmak, kişinin karakterinden çok, doğru kural ya da ilkeleri doğru biçimde uygulamasıyla ilgilidir.", d:"(Kural ve karakter)", c:"ethics", s:"erdem_etigi", r:true},
 
-            // C4: Ahlak — İlahi Buyruk
+            // === D4: Etik (Ahlak) — İlahi Buyruk ===
             {t:"Bir eylemin ahlaki değerini nihai olarak belirleyen, Tanrı'nın o eylem hakkındaki buyruğudur.", d:"(Tanrı ve ahlak)", c:"ethics", s:"ilahi_buyruk"},
             {t:"Tanrı'nın iradesine dayanan bir zemin olmaksızın nesnel bir ahlakı temellendirmek mümkün değildir.", d:"(Ahlakın temeli)", c:"ethics", s:"ilahi_buyruk"},
             {t:"İyi ve kötünün nihai kaynağı ilahi iradedir; bu otorite olmadan ahlak öznel bir tercihten ibaret kalır.", d:"(İlahi irade)", c:"ethics", s:"ilahi_buyruk"},
+            {t:"Bir eylemin iyi ya da kötü olması, dini bir otoriteye başvurmadan da akıl ve vicdanla temellendirilebilir.", d:"(Akıl ve vicdan)", c:"ethics", s:"ilahi_buyruk", r:true},
 
-            // C5: Estetik — Nesnelci Estetik
+            // === D4: Etik (Ahlak) — Hedonizm ===
+            {t:"Yaşamın nihai amacı, acıdan kaçınmak ve hazza ya da mutluluğa ulaşmaktır.", d:"(Haz ve amaç)", c:"ethics", s:"hedonizm"},
+            {t:"Bir eylemin bana ya da başkalarına verdiği haz, o eylemi değerli kılan temel unsurdur.", d:"(Haz ve değer)", c:"ethics", s:"hedonizm"},
+            {t:"Haz ve mutluluk doğurmayan bir yaşamın anlamlı bir yaşam olduğunu söylemek güçtür.", d:"(Haz ve anlam)", c:"ethics", s:"hedonizm"},
+            {t:"Haz ya da mutluluk getirmese bile, bir eylem yalnızca doğru olduğu için yapılmaya değer olabilir.", d:"(Doğruluk ve haz)", c:"ethics", s:"hedonizm", r:true},
+
+            // === D5: Estetik — Nesnelci Estetik ===
             {t:"Güzellik, izleyicinin algısından bağımsız olarak eserin içinde nesnel biçimde var olan bir özelliktir.", d:"(Güzelliğin yeri)", c:"aesthetics", s:"nesnelci_estetik"},
-            {t:"Altın oran ve matematiksel simetri gibi ölçütler, güzelliğin nesnel standartlarının varlığına işaret eder.", d:"(Nesnel güzellik)", c:"aesthetics", s:"nesnelci_estetik"},
+            {t:"Altın oran ve matematiksel simetri gibi ölçütler, güzelliğin nesnel standartlarının var olduğuna işaret eder.", d:"(Nesnel güzellik)", c:"aesthetics", s:"nesnelci_estetik"},
             {t:"Estetik eğitim, kişinin sanat eserlerini daha doğru ve nesnel biçimde değerlendirmesini sağlar.", d:"(Estetik yargı)", c:"aesthetics", s:"nesnelci_estetik"},
+            {t:"Bir eserin güzel sayılıp sayılmaması, sonuçta bakan kişinin öznel beğenisine bağlıdır.", d:"(Beğeni ve güzellik)", c:"aesthetics", s:"nesnelci_estetik", r:true},
 
-            // C5: Estetik — Öznelci Estetik
+            // === D5: Estetik — Öznelci Estetik ===
             {t:"Güzellik yalnızca izleyicinin zihninde şekillenir; eserin kendinde nesnel bir güzellik bulunmaz.", d:"(Güzellik ve algı)", c:"aesthetics", s:"oznelci_estetik"},
             {t:"Tüm kültürlerin evrensel olarak güzel bulacağı bir sanat eserinin var olması mümkün değildir.", d:"(Evrensel güzellik)", c:"aesthetics", s:"oznelci_estetik"},
             {t:"Estetik yargılar nihayetinde kişisel tercih ve beğeni meselesidir; kanıtlanamaz ya da çürütülemez.", d:"(Beğeni ve yargı)", c:"aesthetics", s:"oznelci_estetik"},
+            {t:"Bir eserin güzelliği, izleyenin kişisel zevkinden bağımsız, eserin kendi niteliklerinde aranmalıdır.", d:"(Nesnel nitelik)", c:"aesthetics", s:"oznelci_estetik", r:true},
 
-            // C5: Estetik — İfadeci Estetik
+            // === D5: Estetik — İfadeci Estetik ===
             {t:"Sanatın temel işlevi, sanatçının iç dünyasını, duygularını ve düşüncelerini ifade etmektir.", d:"(Sanat ve ifade)", c:"aesthetics", s:"ifadeci_estetik"},
             {t:"Duygusal içerikten yoksun olan bir sanat eseri, gerçek anlamda sanatsal bir değer taşımaz.", d:"(Duygu ve sanat)", c:"aesthetics", s:"ifadeci_estetik"},
             {t:"Bir sanat eserini değerli kılan şey, yaratıcısının sahici duygularını ne ölçüde aktarabildiğidir.", d:"(Duygu aktarımı)", c:"aesthetics", s:"ifadeci_estetik"},
+            {t:"Bir eserin sanatsal değeri, sanatçının duygularından çok, biçimsel ve teknik niteliğiyle ilgilidir.", d:"(Biçim ve duygu)", c:"aesthetics", s:"ifadeci_estetik", r:true},
 
-            // C5: Estetik — Biçimci Estetik
+            // === D5: Estetik — Biçimci Estetik ===
             {t:"Sanat eserinin değeri; konu ya da mesajından bağımsız olarak biçimsel yapısından kaynaklanır.", d:"(Biçim ve değer)", c:"aesthetics", s:"bicimci_estetik"},
-            {t:"Müziği güzel yapan şey, taşıdığı duygusal mesajdan çok notalar ve armoniler arasındaki yapısal ilişkidir.", d:"(Yapısal güzellik)", c:"aesthetics", s:"bicimci_estetik"},
+            {t:"Müziği güzel yapan şey, taşıdığı duygusal mesajdan çok, notalar ve armoniler arasındaki yapısal ilişkidir.", d:"(Yapısal güzellik)", c:"aesthetics", s:"bicimci_estetik"},
             {t:"Sanatı sanat yapan şey içerik değil; form, renk, doku ve kompozisyon gibi biçimsel özelliklerdir.", d:"(Biçimsel yapı)", c:"aesthetics", s:"bicimci_estetik"},
+            {t:"Bir eserin biçimi ne kadar kusursuz olursa olsun, aktardığı anlam ya da duygu zayıfsa eser sanatsal değerden yoksun kalır.", d:"(Biçim ve anlam)", c:"aesthetics", s:"bicimci_estetik", r:true},
 
-            // C6: Tanrı Tasavvuru — Teizm
-            {t:"Evreni yaratan, varlığını sürdüren ve tarihsel olaylara müdahale eden kişisel bir Tanrı mevcuttur.", d:"(Tanrı ve müdahale)", c:"theology", s:"teizm"},
-            {t:"Dua, ibadet ve vahiy; Tanrı ile yaratıkları arasındaki gerçek ve canlı bir ilişkiyi yansıtır.", d:"(Tanrı ve iletişim)", c:"theology", s:"teizm"},
-            {t:"Tanrı yalnızca uzak bir ilk neden değil; insanın yaşamıyla aktif biçimde ilgilenen bir varlıktır.", d:"(Tanrı ve insan)", c:"theology", s:"teizm"},
-
-            // C6: Tanrı Tasavvuru — Deizm
-            {t:"Evreni var eden bir Yaratıcı'nın varlığını kabul etmekle birlikte, bu varlığın sonradan işlere karışmadığını düşünüyorum.", d:"(Yaratıcı ve müdahale)", c:"theology", s:"deizm"},
-            {t:"Akıl ve gözlem, vahye ya da kutsal metinlere gerek kalmaksızın bir Yaratıcı'nın varlığına ulaşmanın yeterli aracıdır.", d:"(Akıl ve Yaratıcı)", c:"theology", s:"deizm"},
-            {t:"Tanrı evreni mükemmel bir düzende yaratmış ve kurduğu bu işleyişe müdahil olmamıştır.", d:"(Yaratılış ve düzen)", c:"theology", s:"deizm"},
-
-            // C6: Tanrı Tasavvuru — Agnostisizm
-            {t:"Tanrı'nın var olup olmadığı sorusu, insan bilişinin erişebileceği bir soruya dönüştürülemez.", d:"(Bilginin sınırı)", c:"theology", s:"agnostisizm"},
-            {t:"Tanrı'nın varlığını ya da yokluğunu ispatlaya yetecek güvenilir bir kanıt mevcut değildir.", d:"(Kanıt yetersizliği)", c:"theology", s:"agnostisizm"},
-            {t:"Bu konuda kesin bir hükme varmak yerine belirsizliği kabullenmek, entelektüel açıdan en dürüst tutumdur.", d:"(Entelektüel dürüstlük)", c:"theology", s:"agnostisizm"},
-
-            // C6: Tanrı Tasavvuru — Ateizm
-            {t:"Evrenin oluşumunu ve işleyişini açıklamak için doğaüstü bir varlığa başvurmak gerekmemektedir.", d:"(Doğal açıklama)", c:"theology", s:"ateizm"},
-            {t:"Mevcut bilimsel ve felsefi kanıtlar, bir Tanrı ya da doğaüstü varlığın var olduğuna işaret etmemektedir.", d:"(Kanıt ve inanç)", c:"theology", s:"ateizm"},
-            {t:"Tanrı inancı, insan psikolojisinin anlam arayışı ve belirsizliğe karşı geliştirdiği bir savunma mekanizmasının ürünüdür.", d:"(İnancın psikolojisi)", c:"theology", s:"ateizm"}
+            // === D5: Estetik — Yansıtmacı (Mimetik) Estetik ===
+            {t:"Sanatın temel görevi, doğayı ve hayatı olabildiğince gerçeğe uygun biçimde yansıtmak ya da taklit etmektir.", d:"(Sanat ve taklit)", c:"aesthetics", s:"yansitmaci_estetik"},
+            {t:"Bir eserin başarısı, gerçekliği ne kadar sadık ve inandırıcı biçimde temsil ettiğiyle ölçülür.", d:"(Temsil başarısı)", c:"aesthetics", s:"yansitmaci_estetik"},
+            {t:"İyi bir sanat eseri, izleyene gerçek hayattan bir kesiti tanıdık ve inandırıcı biçimde hissettirir.", d:"(Gerçeğe sadakat)", c:"aesthetics", s:"yansitmaci_estetik"},
+            {t:"Gerçekliği birebir yansıtmayan, hatta onu bilinçli olarak çarpıtan bir eser de en az gerçekçi bir eser kadar sanatsal değer taşıyabilir.", d:"(Çarpıtma ve değer)", c:"aesthetics", s:"yansitmaci_estetik", r:true}
         ];
+
+        // Sabit (deterministik) karıştırma: her katılımcıya aynı sırayı sunar,
+        // ancak maddeleri alt boyutlarına göre gruplamaz — bu, tematik kümelenmeden
+        // kaynaklanan yanıt yanlılığını (acquiescence/response-set bias) azaltır.
+        function seededShuffle(arr, seed) {
+            const out = arr.map((item, i) => ({ item, i }));
+            let s = seed;
+            const rand = () => { s = (s * 1664525 + 1013904223) % 4294967296; return s / 4294967296; };
+            for (let i = out.length - 1; i > 0; i--) {
+                const j = Math.floor(rand() * (i + 1));
+                [out[i], out[j]] = [out[j], out[i]];
+            }
+            return out.map(o => o.item);
+        }
+        const QUESTIONS_ORDERED = seededShuffle(QUESTIONS, 20260818);
 
         const PROFESSIONS = ["Öğrenci", "Akademisyen", "Öğretmen", "Mühendis", "Doktor", "Avukat", "Yazılımcı", "Sanatçı", "Yazar", "Memur", "Esnaf", "Yönetici", "Emekli", "Ev Hanımı", "Diğer"];
         const INCOMES = [{val: "low", label: "Alt"}, {val: "low_mid", label: "Alt-Orta"}, {val: "mid", label: "Orta"}, {val: "mid_high", label: "Üst-Orta"}, {val: "high", label: "Yüksek"}];
@@ -363,21 +394,14 @@
         const CITIES_TR = ["Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin", "Aydın", "Balıkesir", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkari", "Hatay", "Isparta", "Mersin", "İstanbul", "İzmir", "Kars", "Kastamonu", "Kayseri", "Kırklareli", "Kırşehir", "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Kahramanmaraş", "Mardin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Rize", "Sakarya", "Samsun", "Siirt", "Sinop", "Sivas", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Şanlıurfa", "Uşak", "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman", "Kırıkkale", "Batman", "Şırnak", "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce"];
 
         // --- Helper Functions ---
-        const getQuestions = (lang) => {
-            if(lang === 'tr') return QUESTIONS;
-            return QUESTIONS.map(q => ({
-                ...q,
-                t: q.t,
-                d: q.d 
-            }));
-        };
+        const getQuestions = (lang) => QUESTIONS_ORDERED;
 
         const calcAge = (y) => new Date().getFullYear() - parseInt(y);
         const years = Array.from({length:80},(_,i)=>2024-10-i);
 
         // --- Localization ---
         const uiText = {
-            tr: { dir: "ltr", title: "Felsefi Tutum Ölçeği (FTÖ)", subtitle: "6 Boyut · 75 Madde · Akademik Profil Analizi", start: "Ölçeği Başlat", admin: "Yönetici", labels: { year: "Doğum Yılı", gender: "Cinsiyet", edu: "Eğitim Düzeyi", income: "Gelir Düzeyi", city: "Şehir", country: "Ülke", prof: "Meslek" }, opts: { m: "Erkek", f: "Kadın", hs: "Lise", ba: "Lisans", phd: "Lisansüstü", low: "Alt", mid: "Orta", high: "Üst", sel: "Seçiniz" }, calc: "Profil hesaplanıyor...", resTitle: "Felsefi Profil Raporu", restart: "Ölçeği Yeniden Başlat", back: "Geri", next: "İleri", radarTitle: "Boyut Haritası", barTitle: "Baskın Felsefi Eğilimler", likert: ["Kesinlikle Katılmıyorum", "Katılmıyorum", "Kararsızım", "Katılıyorum", "Kesinlikle Katılıyorum"], pdf: "Belgeyi İndir", reset: "Sıfırla" },
+            tr: { dir: "ltr", title: "Felsefi Tutum Ölçeği (FTÖ)", subtitle: "5 Boyut · 25 Alt Boyut · 100 Madde · Akademik Ölçek Geliştirme Sürümü", start: "Ölçeği Başlat", admin: "Yönetici", labels: { year: "Doğum Yılı", gender: "Cinsiyet", edu: "Eğitim Düzeyi", income: "Gelir Düzeyi", city: "Şehir", country: "Ülke", prof: "Meslek" }, opts: { m: "Erkek", f: "Kadın", hs: "Lise", ba: "Lisans", phd: "Lisansüstü", low: "Alt", mid: "Orta", high: "Üst", sel: "Seçiniz" }, calc: "Profil hesaplanıyor...", resTitle: "Felsefi Profil Raporu", restart: "Ölçeği Yeniden Başlat", back: "Geri", next: "İleri", radarTitle: "Boyut Haritası", barTitle: "Baskın Felsefi Eğilimler", likert: ["Kesinlikle Katılmıyorum", "Katılmıyorum", "Kararsızım", "Katılıyorum", "Kesinlikle Katılıyorum"], pdf: "Belgeyi İndir", reset: "Sıfırla" },
             en: { dir: "ltr", title: "Philosophical Attitude Scale", subtitle: "Detailed Analysis", start: "Start", admin: "Admin", labels: { year: "Birth Year", gender: "Gender", edu: "Education", income: "Income", city: "City", country: "Country", prof: "Profession" }, opts: { m: "Male", f: "Female", hs: "High School", ba: "Bachelor", phd: "Graduate", low: "Low", mid: "Mid", high: "High", sel: "Select" }, calc: "Calculating...", resTitle: "Profile Card", restart: "Restart", back: "Back", next: "Next", radarTitle: "Tendency Map", barTitle: "Dominant Views", likert: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], pdf: "Download PDF", reset: "Reset" },
             ar: { dir: "rtl", title: "مقياس الموقف الفلسفي", subtitle: "تحليل مفصل", start: "ابدأ", admin: "مسؤول", labels: { year: "السنة", gender: "الجنس", edu: "التعليم", income: "الدخل", city: "المدينة", country: "البلد", prof: "المهنة" }, opts: { m: "ذكر", f: "أنثى", hs: "ثانوية", ba: "جامعي", phd: "عليا", low: "منخفض", mid: "متوسط", high: "مرتفع", sel: "اختر" }, calc: "جاري الحساب...", resTitle: "الهوية", restart: "إعادة", back: "عودة", next: "التالي", radarTitle: "الخريطة", barTitle: "الآراء", likert: ["أعارض بشدة", "أعارض", "محايد", "أوافق", "أوافق بشدة"], pdf: "تحميل PDF", reset: "إعادة" },
              de: { dir: "ltr", title: "Philosophische Einstellungsskala", subtitle: "Detaillierte Analyse", start: "Starten", admin: "Admin", labels: { year: "Geburtsjahr", gender: "Geschlecht", edu: "Bildung", income: "Einkommen", city: "Stadt", country: "Land", prof: "Beruf" }, opts: { m: "Männlich", f: "Weiblich", hs: "Abitur", ba: "Bachelor", phd: "Master", low: "Niedrig", mid: "Mittel", high: "Hoch", sel: "Wählen" }, calc: "Berechnung...", resTitle: "Profilkarte", restart: "Neustart", back: "Zurück", next: "Weiter", radarTitle: "Tendenzkarte", barTitle: "Dominante Ansichten", likert: ["Stimme überhaupt nicht zu", "Stimme nicht zu", "Neutral", "Stimme zu", "Stimme voll zu"], pdf: "PDF Herunterladen", reset: "Zurücksetzen" },
@@ -387,17 +411,17 @@
 
         const categoryTrans = {
             tr: CATEGORIES,
-            en: { ontology: "Ontology", epistemology_source: "Epist. Source", epistemology_value: "Epist. Value", ethics: "Ethics", aesthetics: "Aesthetics", theology: "Theology" },
-            ar: { ontology: "الوجود", epistemology_source: "مصدر المعرفة", epistemology_value: "قيمة المعرفة", ethics: "الأخلاق", aesthetics: "الجمال", theology: "العقيدة" },
-            de: { ontology: "Ontologie", epistemology_source: "Epist. Quelle", epistemology_value: "Epist. Wert", ethics: "Ethik", aesthetics: "Ästhetik", theology: "Theologie" },
-            ru: { ontology: "Онтология", epistemology_source: "Эпист. Источник", epistemology_value: "Эпист. Ценность", ethics: "Этика", aesthetics: "Эстетика", theology: "Теология" },
-            zh: { ontology: "本体论", epistemology_source: "认识论来源", epistemology_value: "认识论价值", ethics: "伦理学", aesthetics: "美学", theology: "神学" }
+            en: { ontology: "Ontology", epistemology_source: "Epist. Source", epistemology_value: "Epist. Value", ethics: "Ethics", aesthetics: "Aesthetics" },
+            ar: { ontology: "الوجود", epistemology_source: "مصدر المعرفة", epistemology_value: "قيمة المعرفة", ethics: "الأخلاق", aesthetics: "الجمال" },
+            de: { ontology: "Ontologie", epistemology_source: "Epist. Quelle", epistemology_value: "Epist. Wert", ethics: "Ethik", aesthetics: "Ästhetik" },
+            ru: { ontology: "Онтология", epistemology_source: "Эпист. Источник", epistemology_value: "Эпист. Ценность", ethics: "Этика", aesthetics: "Эстетика" },
+            zh: { ontology: "本体论", epistemology_source: "认识论来源", epistemology_value: "认识论价值", ethics: "伦理学", aesthetics: "美学" }
         };
 
         const subDimTrans = {
             tr: Object.fromEntries(Object.entries(SUB_DIMENSIONS).map(([k, v]) => [k, v.label])),
-            en: { materyalizm: "Materialism", dualizm: "Dualism", idealizm: "Idealism", monist_metafizik: "Monism", fenomenalizm: "Phenomenalism", ontolojik_realizm: "Realism", rasyonalizm: "Rationalism", empiricism: "Empiricism", sansualizm: "Sensualism", intuisyonizm: "Intuitionism", dogmatizm: "Dogmatism", pragmatizm: "Pragmatism", septisizm: "Skepticism", relativizm: "Relativism", kritisizm: "Criticism", pozitivizm: "Positivism", deontoloji: "Deontology", teleoloji: "Teleology", erdem_etigi: "Virtue Ethics", ilahi_buyruk: "Divine Command", hedonizm: "Hedonism", nesnelci_estetik: "Objective Aes.", oznelci_estetik: "Subjective Aes.", idealist_estetik: "Idealist Aes.", ifadeci_estetik: "Expressionism", bicimci_estetik: "Formalism", kutsal_estetik: "Sacred Aes.", yansitmaci: "Mimesis", teizm: "Theism", deizm: "Deism", panteizm: "Pantheism", panenteizm: "Panentheism", agnostisizm: "Agnosticism", ateizm: "Atheism", nesnelcilik: "Objectivism", gorecilik: "Relativism", nihilizm: "Nihilism", teolojik_aksiyoloji: "Theological Axio." },
-            ar: { materyalizm: "المادية", dualizm: "الثنائية", idealizm: "المثالية", monist_metafizik: "الواحدية", fenomenalizm: "الظاهراتية", ontolojik_realizm: "الواقعية", rasyonalizm: "العقلانية", empiricism: "التجريبية", sansualizm: "الحسية", intuisyonizm: "الحدسية", dogmatizm: "الدوغمائية", pragmatizm: "الذرائع", septisizm: "الشكية", relativizm: "النسبية", kritisizm: "النقدية", pozitivizm: "الوضعية", deontoloji: "الواجبية", teleoloji: "الأخلاق الغائية", erdem_etigi: "أخلاق الفضيلة", ilahi_buyruk: "الأمر الإلهي", hedonizm: "المتعة", nesnelci_estetik: "الجمال الموضوعي", oznelci_estetik: "الجمال الذاتي", idealist_estetik: "الجمال المثالي", ifadeci_estetik: "التعبيرية", bicimci_estetik: "الشكلية", kutsal_estetik: "الجمال المقدس", yansitmaci: "المحاكاة", teizm: "التأليه", deizm: "الربوبية", panteizm: "وحدة الوجود", panenteizm: "وحدة الشهود", agnostisizm: "اللاأدرية", ateizm: "الإلحاد", nesnelcilik: "الموضوعية", gorecilik: "النسبية", nihilizm: "العدمية", teolojik_aksiyoloji: "القيم الدينية" },
+            en: { materyalizm: "Materialism", dualizm: "Dualism", idealizm: "Idealism", fenomenalizm: "Phenomenalism", ontolojik_realizm: "Realism", rasyonalizm: "Rationalism", empirizm: "Empiricism", sansualizm: "Sensualism", intuisyonizm: "Intuitionism", dogmatizm: "Dogmatism", pragmatizm: "Pragmatism", septisizm: "Skepticism", relativizm: "Relativism", kritisizm: "Criticism", pozitivizm: "Positivism", deontoloji: "Deontology", teleoloji: "Teleology", erdem_etigi: "Virtue Ethics", ilahi_buyruk: "Divine Command", hedonizm: "Hedonism", nesnelci_estetik: "Objective Aes.", oznelci_estetik: "Subjective Aes.", ifadeci_estetik: "Expressionism", bicimci_estetik: "Formalism", yansitmaci_estetik: "Mimetic Aes." },
+            ar: { materyalizm: "المادية", dualizm: "الثنائية", idealizm: "المثالية", fenomenalizm: "الظاهراتية", ontolojik_realizm: "الواقعية", rasyonalizm: "العقلانية", empirizm: "التجريبية", sansualizm: "الحسية", intuisyonizm: "الحدسية", dogmatizm: "الدوغمائية", pragmatizm: "الذرائعية", septisizm: "الشكية", relativizm: "النسبية", kritisizm: "النقدية", pozitivizm: "الوضعية", deontoloji: "الواجبية", teleoloji: "الأخلاق الغائية", erdem_etigi: "أخلاق الفضيلة", ilahi_buyruk: "الأمر الإلهي", hedonizm: "المتعة", nesnelci_estetik: "الجمال الموضوعي", oznelci_estetik: "الجمال الذاتي", ifadeci_estetik: "التعبيرية", bicimci_estetik: "الشكلية", yansitmaci_estetik: "المحاكاة" },
             de: { materyalizm: "Materialismus", dualizm: "Dualismus", idealizm: "Idealismus" },
             ru: { materyalizm: "Материализм", dualizm: "Дуализм", idealizm: "Идеализм" },
             zh: { materyalizm: "唯物主义", dualizm: "二元论", idealizm: "唯心主义" }
@@ -486,7 +510,7 @@
 
             React.useEffect(() => {
                 if (auth) {
-                    const unsub = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('survey_results_v53_final')
+                    const unsub = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('survey_results_v1_academic')
                         .onSnapshot(snap => {
                             const res = snap.docs.map(d => ({id: d.id, ...d.data()}));
                             res.sort((a,b) => b.timestamp?.seconds - a.timestamp?.seconds);
@@ -497,16 +521,18 @@
             }, [auth]);
 
             const dlCSV = () => {
-                const head = ["Tarih","Yaş","Cinsiyet","Eğitim","Meslek","Gelir","Şehir","Ülke","Dil","Varlık","Bilgi-K","Bilgi-D","Etik","Estetik","İnanç"];
+                const subKeys = Object.keys(SUB_DIMENSIONS);
+                const head = ["Tarih","Yaş","Cinsiyet","Eğitim","Meslek","Gelir","Şehir","Ülke","Dil","Varlık","Bilgi-K","Bilgi-D","Etik","Estetik", ...subKeys.map(k => `M_${k}`)];
                 const rows = [head.join(",")];
                 data.forEach(r => {
                     const d = r.demographics || {};
                     const res = r.result || {};
+                    const sm = r.subscaleMeans || {};
                     const date = r.timestamp ? new Date(r.timestamp.seconds*1000).toLocaleDateString('tr-TR') : '-';
                     rows.push([
                         date, d.age, d.gender, d.education, `"${d.prof}"`, d.income, `"${d.city}"`, `"${d.country}"`, r.lang,
-                        `"${res.ontology}"`, `"${res.epistemology_source}"`, `"${res.epistemology_value}"`, 
-                        `"${res.ethics}"`, `"${res.aesthetics}"`, `"${res.theology}"`
+                        `"${res.ontology}"`, `"${res.epistemology_source}"`, `"${res.epistemology_value}"`,
+                        `"${res.ethics}"`, `"${res.aesthetics}"`, ...subKeys.map(k => sm[k] ?? '')
                     ].join(","));
                 });
                 const link = document.createElement("a");
@@ -517,9 +543,23 @@
                 document.body.removeChild(link);
             };
 
+            const dlJSON = () => {
+                // Fakt\u00F6r analizi / g\u00FCvenirlik analizi (Cronbach alfa, EFA, CFA) i\u00E7in
+                // madde d\u00FCzeyinde ham yan\u0131tlar\u0131 da i\u00E7eren tam veri seti.
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = "felsefi_tutum_olcegi_ham_veri.json";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            };
+
             const delBatch = async () => {
                 if(!confirm(`${sel.length} kayıt silinsin mi?`)) return;
-                const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('survey_results_v53_final');
+                const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('survey_results_v1_academic');
                 await Promise.all(sel.map(id => col.doc(id).delete()));
                 setSel([]);
             };
@@ -529,15 +569,15 @@
             return (
                 <div className="min-h-screen bg-gray-50 p-4">
                     <div className="flex justify-between mb-4 items-center">
-                        <div className="flex gap-4 items-center"><h2 className="text-xl font-bold">Veriler (V53 Final)</h2>{sel.length>0 && <button onClick={delBatch} className="bg-red-600 text-white px-3 py-1 rounded text-sm">Seç ({sel.length}) Sil</button>}</div>
-                        <div><button onClick={dlCSV} className="bg-green-600 text-white px-3 py-1 rounded mr-2 text-xs">Excel</button><button onClick={onBack} className="bg-gray-500 text-white px-3 py-1 rounded text-xs">Çıkış</button></div>
+                        <div className="flex gap-4 items-center"><h2 className="text-xl font-bold">Veriler (Akademik Sürüm v1)</h2>{sel.length>0 && <button onClick={delBatch} className="bg-red-600 text-white px-3 py-1 rounded text-sm">Seç ({sel.length}) Sil</button>}</div>
+                        <div><button onClick={dlCSV} className="bg-green-600 text-white px-3 py-1 rounded mr-2 text-xs">Excel (Özet)</button><button onClick={dlJSON} className="bg-indigo-600 text-white px-3 py-1 rounded mr-2 text-xs">Ham Veri (JSON)</button><button onClick={onBack} className="bg-gray-500 text-white px-3 py-1 rounded text-xs">Çıkış</button></div>
                     </div>
                     <div className="bg-white shadow overflow-x-auto rounded">
                         <table className="min-w-full text-xs text-left admin-table">
                             <thead className="bg-gray-100 border-b">
                                 <tr>
                                     <th className="p-3 w-10 text-center"><input type="checkbox" onChange={e=>setSel(e.target.checked?data.map(d=>d.id):[])} checked={data.length>0 && sel.length===data.length}/></th>
-                                    <th>Tarih</th><th>Yaş</th><th>Cinsiyet</th><th>Eğitim</th><th>Meslek</th><th>Gelir</th><th>Şehir</th><th>Ülke</th><th>Varlık</th><th>Bilgi K.</th><th>Bilgi D.</th><th>Etik</th><th>Estetik</th><th>İnanç</th>
+                                    <th>Tarih</th><th>Yaş</th><th>Cinsiyet</th><th>Eğitim</th><th>Meslek</th><th>Gelir</th><th>Şehir</th><th>Ülke</th><th>Varlık</th><th>Bilgi K.</th><th>Bilgi D.</th><th>Etik</th><th>Estetik</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -554,7 +594,6 @@
                                             <td className="text-purple-700">{res.epistemology_value}</td>
                                             <td className="text-red-700">{res.ethics}</td>
                                             <td className="text-indigo-700">{res.aesthetics}</td>
-                                            <td className="font-bold text-amber-700">{res.theology}</td>
                                         </tr>
                                     );
                                 })}
@@ -573,6 +612,7 @@
             const [input, setInput] = React.useState({ year: '', edu: '', gender: '', income: '', city: '', country: '', prof: '' });
             const [qIndex, setQIndex] = React.useState(0);
             const [scores, setScores] = React.useState({});
+            const [answers, setAnswers] = React.useState({}); // { [qIndex]: rawLikertVal(-2..2) }
             const [res, setRes] = React.useState(null);
 
             const t = uiText[lang] || uiText['tr'];
@@ -605,7 +645,7 @@
 
             // --- SESSION LOAD ---
             React.useEffect(() => {
-                const saved = localStorage.getItem('fye_v53_session');
+                const saved = localStorage.getItem('fye_v1_academic_session');
                 if (saved) {
                     try {
                         const s = JSON.parse(saved);
@@ -613,6 +653,7 @@
                             setInput(s.input);
                             setQIndex(s.qIndex);
                             setScores(s.scores);
+                            setAnswers(s.answers || {});
                             setRes(s.res);
                             setStep(s.step);
                         }
@@ -623,12 +664,12 @@
             // --- SESSION SAVE ---
             React.useEffect(() => {
                 if (step !== 'intro') {
-                    localStorage.setItem('fye_v53_session', JSON.stringify({ step, input, qIndex, scores, res }));
+                    localStorage.setItem('fye_v1_academic_session', JSON.stringify({ step, input, qIndex, scores, answers, res }));
                 }
-            }, [step, input, qIndex, scores, res]);
+            }, [step, input, qIndex, scores, answers, res]);
 
             const clearSession = () => {
-                localStorage.removeItem('fye_v53_session');
+                localStorage.removeItem('fye_v1_academic_session');
                 window.location.reload();
             };
 
@@ -641,14 +682,13 @@
                 }
             };
 
-            const answer = (val, cat, sub) => {
-                setScores(prev => {
-                    const catScores = prev[cat] || {};
-                    const currentScore = catScores[sub] || 0;
-                    return { ...prev, [cat]: { ...catScores, [sub]: currentScore + val } };
-                });
-                
-                if (qIndex < QUESTIONS.length - 1) {
+            // Not: Yanıtlar madde indeksine göre kaydedilir (toplama eklenmez).
+            // Bu sayede "Geri" ile önceki maddeye dönüp yanıtı değiştirmek,
+            // puanı iki kez saymak yerine önceki yanıtın üzerine yazar.
+            const answer = (val) => {
+                setAnswers(prev => ({ ...prev, [qIndex]: val }));
+
+                if (qIndex < currentQuestions.length - 1) {
                     setQIndex(prev => prev + 1);
                 } else {
                     setStep('calc');
@@ -705,22 +745,48 @@
 
             React.useEffect(() => {
                 if (step === 'calc') {
+                    // Alt boyut bazında ortalama puan hesabı (ters maddeler ters kodlanır).
+                    // Ham (madde düzeyi) yanıtlar da saklanır: gelecekteki güvenirlik
+                    // (Cronbach alfa, madde-toplam korelasyonu) ve geçerlik (EFA/CFA)
+                    // analizleri için gereklidir.
+                    const subAgg = {}; // sub -> { sum, count, cat }
+                    const rawResponses = [];
+                    currentQuestions.forEach((q, idx) => {
+                        const raw = answers[idx];
+                        if (raw === undefined) return;
+                        const eff = q.r ? -raw : raw;
+                        if (!subAgg[q.s]) subAgg[q.s] = { sum: 0, count: 0, cat: q.c };
+                        subAgg[q.s].sum += eff;
+                        subAgg[q.s].count += 1;
+                        rawResponses.push({ i: idx, c: q.c, s: q.s, r: !!q.r, raw });
+                    });
+
+                    const subscaleMeans = {};
+                    const scoresByCat = {};
+                    Object.entries(subAgg).forEach(([sub, agg]) => {
+                        const mean = +(agg.sum / agg.count).toFixed(2);
+                        subscaleMeans[sub] = mean;
+                        if (!scoresByCat[agg.cat]) scoresByCat[agg.cat] = {};
+                        scoresByCat[agg.cat][sub] = mean;
+                    });
+                    setScores(scoresByCat);
+
                     const final = {};
                     Object.keys(CATEGORIES).forEach(k => {
-                        const s = scores[k];
+                        const s = scoresByCat[k];
                         if (!s) { final[k] = "Belirsiz"; return; }
                         let win = "Belirsiz", max = -999;
-                        Object.entries(s).forEach(([sub, pts]) => { 
-                            if (pts > max) { max = pts; win = SUB_DIMENSIONS[sub]?.label || sub; } 
+                        Object.entries(s).forEach(([sub, pts]) => {
+                            if (pts > max) { max = pts; win = SUB_DIMENSIONS[sub]?.label || sub; }
                         });
                         final[k] = win;
                     });
                     setRes(final);
 
                     if (user) {
-                        db.collection('artifacts').doc(appId).collection('public').doc('data').collection('survey_results_v53_final').add({
+                        db.collection('artifacts').doc(appId).collection('public').doc('data').collection('survey_results_v1_academic').add({
                             demographics: { age: calcAge(input.year), gender: mapToTR('gender', input.gender), education: mapToTR('edu', input.edu), income: mapToTR('income', input.income), city: input.city, country: input.country, prof: input.prof },
-                            result: final, scores, userId: user.uid, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                            result: final, subscaleMeans, responses: rawResponses, lang, userId: user.uid, timestamp: firebase.firestore.FieldValue.serverTimestamp()
                         });
                         setStep('res');
                     } else setStep('res');
@@ -741,10 +807,10 @@
                         <LangSwitcher />
                         <div className="bg-slate-900 p-8 text-center text-white"><h1 className="text-2xl font-bold serif mb-2">{t.title}</h1><p className="text-xs uppercase tracking-widest text-slate-400">{t.subtitle}</p></div>
                         <div className="p-8">
-                            {localStorage.getItem('fye_v53_session') && (
+                            {localStorage.getItem('fye_v1_academic_session') && (
                                 <button onClick={() => {
-                                    const s = JSON.parse(localStorage.getItem('fye_v53_session'));
-                                    setInput(s.input); setQIndex(s.qIndex); setScores(s.scores); setStep('quiz');
+                                    const s = JSON.parse(localStorage.getItem('fye_v1_academic_session'));
+                                    setInput(s.input); setQIndex(s.qIndex); setScores(s.scores); setAnswers(s.answers || {}); setStep('quiz');
                                 }} className="w-full mb-6 bg-indigo-100 text-indigo-700 py-3 rounded-lg font-bold border border-indigo-200 hover:bg-indigo-200 transition">
                                     ↩️ Yarım Kalan Teste Devam Et
                                 </button>
@@ -784,13 +850,14 @@
 
             if (step === 'quiz') {
                 const currentQ = currentQuestions[qIndex];
-                const progress = ((qIndex + 1) / QUESTIONS.length) * 100;
-                
+                const progress = ((qIndex + 1) / currentQuestions.length) * 100;
+                const currentAnswer = answers[qIndex];
+
                 return (
                     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-slate-50">
                         <div className="w-full max-w-3xl mb-6">
                             <div className="flex justify-between items-end mb-2 text-slate-500 text-xs font-bold uppercase tracking-widest">
-                                <span>{getTransCat(currentQ.c)}</span><span>{qIndex+1} / {QUESTIONS.length}</span>
+                                <span>{getTransCat(currentQ.c)}</span><span>{qIndex+1} / {currentQuestions.length}</span>
                             </div>
                             <div className="h-1.5 w-full bg-gray-200 rounded-full"><div className="h-full bg-indigo-600 progress-bar" style={{width: `${progress}%`}}></div></div>
                         </div>
@@ -802,8 +869,9 @@
                                 <div className="likert-container">
                                     {["Kesinlikle Katılmıyorum", "Katılmıyorum", "Kararsızım", "Katılıyorum", "Kesinlikle Katılıyorum"].map((label, idx) => {
                                         const val = idx - 2;
+                                        const isSelected = currentAnswer === val;
                                         return (
-                                            <button key={val} onClick={()=>answer(val, currentQ.c, currentQ.s)} className={`likert-btn scale-${idx+1}`}>
+                                            <button key={val} onClick={()=>answer(val)} className={`likert-btn scale-${idx+1}`} style={isSelected ? {outline: '2px solid #4f46e5', outlineOffset: '1px'} : undefined}>
                                                 <span className="block text-lg font-bold">{val > 0 ? `+${val}` : val}</span>
                                                 <span className="text-[10px] uppercase tracking-wide">{label}</span>
                                             </button>
