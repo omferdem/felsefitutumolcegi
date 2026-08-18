@@ -169,6 +169,8 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
         const appId = "felsefi-profil-analizi";
+        // Yönetici paneline yalnızca bu Google hesabı erişebilir (bkz. AdminPanel).
+        const ADMIN_EMAIL = "omferdem@gmail.com";
 
         // --- GLOBAL CONSTANTS ---
         // Ölçek yapısı: Varlık → Bilginin Kaynağı → Bilginin Değeri → Etik → Estetik
@@ -613,18 +615,17 @@
 
         function AdminPanel({ onBack }) {
             const [data, setData] = React.useState([]);
-            const [email, setEmail] = React.useState("");
-            const [pass, setPass] = React.useState("");
             const [adminUser, setAdminUser] = React.useState(null);
             const [authChecking, setAuthChecking] = React.useState(true);
             const [loginError, setLoginError] = React.useState("");
             const [sel, setSel] = React.useState([]);
 
-            // Gerçek Firebase Authentication (e-posta/şifre) — anonim ziyaretçi
-            // oturumlarından ayırt etmek için isAnonymous kontrolü yapılır.
+            // Gerçek Firebase Authentication (Google ile giriş) — yalnızca
+            // ADMIN_EMAIL ile eşleşen hesap yönetici sayılır; anonim ziyaretçi
+            // oturumları ve başka Google hesapları asla admin sayılmaz.
             React.useEffect(() => {
                 const unsub = auth.onAuthStateChanged(u => {
-                    setAdminUser(u && !u.isAnonymous ? u : null);
+                    setAdminUser(u && !u.isAnonymous && u.email === ADMIN_EMAIL ? u : null);
                     setAuthChecking(false);
                 });
                 return () => unsub();
@@ -642,12 +643,18 @@
                 }
             }, [adminUser]);
 
-            const handleLogin = async () => {
+            const handleGoogleLogin = async () => {
                 setLoginError("");
                 try {
-                    await auth.signInWithEmailAndPassword(email, pass);
+                    const provider = new firebase.auth.GoogleAuthProvider();
+                    const result = await auth.signInWithPopup(provider);
+                    if (result.user.email !== ADMIN_EMAIL) {
+                        setLoginError(`Bu Google hesabı (${result.user.email}) yönetici olarak yetkili değil.`);
+                        await auth.signOut();
+                        auth.signInAnonymously().catch(() => {});
+                    }
                 } catch (e) {
-                    setLoginError("Giriş başarısız: e-posta ya da şifre hatalı.");
+                    setLoginError("Google ile giriş başarısız oldu. Lütfen tekrar deneyin.");
                 }
             };
 
@@ -704,11 +711,13 @@
             if (authChecking) return <div className="h-screen flex items-center justify-center bg-gray-100"><div className="animate-spin h-8 w-8 border-4 border-slate-800 border-t-transparent rounded-full"></div></div>;
 
             if (!adminUser) return <div className="h-screen flex items-center justify-center bg-gray-100"><div className="bg-white p-8 rounded shadow w-80 text-center">
-                <h3 className="text-sm font-bold text-slate-700 mb-4">Yönetici Girişi</h3>
-                <input type="email" value={email} onChange={e=>setEmail(e.target.value)} className="border p-2 w-full mb-2 rounded" placeholder="E-posta" autoComplete="username"/>
-                <input type="password" value={pass} onChange={e=>setPass(e.target.value)} onKeyDown={e=>e.key==='Enter' && handleLogin()} className="border p-2 w-full mb-4 rounded" placeholder="Şifre" autoComplete="current-password"/>
+                <h3 className="text-sm font-bold text-slate-700 mb-1">Yönetici Girişi</h3>
+                <p className="text-[11px] text-slate-400 mb-4">Sadece yetkili Google hesabı erişebilir.</p>
                 {loginError && <p className="text-xs text-red-500 mb-3">{loginError}</p>}
-                <button onClick={handleLogin} className="bg-slate-800 text-white w-full p-2 rounded">Giriş</button>
+                <button onClick={handleGoogleLogin} className="w-full flex items-center justify-center gap-2 border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-bold p-2 rounded transition">
+                    <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.9 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.9 18.9 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4 16.2 4 9.5 8.4 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.4 0 10.3-2.1 14-5.5l-6.5-5.5C29.4 34.7 26.9 36 24 36c-5.3 0-9.7-3.1-11.3-7.5l-6.5 5C9.4 39.6 16.1 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.4-2.3 4.4-4.3 5.9l6.5 5.5C41 36 44 30.6 44 24c0-1.3-.1-2.7-.4-3.5z"/></svg>
+                    Google ile Giriş Yap
+                </button>
                 <button onClick={onBack} className="w-full mt-4 text-xs text-gray-500">Geri</button>
             </div></div>;
 
